@@ -1,0 +1,8 @@
+<resources>
+    <string name="title_activity_bottom_nav">BottomNav</string>
+    <string name="title_home">พื้นที่เสี่ยง</string>
+    <string name="title_dashboard">ข่าว</string>
+    <string name="title_notifications">หมอพร้อมสเตชัน</string>
+    <string name="title_setting">ตั้งค่า</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>

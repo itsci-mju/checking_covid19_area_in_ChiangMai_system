@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_mohpromt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginRight="20dp"
+    android:orientation="horizontal"
+    android:padding="25dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/txt_news_border">
+
+        <ImageView
+            android:id="@+id/image_news"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp" />
+
+        <LinearLayout
+            android:id="@+id/layoutmohpromt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_horizontal"
+            android:onClick="ClickToEditCluster"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layoutdetailcluster"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:onClick="ClickToEditMohpromt"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_newstitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/prompt_medium"
+                    android:text="หัวข้อ"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/calendar_dateinfect" />
+
+                <TextView
+                    android:id="@+id/txt_newsdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="0"
+                    android:fontFamily="@font/prompt_medium"
+                    android:text="วันที่ลงข่าว" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/txtNewsdelete"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right|center_horizontal|center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#00FFFFFF"
+                android:radius="100dp"
+                app:srcCompat="@drawable/co_bin" />
+
+        </LinearLayout>
+    </TableRow>
+
+
+</androidx.cardview.widget.CardView>
