@@ -21,7 +21,7 @@
             android:layout_height="494dp">
 
             <LinearLayout
-                android:id="@+id/showlistcluster"
+                android:id="@+id/showlistcluster_admin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

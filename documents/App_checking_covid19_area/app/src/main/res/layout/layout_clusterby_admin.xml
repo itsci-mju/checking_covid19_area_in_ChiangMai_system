@@ -15,13 +15,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="16dp"
-        android:onClick="OnClickDetailitem"
+        android:onClick="ClickToEditCluster"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/layoutdetailcluster"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:onClick="ClickToEditCluster"
             android:orientation="horizontal">
 
             <ImageView
@@ -29,6 +31,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:background="@color/white"
+                android:onClick="ClickToEditCluster"
                 app:srcCompat="@drawable/location" />
 
             <TextView

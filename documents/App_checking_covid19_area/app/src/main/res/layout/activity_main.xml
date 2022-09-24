@@ -10,14 +10,30 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/nav_host_fragment_activity_bottom_nav">
+        android:layout_above="@id/nav_host_fragment_activity_bottom_nav" >
 
         <fragment
-            android:id="@+id/map"
+            android:id="@+id/map_main"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MapsActivity" />
+            tools:context=".MainActivity" />
+
+        <ImageView
+            android:id="@+id/Button_search"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="right|top"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_baseline_search_24"
+            app:icon="@drawable/ic_baseline_search_24"
+            app:iconGravity="start"
+            app:iconSize="30dp" />
+
+
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,8 +41,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu"
         android:background="?android:attr/windowBackground"
-        />
+        app:menu="@menu/bottom_nav_menu" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>

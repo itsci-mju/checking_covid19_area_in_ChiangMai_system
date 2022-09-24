@@ -43,7 +43,6 @@ public class AddClusterActivity extends AppCompatActivity {
         return s;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public void ClickDateCluster(View view) {
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
@@ -58,7 +57,6 @@ public class AddClusterActivity extends AppCompatActivity {
                 txtdate.setText(day + "-" + months + "-" + year);
             }
         }, mYear, mMonth, mDay);
-
         datePickerDialog.getDatePicker().setMaxDate(c.getTimeInMillis());
         datePickerDialog.show();
     }
@@ -70,11 +68,17 @@ public class AddClusterActivity extends AppCompatActivity {
         final EditText district = (EditText) findViewById(R.id.txtadd_district);
         final EditText newspatient = (EditText) findViewById(R.id.txtadd_newpatient);
 
+        final EditText lat = (EditText) findViewById(R.id.txtLat);
+        final EditText lng = (EditText) findViewById(R.id.txtLng);
+
         String clusterDate = date.getText().toString();
         String clusterPlace = place.getText().toString();
         String clusterSubdistrict = subdistrict.getText().toString();
         String clusterDistrict = district.getText().toString();
         String cluster_news_patient = newspatient.getText().toString();
+
+        String clusterLat = lat.getText().toString();
+        String clusterLng = lng.getText().toString();
 
 
         if (clusterDate.equals("")) {
@@ -92,6 +96,12 @@ public class AddClusterActivity extends AppCompatActivity {
         } else if(cluster_news_patient.equals("")){
             Toast.makeText(AddClusterActivity.this, "กรุณากรอก ยอดผู้ติดเชื้อใหม่", Toast.LENGTH_SHORT).show();
 
+        } else if(clusterLat.equals("")){
+            Toast.makeText(AddClusterActivity.this, "กรุณากรอก ละติจูดของสถานที่", Toast.LENGTH_SHORT).show();
+
+        } else if(clusterLng.equals("")){
+            Toast.makeText(AddClusterActivity.this, "กรุณากรอก ลองจิจูดของสถานที่", Toast.LENGTH_SHORT).show();
+
         } else {
 
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -105,10 +115,10 @@ public class AddClusterActivity extends AppCompatActivity {
                         Error = "T";
                     }
                     if (Error.equals("F")) {
-                        Cluster CT = new Cluster(clusterDate,clusterPlace,clusterSubdistrict,clusterDistrict,cluster_news_patient);
+                        Cluster CT = new Cluster(clusterDate,clusterPlace,clusterSubdistrict,clusterDistrict,cluster_news_patient,clusterLat,clusterLng);
                         DatabaseReference stu1 = myRef.child(clusterPlace);
                         stu1.setValue(CT);
-                        Intent intent = new Intent(AddClusterActivity.this, Mainpage_admin.class);
+                        Intent intent = new Intent(AddClusterActivity.this, ListRiskAreaActivity.class);
                         Toast.makeText(AddClusterActivity.this, "บันทึกสำเร็จ", Toast.LENGTH_LONG).show();
                         intent.putExtra("Admin", Admin);
                         startActivity(intent);
@@ -123,6 +133,7 @@ public class AddClusterActivity extends AppCompatActivity {
             });
         }
     }
+
     public void ClickBTNCancel (View view){
         Intent intent = new Intent(AddClusterActivity.this, Mainpage_admin.class);
         startActivity(intent);

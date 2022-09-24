@@ -65,7 +65,7 @@ public class EditClusterActivity extends AppCompatActivity {
     public void getClusterToEdit(){
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("admin001");
-        Query query1 = myRef.orderByKey().equalTo(clusterPlace);
+        Query query1 = myRef.orderByKey();
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -75,6 +75,9 @@ public class EditClusterActivity extends AppCompatActivity {
                     String clusterPlace = ds.child("clusterPlace").getValue().toString();
                     String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
                     String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
+
+                    String clusterLat = ds.child("clusterLat").getValue().toString();
+                    String clusterLng = ds.child("clusterLng").getValue().toString();
 
                     TextView txtplace = findViewById(R.id.txtedit_place);
                     txtplace.setText(clusterPlace);
@@ -90,6 +93,12 @@ public class EditClusterActivity extends AppCompatActivity {
 
                     EditText txtnewpatient = findViewById(R.id.txtedit_newpatient);
                     txtnewpatient.setText(cluster_news_patient);
+
+                    EditText txtlat = findViewById(R.id.txtedit_lat);
+                    txtlat.setText(clusterLat);
+
+                    EditText txtlng = findViewById(R.id.txtedit_lng);
+                    txtlng.setText(clusterLng);
                 }
             }
             @Override
@@ -106,13 +115,19 @@ public class EditClusterActivity extends AppCompatActivity {
         TextView txtdistrict = findViewById(R.id.txtedit_district);
         EditText txtnewpatient = findViewById(R.id.txtedit_newpatient);
 
+        EditText lat = findViewById(R.id.txtedit_lat);
+        EditText lng = findViewById(R.id.txtedit_lng);
+
         String clusterdate  = txtdate.getText().toString();
         String clusterplace = txtplace.getText().toString();
         String clustersubdistrict = txtsubdistrict.getText().toString();
         String clusterdistrict = txtdistrict.getText().toString();
         String clusternewpatient = txtnewpatient.getText().toString();
 
-        Cluster cluster_edit = new Cluster(clusterdate,clusterplace,clustersubdistrict,clusterdistrict,clusternewpatient);
+        String clusterLat = lat.getText().toString();
+        String clusterLng = lng.getText().toString();
+
+        Cluster cluster_edit = new Cluster(clusterdate,clusterplace,clustersubdistrict,clusterdistrict,clusternewpatient,clusterLat,clusterLng);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef_clusterEdit = database.getReference("admin001/"+clusterPlace);
         Query query1 =  myRef_clusterEdit.orderByValue();
@@ -126,6 +141,9 @@ public class EditClusterActivity extends AppCompatActivity {
                     myRef_clusterEdit.child("clusterSubdistrict").setValue(cluster_edit.getClusterSubdistrict());
                     myRef_clusterEdit.child("cluster_news_patient").setValue(cluster_edit.getCluster_news_patient());
 
+                    myRef_clusterEdit.child("clusterLat").setValue(cluster_edit.getClusterLat());
+                    myRef_clusterEdit.child("clusterLng").setValue(cluster_edit.getClusterLng());
+
                     Intent intent = new Intent(EditClusterActivity.this, ListRiskAreaActivity.class);
                     startActivity(intent);
                 }
@@ -137,8 +155,12 @@ public class EditClusterActivity extends AppCompatActivity {
             }
         });
     }
+
+
     public void ClickBTNEditCancel (View view){
         Intent intent = new Intent(EditClusterActivity.this, ListRiskAreaActivity.class);
         startActivity(intent);
     }
+
+
 }

@@ -27,7 +27,7 @@ public class Mainpage_admin extends AppCompatActivity {
         startActivity(intent);
     }
 
-  /*  public void ClickAddNews(View view){
+    /*public void ClickAddNews(View view){
         Intent intent = new Intent(Mainpage_admin.this, AddNewsActivity.class);
         startActivity(intent);
     }*/

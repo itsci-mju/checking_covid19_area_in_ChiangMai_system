@@ -4,9 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout-v14/activity_mainpage_admin.xml" value="0.13125" />
-        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_add_cluster.xml" value="0.1947463768115942" />
+        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_add_cluster.xml" value="0.3125" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_bottom_nav.xml" value="0.13020833333333334" />
-        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_edit_cluster.xml" value="0.4" />
+        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_edit_cluster.xml" value="0.264" />
+        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_list_cluster_user.xml" value="0.1480978260869565" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_list_risk_area.xml" value="0.1947463768115942" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_login.xml" value="0.13125" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_loginbyadmin.xml" value="0.1743659420289855" />
@@ -18,7 +19,7 @@
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/fragment_notifications.xml" value="0.13020833333333334" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/fragment_setting.xml" value="0.1721014492753623" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/google_maps_api.xml" value="0.16576086956521738" />
-        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/layout_cluster.xml" value="0.1947463768115942" />
+        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/layout_cluster.xml" value="0.4" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/layout_clusterby_admin.xml" value="0.264" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/main_fragment.xml" value="0.2105978260869565" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/setting_page_activity.xml" value="0.2105978260869565" />

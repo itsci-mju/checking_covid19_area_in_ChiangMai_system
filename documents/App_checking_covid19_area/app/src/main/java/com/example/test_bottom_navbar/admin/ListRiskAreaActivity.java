@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.test_bottom_navbar.R;
+import com.example.test_bottom_navbar.ui_bar.MainActivity;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +35,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
     }
 
     public void  setListClusterByAdmin(){
-         LinearLayout list_cluster = findViewById(R.id.showlistcluster);
+         LinearLayout list_cluster = findViewById(R.id.showlistcluster_admin);
          list_cluster.removeAllViews();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("admin001");
@@ -113,9 +114,18 @@ public class ListRiskAreaActivity extends AppCompatActivity {
 
     }
 
+    public void ClickToEditCluster(View view){
+        Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
+        startActivity(intent);
+    }
 
     public void ClickBTNBackByAdmin(View view){
         Intent intent = new Intent(ListRiskAreaActivity.this, Mainpage_admin.class);
+        startActivity(intent);
+    }
+
+    public void ClickbynBack(View view){
+        Intent intent = new Intent(ListRiskAreaActivity.this,MainActivity.class);
         startActivity(intent);
     }
 
