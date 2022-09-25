@@ -2,9 +2,11 @@ package com.example.test_bottom_navbar.ui_bar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -22,7 +24,7 @@ import com.example.test_bottom_navbar.Cluster;
 import com.example.test_bottom_navbar.R;
 import com.example.test_bottom_navbar.admin.ListRiskAreaActivity;
 import com.example.test_bottom_navbar.admin.Mainpage_admin;
-import com.example.test_bottom_navbar.databinding.ActivityMapsBinding;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,17 +47,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     private ImageView imageView;
     private Button button;
+    String location;
     private GoogleMap mMap,user_location;
-    private ActivityMapsBinding binding;
-
+    //private ActivityMapsBinding binding;
     ArrayList<LatLng> arrayList = new ArrayList<LatLng>();
-
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         imageView = (ImageView) findViewById(R.id.Button_search);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +65,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 openDialog();
             }
         });
+
 
         SupportMapFragment googleMap =(SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_main);
@@ -77,7 +79,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     //instance firebase
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    DatabaseReference myRef = database.getReference("admin001");
+    DatabaseReference myRef = database.getReference("admin001/cluster");
     Query query1 = myRef.orderByKey();
 
 
@@ -147,17 +149,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(user_location)
                 .title("I'm here !!!!")
                 .snippet("Hello my what my name ?")
-                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_baseline_person_pin_24))
+                .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_baseline_person_pin_circle_24))
         );
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(user_location));
         // Move the camera
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(arrayList.get(i)));
         //Zoom setUp
-        mMap.animateCamera( CameraUpdateFactory.zoomTo( 15.0f ) );
+        mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
         //Zoom button
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -169,8 +170,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             .snippet(cluster.getClusterDate() + " อ." +
                                     cluster.getClusterDistrict() + " ต." +
                                     cluster.getClusterSubdistrict() + " ยอด: "+
-                                    cluster.getCluster_news_patient()
-                            )
+                                    cluster.getCluster_news_patient())
+                            .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_baseline_warning_24))
                     );
                 }
             }
@@ -181,12 +182,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+    }
 
-        // Add a marker in Sydney
-        for(int i=0 ; i < arrayList.size() ; i++ ) {
-            mMap.addMarker(new MarkerOptions().position(arrayList.get(i)).title("Marker !!!!"));
-
-        }
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId){
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
 

@@ -35,10 +35,10 @@ public class ListRiskAreaActivity extends AppCompatActivity {
     }
 
     public void  setListClusterByAdmin(){
-         LinearLayout list_cluster = findViewById(R.id.showlistcluster_admin);
-         list_cluster.removeAllViews();
+        LinearLayout list_cluster = findViewById(R.id.showlistcluster_admin);
+        list_cluster.removeAllViews();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference("admin001");
+        DatabaseReference myRef = database.getReference("admin001/cluster");
         Query query1 = myRef.orderByKey();
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -46,7 +46,6 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Log.e("Data_cluster",ds.getValue().toString());
                     View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
-                    String id = ds.getKey();
                     String clusterDate = ds.child("clusterDate").getValue().toString();
                     String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
                     String clusterPlace = ds.child("clusterPlace").getValue().toString();
@@ -80,10 +79,11 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                             builder.setPositiveButton("ฉันเเน่ใจ", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    DatabaseReference myRef= database.getReference("admin001");
+                                    DatabaseReference myRef= database.getReference("admin001/cluster");
                                     DatabaseReference stu1 = myRef.child(clusterPlace);
                                     stu1.removeValue();
                                     Intent intent = new Intent(ListRiskAreaActivity.this, ListRiskAreaActivity.class);
+                                    intent.putExtra("clusterPlace", clusterPlace);
                                     startActivity(intent);
                                 }
                             });

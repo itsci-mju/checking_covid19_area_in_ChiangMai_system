@@ -4,21 +4,29 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_baseline_location_on_24"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/nav_favorites"
         android:icon="@drawable/ic_notifications_black_24dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:title="@string/title_dashboard" />
 
     <item
         android:id="@+id/nav_search"
         android:icon="@drawable/ic_baseline_add_location_24"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:title="@string/title_notifications" />
 
     <item
         android:id="@+id/nav_setting"
         android:icon="@drawable/ic_baseline_settings_24"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:title="@string/title_setting" />
 
 

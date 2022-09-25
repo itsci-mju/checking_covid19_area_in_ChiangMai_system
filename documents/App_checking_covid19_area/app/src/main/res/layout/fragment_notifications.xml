@@ -7,19 +7,22 @@
     android:layout_height="match_parent"
     tools:context=".ui_bar.NotificationsFragment">
 
-    <TextView
-        android:id="@+id/noti"
-        android:text="หมอพร้อมสเตชัน"
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_horizontal" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/nav_host_fragment_activity_bottom_nav" >
+
+        <fragment
+            android:id="@+id/map_main_not"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="." />
+
+    </FrameLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

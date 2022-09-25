@@ -58,10 +58,10 @@ public class ListMohpromActivity extends AppCompatActivity {
                     txtmohpromt_place.setText(mohpromtPlace);
                     TextView txtmohpromt_type = mohpromt.findViewById(R.id.txt_mohpromttype);
                     txtmohpromt_type.setText(mohpromtType);
-                    /*TextView txtmohpromt_startdate = mohpromt.findViewById(R.id.txt_mohpromt_startdate);
-                    txtmohpromt_startdate.setText(mohpromtStartDate);*/
-                    /*TextView txtmohpromt_enddate = mohpromt.findViewById(R.id.txt_mohpromt_enddate);
-                    txtmohpromt_enddate.setText(mohpromtEndDate);*/
+                    TextView txtmohpromt_startdate = mohpromt.findViewById(R.id.txt_mohpromt_startdate);
+                    txtmohpromt_startdate.setText(mohpromtStartDate);
+                    TextView txtmohpromt_enddate = mohpromt.findViewById(R.id.txt_mohpromt_enddate);
+                    txtmohpromt_enddate.setText(mohpromtEndDate);
                     TextView txtmohpromt_starttime = mohpromt.findViewById(R.id.txt_mohpromt_starttime);
                     txtmohpromt_starttime.setText(mohpromtStartTime);
                     TextView txtmohpromt_endtime = mohpromt.findViewById(R.id.txt_mohpromtendtime);
@@ -89,15 +89,15 @@ public class ListMohpromActivity extends AppCompatActivity {
                             alert.show();
                         }
                     });
-                    ImageView btn_Edit = (ImageView) mohpromt.findViewById(R.id.mohprom_clicktoedit);
+                    /*ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.location_clicktoedit);
                     btn_Edit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(ListMohpromActivity.this, EditMohpromActivity.class);
-                            intent.putExtra("mohpromtPlace",mohpromtPlace);
+                            Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
+                            intent.putExtra("clusterPlace",clusterPlace);
                             startActivity(intent);
                         }
-                    });
+                    });*/
                     list_mohpromt.addView(mohpromt);
                 }
             }
@@ -110,14 +110,8 @@ public class ListMohpromActivity extends AppCompatActivity {
 
     }
 
-    public void ClickToEditMohpromt(View view){
-        Intent intent = new Intent(ListMohpromActivity.this, EditMohpromActivity.class);
-        startActivity(intent);
-    }
-
-    public void ClickBTNBackByAdmin(View view){
+    public void ClickBack(View view){
         Intent intent = new Intent(ListMohpromActivity.this, Mainpage_admin.class);
-        //intent.putExtra("Allpatient_District",Allpatient_District);
         startActivity(intent);
     }
 }

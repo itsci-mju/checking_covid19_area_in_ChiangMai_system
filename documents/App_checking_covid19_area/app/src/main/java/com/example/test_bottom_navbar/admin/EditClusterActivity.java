@@ -3,6 +3,7 @@ package com.example.test_bottom_navbar.admin;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -34,6 +35,7 @@ public class EditClusterActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         Intent intent = getIntent();
         clusterPlace = intent.getStringExtra("clusterPlace");
+        System.out.println("*****************************************************"+clusterPlace);
         this.getClusterToEdit();
     }
     public String checklength(String s) {
@@ -64,7 +66,7 @@ public class EditClusterActivity extends AppCompatActivity {
 
     public void getClusterToEdit(){
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference("admin001");
+        DatabaseReference myRef = database.getReference("admin001/cluster");
         Query query1 = myRef.orderByKey();
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -99,6 +101,10 @@ public class EditClusterActivity extends AppCompatActivity {
 
                     EditText txtlng = findViewById(R.id.txtedit_lng);
                     txtlng.setText(clusterLng);
+
+
+
+
                 }
             }
             @Override
@@ -129,7 +135,7 @@ public class EditClusterActivity extends AppCompatActivity {
 
         Cluster cluster_edit = new Cluster(clusterdate,clusterplace,clustersubdistrict,clusterdistrict,clusternewpatient,clusterLat,clusterLng);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef_clusterEdit = database.getReference("admin001/"+clusterPlace);
+        DatabaseReference myRef_clusterEdit = database.getReference("admin001/cluster"+clusterPlace);
         Query query1 =  myRef_clusterEdit.orderByValue();
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

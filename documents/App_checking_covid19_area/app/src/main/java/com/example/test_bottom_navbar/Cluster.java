@@ -64,9 +64,7 @@ public class Cluster implements Serializable {
         this.cluster_news_patient = cluster_news_patient;
     }
 
-    public String getClusterLat() {
-        return clusterLat;
-    }
+    public String getClusterLat() { return clusterLat; }
 
     public void setClusterLat(String clusterLat) {
         this.clusterLat = clusterLat;

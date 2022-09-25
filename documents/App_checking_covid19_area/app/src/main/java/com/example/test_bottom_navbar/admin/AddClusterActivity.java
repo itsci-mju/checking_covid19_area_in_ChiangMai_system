@@ -105,7 +105,7 @@ public class AddClusterActivity extends AppCompatActivity {
         } else {
 
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001");
+            DatabaseReference myRef = database.getReference("admin001/cluster");
             Query query1 = myRef.orderByKey().equalTo(clusterPlace);
             query1.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -119,6 +119,7 @@ public class AddClusterActivity extends AppCompatActivity {
                         DatabaseReference stu1 = myRef.child(clusterPlace);
                         stu1.setValue(CT);
                         Intent intent = new Intent(AddClusterActivity.this, ListRiskAreaActivity.class);
+                        intent.putExtra("clusterPlace", clusterPlace);
                         Toast.makeText(AddClusterActivity.this, "บันทึกสำเร็จ", Toast.LENGTH_LONG).show();
                         intent.putExtra("Admin", Admin);
                         startActivity(intent);

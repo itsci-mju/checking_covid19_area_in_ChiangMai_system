@@ -12,9 +12,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.test_bottom_navbar.Cluster;
 import com.example.test_bottom_navbar.Mohpromt;
@@ -38,10 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 public class MohpromtActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap,user_location;
-    private EditText SarchButton;
-    String sarchbutton,MohpromtPlace;
-    Double sarchLat,sarchLng;
-    private String[] District= {"เมืองเชียงใหม่","สารภี","เเม่ริม","สันกำเเพง","สันทราย"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,56 +73,20 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(user_location));
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
-        //Zoom setUp
-        mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
-        //Zoom button
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-
-
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot s : snapshot.getChildren()) {
+                for (DataSnapshot s : snapshot.getChildren()){
                     Mohpromt mohpromt = s.getValue(Mohpromt.class);
-                    String textM = mohpromt.getMohpromtType();
-                    System.out.println("///////////////////////////////////////"+textM);
-                    LatLng location = new LatLng(Double.parseDouble(mohpromt.getMohpromtLat()), Double.parseDouble(mohpromt.getMohpromtLng()));
-                    if (textM.equals("คลินิก")) {
-                        mMap.addMarker(new MarkerOptions().position(location)
-                                .title(mohpromt.getMohpromtPlace())
-                                .snippet(mohpromt.getMohpromtType() +
-                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
-                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_clinic_location_24))
-                        );
-
-                    } else if (textM.equals("ร.พ")) {
-
-                        mMap.addMarker(new MarkerOptions().position(location)
-                                .title(mohpromt.getMohpromtPlace())
-                                .snippet(mohpromt.getMohpromtType() +
-                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
-                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_hospital_location_24))
-                        );
-
-                    } else if(textM.equals("จุดจ่ายยา")){
-
-                        mMap.addMarker(new MarkerOptions().position(location)
-                                .title(mohpromt.getMohpromtPlace())
-                                .snippet(mohpromt.getMohpromtType() +
-                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
-                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_dispensing_location_30))
-                        );
-                    } else {
-                        mMap.addMarker(new MarkerOptions().position(location)
-                                .title(mohpromt.getMohpromtPlace())
-                                .snippet(mohpromt.getMohpromtType() +
-                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
-                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_pharmacy_location_30))
-                        );
-                    }
+                    LatLng location = new LatLng(Double.parseDouble(mohpromt.getMohpromtLat()),Double.parseDouble(mohpromt.getMohpromtLng()));
+                    mMap.addMarker(new MarkerOptions().position(location)
+                            .title(mohpromt.getMohpromtPlace())
+                            .snippet(mohpromt.getMohpromtStartTime() + "ถึง " +
+                                    mohpromt.getMohpromtEndTime()
+                                    )
+                            .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_baseline_hospital_location_24))
+                    );
                 }
-
-
             }
 
             @Override
@@ -139,15 +96,6 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
         });
     }
 
-  /*  public void checkmarker(){
-        Mohpromt mohpromt = s.getValue(Mohpromt.class);
-        if(mohpromt.getMohpromtType() == "ร้านขายยา"){
-
-        }else if(){
-
-        }
-    }*/
-
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId){
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
         vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
@@ -156,50 +104,6 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
-
-    public void ClickSearch(View view) {
-        SarchButton = findViewById(R.id.txt_sarchMohpromt);
-        sarchbutton = SarchButton.getText().toString();
-
-        for (int i = 0; i < District.length; i++) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/mohpromt");
-            Query query1 = myRef.orderByKey();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        String mohpromtPlace = ds.child("mohpromtPlace").getValue().toString();
-                        MohpromtPlace = mohpromtPlace;
-                        String mohpromtLat = ds.child("mohpromtLat").getValue().toString();
-                        String mohpromtLng = ds.child("mohpromtLng").getValue().toString();
-
-                        if(sarchbutton.equals(MohpromtPlace)){
-                            sarchLat = Double.parseDouble(mohpromtLat);
-                            sarchLng = Double.parseDouble(mohpromtLng);
-                            Toast.makeText(MohpromtActivity.this, "พบข้อมูล", Toast.LENGTH_SHORT).show();
-                            LatLng sarch_location = new LatLng(sarchLat,sarchLng);
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_location));
-                            mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
-                        }else if(sarchbutton.equals("")){
-                            Toast.makeText(MohpromtActivity.this, "กรุณากรอกชื่อสถานที่", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-
-        }
-
-    }
-
-
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -226,7 +130,4 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                     return true;
                 }
             };
-
-
-
 }

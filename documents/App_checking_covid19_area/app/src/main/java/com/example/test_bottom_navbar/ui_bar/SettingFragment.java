@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +23,7 @@ public class SettingFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
-        ImageView btnimage = (ImageView) view.findViewById(R.id.btnimage);
+        ImageView btnimage = (ImageView) view.findViewById(R.id.btnimgadminlogin);
         btnimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,6 +32,8 @@ public class SettingFragment extends Fragment {
             }
         });
         return view;
+
+
     }
 
 }
