@@ -27,25 +27,31 @@ public class Mainpage_admin extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void ClickListDistrict(View view){
+        Intent intent = new Intent(Mainpage_admin.this, ListDistrictClusterActivity.class);
+        startActivity(intent);
+    }
+
     public void ClickAddMohprom(View view){
         Intent intent = new Intent(Mainpage_admin.this, AddMohpromtActivity.class);
         startActivity(intent);
     }
 
-    public void ClickEditMohprom(View view){
-        Intent intent = new Intent(Mainpage_admin.this, EditMohpromActivity.class);
-        startActivity(intent);
-    }
 
     public void ClickListMohprom(View view){
         Intent intent = new Intent(Mainpage_admin.this, ListMohpromActivity.class);
         startActivity(intent);
     }
 
-    /*public void ClickAddNews(View view){
+    public void ClickAddNews(View view){
         Intent intent = new Intent(Mainpage_admin.this, AddNewsActivity.class);
         startActivity(intent);
-    }*/
+    }
+
+    public void ClickListNews(View view){
+        Intent intent = new Intent(Mainpage_admin.this, ListNewsActivity.class);
+        startActivity(intent);
+    }
 
     public void Clicklogout(View view){
         Intent intent = new Intent(Mainpage_admin.this, MainActivity.class);

@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.test_bottom_navbar.Cluster;
 import com.example.test_bottom_navbar.R;
+import com.example.test_bottom_navbar.admin.AddClusterActivity;
 import com.example.test_bottom_navbar.admin.ListRiskAreaActivity;
 import com.example.test_bottom_navbar.admin.Mainpage_admin;
 
@@ -34,6 +35,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,14 +51,36 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private Button button;
     String location;
     private GoogleMap mMap,user_location;
+    Cluster cluster = new Cluster();
     //private ActivityMapsBinding binding;
     ArrayList<LatLng> arrayList = new ArrayList<LatLng>();
+    String clusterdistrict;
     private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseApp.initializeApp(this);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference myRef = database.getReference("admin001/cluster");
+        Query query1 = myRef.orderByKey();
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot s : snapshot.getChildren()){
+                    Cluster cluster = s.getValue(Cluster.class);
+                    cluster.getClusterDistrict();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         imageView = (ImageView) findViewById(R.id.Button_search);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -66,15 +90,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
         SupportMapFragment googleMap =(SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_main);
         googleMap.getMapAsync(this);
 
-
-
         BottomNavigationView bottomNav = findViewById(R.id.nav_host_fragment_activity_bottom_nav);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
     }
 
     //instance firebase
@@ -82,8 +104,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     DatabaseReference myRef = database.getReference("admin001/cluster");
     Query query1 = myRef.orderByKey();
 
-
-
+    /*FirebaseDatabase database1 = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    DatabaseReference myRef1 = database1.getReference("admin001/cluster/เมืองเชียงใหม่");
+    Query query2 = myRef1.orderByKey();*/
 
     public void openDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -159,6 +182,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
         //Zoom button
         mMap.getUiSettings().setZoomControlsEnabled(true);
+
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -181,6 +205,29 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+
+  /*      query2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot s : snapshot.getChildren()){
+                    Cluster cluster = s.getValue(Cluster.class);
+                    LatLng location = new LatLng(Double.parseDouble(cluster.getClusterLat()),Double.parseDouble(cluster.getClusterLng()));
+                    mMap.addMarker(new MarkerOptions().position(location)
+                            .title(cluster.getClusterPlace())
+                            .snippet(cluster.getClusterDate() + " อ." +
+                                    cluster.getClusterDistrict() + " ต." +
+                                    cluster.getClusterSubdistrict() + " ยอด: "+
+                                    cluster.getCluster_news_patient())
+                            .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_baseline_warning_24))
+                    );
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
 
     }
 

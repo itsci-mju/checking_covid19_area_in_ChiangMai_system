@@ -1,304 +1,571 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_vilage"
+    android:layout_height="wrap_content"
+    android:background="@drawable/co_peakpx"
     tools:context=".admin.AddMohpromtActivity">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_row="0"
+        android:layout_rowWeight="1"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="25dp"
-        android:background="#FFFFFF"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="50dp">
 
-        <TextView
-            android:id="@+id/textView5"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:src="@drawable/co_add_hospital" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:gravity="center"
-            android:text="เพิ่มหมอพร้อมสเตชัjน"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center">
-
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="5dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#FFFFFF"
                     android:gravity="center"
-                    android:text="ชื่อสถานที่"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:orientation="vertical"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp">
 
-                <EditText
-                    android:id="@+id/txtadd_mohpromtplace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName" />
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-            </TableRow>
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/icon_addmohpormt" />
 
-            <TableRow
-                android:layout_width="358dp"
-                android:layout_height="match_parent"
-                android:gravity="center">
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:text="เพิ่มหมอพร้อมสเตชัน"
+                        android:textColor="#000000"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="56dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="ประเภทจุดบริการ "
-                    android:textColor="#000000" />
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
 
-                <Spinner
-                    android:id="@+id/mohpromtlisttype"
-                    android:layout_width="238dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="20dp" />
+                        <TableRow
+                            android:layout_width="358dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="left">
 
-            </TableRow>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|left"
+                                android:orientation="horizontal">
 
+                                <TextView
+                                    android:id="@+id/textView12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="25dp"
+                                    android:gravity="center"
+                                    android:text="ชื่อสถานที่"
+                                    android:textColor="#050505"
+                                    android:textSize="16sp" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
-                android:gravity="center">
+                                <EditText
+                                    android:id="@+id/txtadd_mohpromtplace"
+                                    android:layout_width="190dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginLeft="30dp"
+                                    android:background="@drawable/txt_border"
+                                    android:ems="0"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="วันที่เปิดให้บริการ"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                            </LinearLayout>
 
-                <EditText
-                    android:id="@+id/mohpromtStartDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName" />
+                        </TableRow>
 
-            </TableRow>
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="left">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|left"
+                                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView19"
-                    android:layout_width="173dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:gravity="center"
-                    android:text="วันหยุดประจำสัปดาห์"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                                <TextView
+                                    android:id="@+id/textView4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="20dp"
+                                    android:gravity="left"
+                                    android:text="ประเภทจุดบริการ "
+                                    android:textColor="#000000" />
 
-                <Spinner
-                    android:id="@+id/mohpromtlistEndDate"
-                    android:layout_width="238dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="20dp" />
+                                <Spinner
+                                    android:id="@+id/mohpromtlisttype"
+                                    android:layout_width="190dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/txt_border"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                            </LinearLayout>
 
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/startTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="เวลาเปิดให้บริการ"
-                    android:textColor="#050505"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/mohpromtstartTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:onClick="ClickStartTime" />
+                        </TableRow>
 
 
-            </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="62dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="left">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
+                            <LinearLayout
+                                android:id="@+id/txtadd_mohpromtStartDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/txt_border"
+                                android:gravity="left"
+                                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/endTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="เวลาปิดให้บริการ"
-                    android:textColor="#050505"
-                    android:textSize="16sp" />
+                                <TextView
+                                    android:id="@+id/textView11"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:gravity="left"
+                                    android:text="วันที่เปิดให้บริการ"
+                                    android:textColor="#000000"
+                                    android:textSize="16sp" />
 
-                <EditText
-                    android:id="@+id/mohpromtendTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:onClick="ClickEndTime" />
+                                <RadioGroup
+                                    android:id="@+id/mohpromtselect_starttime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:gravity="center">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:orientation="horizontal">
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton3"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="จ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="อ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton5"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="พ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton6"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="พฤ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton7"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="ศ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton8"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="ส."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton9"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="อา."
+                                            tools:ignore="TouchTargetSizeCheck" />
+                                    </LinearLayout>
+                                </RadioGroup>
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:gravity="left">
+
+                            <LinearLayout
+                                android:id="@+id/txtadd_mohpromtEndDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/txt_border"
+                                android:gravity="left"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/textView19"
+                                    android:layout_width="173dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:text="วันหยุดประจำสัปดาห์"
+                                    android:textColor="#000000"
+                                    android:textSize="16sp" />
+
+                                <RadioGroup
+                                    android:id="@+id/mohpromtselect_endtime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:gravity="center">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:orientation="horizontal">
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton10"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="จ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton11"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="อ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton12"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="พ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton13"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="พฤ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton14"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="ศ."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton15"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="ส."
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButton16"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="อา."
+                                            tools:ignore="TouchTargetSizeCheck" />
+                                    </LinearLayout>
+                                </RadioGroup>
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="left">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|left"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/startTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="10dp"
+                                    android:gravity="center"
+                                    android:text="เวลาเปิดให้บริการ"
+                                    android:textColor="#050505"
+                                    android:textSize="16sp" />
+
+                                <EditText
+                                    android:id="@+id/mohpromtstartTime"
+                                    android:layout_width="150dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginRight="5dp"
+                                    android:background="@drawable/txt_border"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName"
+                                    android:onClick="ClickStartTime"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                            </LinearLayout>
 
 
-            </TableRow>
+                        </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="left">
 
-                <TextView
-                    android:id="@+id/Lat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="ละติจูด"
-                    android:textColor="#050505"
-                    android:textSize="16sp" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|left"
+                                android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/mohpromtLat"
-                    android:layout_width="162dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-            </TableRow>
+                                <TextView
+                                    android:id="@+id/endTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="15dp"
+                                    android:gravity="center"
+                                    android:text="เวลาปิดให้บริการ"
+                                    android:textColor="#050505"
+                                    android:textSize="16sp" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-
-                <TextView
-                    android:id="@+id/Lng"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="ลองจิจูด"
-                    android:textColor="#050505"
-                    android:textSize="16sp" />
+                                <EditText
+                                    android:id="@+id/mohpromtendTime"
+                                    android:layout_width="150dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/txt_border"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName"
+                                    android:onClick="ClickEndTime"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                            </LinearLayout>
 
 
-                <EditText
-                    android:id="@+id/mohpromtLng"
-                    android:layout_width="57dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:gravity="right">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:gravity="center|left"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/Lat"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="10dp"
+                                    android:gravity="center"
+                                    android:text="ละติจูด"
+                                    android:textColor="#050505"
+                                    android:textSize="16sp" />
+
+                                <EditText
+                                    android:id="@+id/mohpromtLat"
+                                    android:layout_width="190dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginLeft="30dp"
+                                    android:background="@drawable/txt_border"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:gravity="right">
 
 
-            </TableRow>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:gravity="center|left"
+                                android:orientation="horizontal">
 
-            <TableRow
-                android:layout_width="312dp"
-                android:layout_height="118dp"
-                android:gravity="center">
+                                <TextView
+                                    android:id="@+id/Lng"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="10dp"
+                                    android:text="ลองจิจูด"
+                                    android:textColor="#050505"
+                                    android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="รายละเอียดเพิ่มเติม"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                                <EditText
+                                    android:id="@+id/mohpromtLng"
+                                    android:layout_width="190dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginLeft="20dp"
+                                    android:background="@drawable/txt_border"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName"
+                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                <EditText
-                    android:id="@+id/mohpromtdetail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName" />
+                            </LinearLayout>
 
-            </TableRow>
-        </TableLayout>
 
-        <TextView
-            android:id="@+id/txtedit_date"
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:textSize="60dp" />
+                        </TableRow>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+                        <TableRow
+                            android:layout_width="312dp"
+                            android:layout_height="118dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="left">
 
-            <ImageView
-                android:id="@+id/txtadd"
-                android:layout_width="92dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:onClick="ClickAddMohpromt"
-                app:srcCompat="@drawable/add" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="59dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:onClick="ClickCancelAddMohprom"
-                app:srcCompat="@drawable/cross" />
-        </LinearLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center"
+                                    android:text="รายละเอียดเพิ่มเติม"
+                                    android:textColor="#000000"
+                                    android:textSize="16sp" />
 
-    </LinearLayout>
+                                <EditText
+                                    android:id="@+id/mohpromtdetail"
+                                    android:layout_width="190dp"
+                                    android:layout_height="50dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:background="@drawable/txt_border"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName"
+                                    tools:ignore="SpeakableTextPresentCheck" />
+                            </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                        </TableRow>
+                    </TableLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/txt_border"
+                            android:backgroundTint="#039BE5"
+                            android:gravity="center"
+                            android:onClick="ClickAddMohpromt"
+                            android:text="บันทึก"
+                            android:textColor="#FFFFFF" />
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/txt_border"
+                            android:backgroundTint="#E53935"
+                            android:gravity="center"
+                            android:onClick="ClickCancelAddMohprom"
+                            android:text="ยกเลิก"
+                            android:textColor="#FFFFFF" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

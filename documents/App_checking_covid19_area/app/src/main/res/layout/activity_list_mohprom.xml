@@ -14,24 +14,45 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="หมอพร้อมสเตชัน"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="527dp">
+            android:layout_height="490dp">
 
             <LinearLayout
                 android:id="@+id/showlistmohprom_admin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical" />
         </ScrollView>
 
-        <ImageView
-            android:id="@+id/imagebackadmin"
-            android:layout_width="319dp"
-            android:layout_height="54dp"
-            android:background="@color/white"
-            android:onClick="ClickBack"
-            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+        <TextView
+            android:id="@+id/button_BacklistNews2"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="35dp"
+            android:layout_weight="1"
+            android:background="@drawable/txt_border"
+            android:backgroundTint="#E53935"
+            android:gravity="center"
+            android:onClick="ClickMohpromtBack"
+            android:text="กลับ"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
 
     </LinearLayout>
 

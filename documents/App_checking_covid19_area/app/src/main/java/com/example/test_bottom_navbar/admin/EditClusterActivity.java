@@ -22,22 +22,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EditClusterActivity extends AppCompatActivity {
     String clusterPlace;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_cluster);
-
-        FirebaseApp.initializeApp(this);
-        Intent intent = getIntent();
-        clusterPlace = intent.getStringExtra("clusterPlace");
-        System.out.println("*****************************************************"+clusterPlace);
+        clusterPlace = getIntent().getStringExtra("clusterPlace");
+        System.out.println("////////////////////////"+clusterPlace);
         this.getClusterToEdit();
     }
+
     public String checklength(String s) {
         if (s.length() < 2) {
             s = "0" + s;
@@ -67,17 +65,17 @@ public class EditClusterActivity extends AppCompatActivity {
     public void getClusterToEdit(){
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("admin001/cluster");
-        Query query1 = myRef.orderByKey();
+        Query query1 = myRef.orderByKey().equalTo(clusterPlace);
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     String clusterDate = ds.child("clusterDate").getValue().toString();
                     String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                    String clusterPlace = ds.child("clusterPlace").getValue().toString();
+                    String clusterplace = ds.child("clusterPlace").getValue().toString();
+                    clusterPlace = clusterplace;
                     String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
                     String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
-
                     String clusterLat = ds.child("clusterLat").getValue().toString();
                     String clusterLng = ds.child("clusterLng").getValue().toString();
 
@@ -96,14 +94,11 @@ public class EditClusterActivity extends AppCompatActivity {
                     EditText txtnewpatient = findViewById(R.id.txtedit_newpatient);
                     txtnewpatient.setText(cluster_news_patient);
 
-                    EditText txtlat = findViewById(R.id.txtedit_lat);
+                    TextView txtlat = findViewById(R.id.txtedit_lat);
                     txtlat.setText(clusterLat);
 
-                    EditText txtlng = findViewById(R.id.txtedit_lng);
+                    TextView txtlng = findViewById(R.id.txtedit_lng);
                     txtlng.setText(clusterLng);
-
-
-
 
                 }
             }
@@ -114,28 +109,36 @@ public class EditClusterActivity extends AppCompatActivity {
         });
     }
 
-    public void ClickBTNEditCluster(View view){
-        EditText txtdate = findViewById(R.id.txtedit_date);
-        TextView txtplace = findViewById(R.id.txtedit_place);
-        TextView txtsubdistrict = findViewById(R.id.txtedit_subdistrict);
-        TextView txtdistrict = findViewById(R.id.txtedit_district);
-        EditText txtnewpatient = findViewById(R.id.txtedit_newpatient);
+    public void ClickEditCluster(View view){
+        Cluster clusterToedit = new Cluster();
 
-        EditText lat = findViewById(R.id.txtedit_lat);
-        EditText lng = findViewById(R.id.txtedit_lng);
+        EditText txtdate = findViewById(R.id.txtedit_date);
+        clusterToedit.setClusterDate(txtdate.getText().toString());
+        TextView txtplace = findViewById(R.id.txtedit_place);
+        clusterToedit.setClusterPlace(txtplace.getText().toString());
+        TextView txtsubdistrict = findViewById(R.id.txtedit_subdistrict);
+        clusterToedit.setClusterSubdistrict(txtsubdistrict.getText().toString());
+        TextView txtdistrict = findViewById(R.id.txtedit_district);
+        clusterToedit.setClusterDistrict(txtdistrict.getText().toString());
+        EditText txtnewpatient = findViewById(R.id.txtedit_newpatient);
+        clusterToedit.setCluster_news_patient(txtnewpatient.getText().toString());
+
+        TextView lat = findViewById(R.id.txtedit_lat);
+        clusterToedit.setClusterLat(lat.getText().toString());
+        TextView lng = findViewById(R.id.txtedit_lng);
+        clusterToedit.setClusterLng(lng.getText().toString());
 
         String clusterdate  = txtdate.getText().toString();
         String clusterplace = txtplace.getText().toString();
         String clustersubdistrict = txtsubdistrict.getText().toString();
         String clusterdistrict = txtdistrict.getText().toString();
         String clusternewpatient = txtnewpatient.getText().toString();
-
         String clusterLat = lat.getText().toString();
         String clusterLng = lng.getText().toString();
 
         Cluster cluster_edit = new Cluster(clusterdate,clusterplace,clustersubdistrict,clusterdistrict,clusternewpatient,clusterLat,clusterLng);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef_clusterEdit = database.getReference("admin001/cluster"+clusterPlace);
+        DatabaseReference myRef_clusterEdit = database.getReference("admin001/cluster/"+clusterPlace);
         Query query1 =  myRef_clusterEdit.orderByValue();
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

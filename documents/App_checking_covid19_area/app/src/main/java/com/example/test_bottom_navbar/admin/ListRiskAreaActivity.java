@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.test_bottom_navbar.R;
 import com.example.test_bottom_navbar.ui_bar.MainActivity;
+import com.example.test_bottom_navbar.ui_bar.NewsActivity;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,7 +53,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                     String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
                     String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
 
-                    System.out.println(clusterDate+clusterDistrict);
+                    //System.out.println(clusterDate+clusterPlace);
 
                     TextView txtplace = cluster.findViewById(R.id.txtedit_place);
                     txtplace.setText(clusterPlace);
@@ -83,7 +84,6 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                                     DatabaseReference stu1 = myRef.child(clusterPlace);
                                     stu1.removeValue();
                                     Intent intent = new Intent(ListRiskAreaActivity.this, ListRiskAreaActivity.class);
-                                    intent.putExtra("clusterPlace", clusterPlace);
                                     startActivity(intent);
                                 }
                             });
@@ -91,7 +91,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                             alert.show();
                         }
                     });
-                    ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.location_clicktoedit);
+                    ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.cluster_clicktoedit);
                     btn_Edit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -101,6 +101,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                         }
                     });
                    list_cluster.addView(cluster);
+
                 }
             }
             @Override
@@ -128,5 +129,6 @@ public class ListRiskAreaActivity extends AppCompatActivity {
         Intent intent = new Intent(ListRiskAreaActivity.this,MainActivity.class);
         startActivity(intent);
     }
+
 
 }

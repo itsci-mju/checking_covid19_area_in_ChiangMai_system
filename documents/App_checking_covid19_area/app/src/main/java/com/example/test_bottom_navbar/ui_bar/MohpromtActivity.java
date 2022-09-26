@@ -73,20 +73,56 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(user_location));
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
+        //Zoom setUp
+        mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
+        //Zoom button
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot s : snapshot.getChildren()){
+                for (DataSnapshot s : snapshot.getChildren()) {
                     Mohpromt mohpromt = s.getValue(Mohpromt.class);
-                    LatLng location = new LatLng(Double.parseDouble(mohpromt.getMohpromtLat()),Double.parseDouble(mohpromt.getMohpromtLng()));
-                    mMap.addMarker(new MarkerOptions().position(location)
-                            .title(mohpromt.getMohpromtPlace())
-                            .snippet(mohpromt.getMohpromtStartTime() + "ถึง " +
-                                    mohpromt.getMohpromtEndTime()
-                                    )
-                            .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_baseline_hospital_location_24))
-                    );
+                    String textM = mohpromt.getMohpromtType();
+                    System.out.println("///////////////////////////////////////"+textM);
+                    LatLng location = new LatLng(Double.parseDouble(mohpromt.getMohpromtLat()), Double.parseDouble(mohpromt.getMohpromtLng()));
+                    if (textM.equals("คลินิก")) {
+                        mMap.addMarker(new MarkerOptions().position(location)
+                                .title(mohpromt.getMohpromtPlace())
+                                .snippet(mohpromt.getMohpromtType() +
+                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
+                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_clinic_location_24))
+                        );
+
+                    } else if (textM.equals("ร.พ")) {
+
+                        mMap.addMarker(new MarkerOptions().position(location)
+                                .title(mohpromt.getMohpromtPlace())
+                                .snippet(mohpromt.getMohpromtType() +
+                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
+                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_hospital_location_24))
+                        );
+
+                    } else if(textM.equals("จุดจ่ายยา")){
+
+                        mMap.addMarker(new MarkerOptions().position(location)
+                                .title(mohpromt.getMohpromtPlace())
+                                .snippet(mohpromt.getMohpromtType() +
+                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
+                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_dispensing_location_30))
+                        );
+                    } else {
+                        mMap.addMarker(new MarkerOptions().position(location)
+                                .title(mohpromt.getMohpromtPlace())
+                                .snippet(mohpromt.getMohpromtType() +
+                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
+                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_pharmacy_location_30))
+                        );
+                    }
                 }
+
+
             }
 
             @Override
@@ -95,6 +131,15 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
     }
+
+  /*  public void checkmarker(){
+        Mohpromt mohpromt = s.getValue(Mohpromt.class);
+        if(mohpromt.getMohpromtType() == "ร้านขายยา"){
+
+        }else if(){
+
+        }
+    }*/
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId){
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);

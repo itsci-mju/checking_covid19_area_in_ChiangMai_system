@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_vilage"
+    android:background="@drawable/co_peakpx"
     android:onClick="ClickAddCluster">
 
     <ScrollView
@@ -15,15 +15,53 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_row="3"
+                android:layout_rowWeight="2"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/co_covid19"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="20dp"
+                        android:text="ระบบจัดการแอปพลิเคชันตรวจสอบพื้นที่เสี่ยงโควิด-19"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
                 android:columnCount="2"
                 android:rowCount="4"
                 tools:ignore="UnknownId"
@@ -50,10 +88,10 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="50dp"
+                            android:layout_width="60dp"
                             android:layout_height="100dp"
                             android:onClick="ClickAddCluster"
-                            android:src="@drawable/co_add_location"
+                            android:src="@drawable/icon_addcluster"
                             tools:ignore="SpeakableTextPresentCheck" />
 
                         <TextView
@@ -131,6 +169,7 @@
                         <ImageView
                             android:layout_width="50dp"
                             android:layout_height="100dp"
+                            android:onClick="ClickListNews"
                             android:src="@drawable/co_news" />
 
                         <TextView
@@ -166,10 +205,10 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="50dp"
+                            android:layout_width="60dp"
                             android:layout_height="100dp"
                             android:onClick="ClickAddNews"
-                            android:src="@drawable/co_add_news"
+                            android:src="@drawable/icon_addnews"
                             tools:ignore="SpeakableTextPresentCheck" />
 
                         <TextView
@@ -209,8 +248,8 @@
                             android:layout_width="50dp"
                             android:layout_height="100dp"
                             android:onClick="ClickAddMohprom"
-                            android:src="@drawable/co_add_hospital"
-                            app:srcCompat="@drawable/co_add_hospital" />
+                            android:src="@drawable/icon_addmohpormt"
+                            app:srcCompat="@drawable/icon_addmohpormt" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -268,49 +307,50 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_row="3"
-                    android:layout_rowWeight="2"
-                    android:layout_column="1"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="100dp"
-                            android:onClick="Clicklogout"
-                            android:src="@drawable/co_logout"
-                            app:srcCompat="@drawable/co_logout"
-                            tools:ignore="SpeakableTextPresentCheck" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="20dp"
-                            android:text="ออกจากระบบ"
-                            android:textAlignment="center"
-                            android:textColor="#000000"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
 
             </GridLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_row="3"
+                android:layout_rowWeight="2"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="8dp"
+                android:layout_marginTop="20dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="100dp"
+                        android:onClick="Clicklogout"
+                        android:src="@drawable/co_logout"
+                        app:srcCompat="@drawable/co_logout"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="20dp"
+                        android:text="ออกจากระบบ"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
 

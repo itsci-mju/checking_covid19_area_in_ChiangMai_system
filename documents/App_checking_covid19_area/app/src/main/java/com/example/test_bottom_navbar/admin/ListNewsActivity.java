@@ -100,9 +100,8 @@ public class ListNewsActivity extends AppCompatActivity {
         });
     }
 
-    public void ClickBTNBackByAdmin(View view){
+    public void ClickNewsBack(View view){
         Intent intent = new Intent(ListNewsActivity.this, Mainpage_admin.class);
-        //intent.putExtra("Allpatient_District",Allpatient_District);
         startActivity(intent);
     }
 }
