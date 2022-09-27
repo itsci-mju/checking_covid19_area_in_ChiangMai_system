@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
+                android:fontFamily="@font/prompt_medium"
                 android:text="Place"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
+                android:fontFamily="@font/prompt_medium"
                 android:text="ประเภท"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -85,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="0"
+                android:fontFamily="@font/prompt_medium"
                 android:text="จ,อ,พ,ส,อา" />
 
             <TextView
@@ -92,6 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:fontFamily="@font/prompt_medium"
                 android:text="วันหยุด" />
 
             <TextView
@@ -99,6 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
+                android:fontFamily="@font/prompt_medium"
                 android:text="พฤ,ศ"
                 android:textColor="#F44336" />
         </LinearLayout>
@@ -120,6 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:fontFamily="@font/prompt_medium"
                 android:text="เวลาเปิด" />
 
             <TextView
@@ -128,12 +134,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:fontFamily="@font/prompt_medium"
                 android:text="-" />
 
             <TextView
                 android:id="@+id/txt_mohpromtendtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/prompt_medium"
                 android:text="เวลาปิด" />
         </LinearLayout>
 

@@ -33,6 +33,24 @@
             app:iconGravity="start"
             app:iconSize="30dp" />
 
+       <!-- <com.skyfishjy.library.RippleBackground
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ripple"
+            app:rb_color="#039BE5"
+            app:rb_radius="34dp"
+            app:rb_rippleAmount="4"
+            app:rb_duration="3000"
+            app:rb_scale="6">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/imgripple"/>
+        </com.skyfishjy.library.RippleBackground>-->
+
 
     </FrameLayout>
 

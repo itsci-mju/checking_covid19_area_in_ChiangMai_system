@@ -10,11 +10,16 @@ import com.example.test_bottom_navbar.R;
 import com.example.test_bottom_navbar.ui_bar.MainActivity;
 
 public class Mainpage_admin extends AppCompatActivity {
+    int Allpatient_District;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage_admin);
+
+        Intent intent = getIntent();
+        Allpatient_District = intent.getIntExtra("Allpatient_District",Allpatient_District);
+        System.out.println("////////////////////////////////////////////"+Allpatient_District);
     }
 
     public void ClickAddCluster(View view){
@@ -55,6 +60,7 @@ public class Mainpage_admin extends AppCompatActivity {
 
     public void Clicklogout(View view){
         Intent intent = new Intent(Mainpage_admin.this, MainActivity.class);
+        intent.putExtra("Allpatient_District",Allpatient_District);
         startActivity(intent);
     }
 }

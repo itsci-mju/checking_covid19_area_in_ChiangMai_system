@@ -50,6 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/prompt_medium"
                     android:text="หัวข้อ"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -76,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="0"
+                    android:fontFamily="@font/prompt_medium"
                     android:text="วันที่ลงข่าว" />
 
             </LinearLayout>

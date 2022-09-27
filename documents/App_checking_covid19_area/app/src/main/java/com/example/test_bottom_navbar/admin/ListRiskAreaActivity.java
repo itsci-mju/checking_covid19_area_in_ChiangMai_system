@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ListRiskAreaActivity extends AppCompatActivity {
     String clusterPlace;
+    int patient_number;
+    int Allpatient_District;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,14 @@ public class ListRiskAreaActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         Intent intent = getIntent();
         clusterPlace = intent.getStringExtra("clusterPlace");
+
+        Intent getpatient = getIntent();
+        patient_number = getpatient.getIntExtra("patient_number",patient_number);
+
+        Allpatient_District = Allpatient_District + patient_number;
+        System.out.println("////////////////////////////////////////////"+Allpatient_District);
+
+
         this.setListClusterByAdmin();
     }
 
@@ -100,7 +110,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
-                   list_cluster.addView(cluster);
+                    list_cluster.addView(cluster);
 
                 }
             }
@@ -122,6 +132,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
 
     public void ClickBTNBackByAdmin(View view){
         Intent intent = new Intent(ListRiskAreaActivity.this, Mainpage_admin.class);
+        intent.putExtra("Allpatient_District",Allpatient_District);
         startActivity(intent);
     }
 

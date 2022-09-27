@@ -61,6 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/prompt_medium"
                         android:gravity="center"
                         android:text="เเก้ไขข้อมูลหมอพร้อมสเตชัน"
                         android:textColor="#000000"
@@ -89,6 +90,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="25dp"
+                                    android:fontFamily="@font/prompt_medium"
                                     android:gravity="center"
                                     android:text="ชื่อสถานที่"
                                     android:textColor="#050505"
@@ -127,6 +129,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="20dp"
+                                    android:fontFamily="@font/prompt_medium"
                                     android:gravity="left"
                                     android:text="ประเภทจุดบริการ "
                                     android:textColor="#000000" />
@@ -164,6 +167,7 @@
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/prompt_medium"
                                     android:gravity="left"
                                     android:text="วันที่เปิดให้บริการ"
                                     android:textColor="#000000"
@@ -186,6 +190,7 @@
                                             android:id="@+id/start_mon"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="จ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -193,6 +198,7 @@
                                             android:id="@+id/start_tue"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="อ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -200,6 +206,7 @@
                                             android:id="@+id/start_wed"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="พ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -207,6 +214,7 @@
                                             android:id="@+id/start_thu"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="พฤ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -214,6 +222,7 @@
                                             android:id="@+id/start_fri"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="ศ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -221,6 +230,7 @@
                                             android:id="@+id/start_sat"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="ส."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -228,6 +238,7 @@
                                             android:id="@+id/start_sun"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="อา."
                                             tools:ignore="TouchTargetSizeCheck" />
                                     </LinearLayout>
@@ -258,6 +269,7 @@
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/prompt_medium"
                                     android:text="วันหยุดประจำสัปดาห์"
                                     android:textColor="#000000"
                                     android:textSize="16sp" />
@@ -279,6 +291,7 @@
                                             android:id="@+id/end_mon"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="จ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -286,6 +299,7 @@
                                             android:id="@+id/end_tue"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="อ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -293,6 +307,7 @@
                                             android:id="@+id/end_wed"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="พ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -300,6 +315,7 @@
                                             android:id="@+id/end_thu"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="พฤ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -307,6 +323,7 @@
                                             android:id="@+id/end_fri"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="ศ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -314,6 +331,7 @@
                                             android:id="@+id/end_sat"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="ส."
                                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -321,6 +339,7 @@
                                             android:id="@+id/end_sun"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="@font/prompt_medium"
                                             android:text="อา."
                                             tools:ignore="TouchTargetSizeCheck" />
                                     </LinearLayout>
@@ -348,6 +367,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="10dp"
+                                    android:fontFamily="@font/prompt_medium"
                                     android:gravity="center"
                                     android:text="เวลาเปิดให้บริการ"
                                     android:textColor="#050505"
@@ -388,6 +408,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="15dp"
+                                    android:fontFamily="@font/prompt_medium"
                                     android:gravity="center"
                                     android:text="เวลาปิดให้บริการ"
                                     android:textColor="#050505"
@@ -426,6 +447,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="10dp"
+                                    android:fontFamily="@font/prompt_medium"
                                     android:gravity="center"
                                     android:text="ละติจูด"
                                     android:textColor="#050505"
@@ -465,6 +487,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="10dp"
+                                    android:fontFamily="@font/prompt_medium"
                                     android:text="ลองจิจูด"
                                     android:textColor="#050505"
                                     android:textSize="16sp" />
@@ -501,6 +524,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
+                                    android:fontFamily="@font/prompt_medium"
                                     android:gravity="center"
                                     android:text="รายละเอียดเพิ่มเติม"
                                     android:textColor="#000000"
@@ -540,6 +564,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/txt_border"
                             android:backgroundTint="#039BE5"
+                            android:fontFamily="@font/prompt_medium"
                             android:gravity="center"
                             android:onClick="ClickAddMohpromt"
                             android:text="บันทึกการเเก้ไข"
@@ -554,6 +579,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/txt_border"
                             android:backgroundTint="#E53935"
+                            android:fontFamily="@font/prompt_medium"
                             android:gravity="center"
                             android:onClick="ClickBTNEditMohpromtCancel"
                             android:text="ยกเลิก"

@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
+                android:fontFamily="@font/prompt_medium"
                 android:text="Place"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -64,6 +65,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="0"
+                android:fontFamily="@font/prompt_medium"
                 android:text="ต."
                 android:textSize="14sp" />
 
@@ -72,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/prompt_medium"
                 android:text="subdistrict"
                 android:textSize="14sp" />
 
@@ -82,6 +85,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="0"
+                android:fontFamily="@font/prompt_medium"
                 android:text="อ."
                 android:textSize="14sp" />
 
@@ -90,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/prompt_medium"
                 android:text="district"
                 android:textSize="14sp" />
 
@@ -115,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
+                android:fontFamily="@font/prompt_medium"
                 android:text="Date"
                 android:textSize="14sp" />
 
@@ -129,10 +135,11 @@
 
             <TextView
                 android:id="@+id/txtedit_newpatient"
-                android:layout_width="75dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
+                android:fontFamily="@font/prompt_medium"
                 android:text="newpatient"
                 android:textColor="#F44336"
                 android:textSize="14sp" />

@@ -26,6 +26,7 @@ import java.util.Calendar;
 
 public class AddClusterActivity extends AppCompatActivity {
     String Admin;
+    int patientNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,9 @@ public class AddClusterActivity extends AppCompatActivity {
         String clusterDistrict = district.getText().toString();
         String cluster_news_patient = newspatient.getText().toString();
 
+        patientNum = Integer.parseInt(cluster_news_patient);
+
+
         String clusterLat = lat.getText().toString();
         String clusterLng = lng.getText().toString();
 
@@ -120,6 +124,7 @@ public class AddClusterActivity extends AppCompatActivity {
                         stu1.setValue(CT);
                         Intent intent = new Intent(AddClusterActivity.this, ListRiskAreaActivity.class);
                         intent.putExtra("clusterPlace", clusterPlace);
+                        intent.putExtra("patient_number",patientNum);
                         Toast.makeText(AddClusterActivity.this, "บันทึกสำเร็จ", Toast.LENGTH_LONG).show();
                         intent.putExtra("Admin", Admin);
                         startActivity(intent);

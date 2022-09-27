@@ -27,12 +27,16 @@ import java.util.Calendar;
 
 public class EditClusterActivity extends AppCompatActivity {
     String clusterPlace;
+    int patient_number;
+    int patientNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_cluster);
         clusterPlace = getIntent().getStringExtra("clusterPlace");
         System.out.println("////////////////////////"+clusterPlace);
+
+
         this.getClusterToEdit();
     }
 
@@ -136,6 +140,8 @@ public class EditClusterActivity extends AppCompatActivity {
         String clusterLat = lat.getText().toString();
         String clusterLng = lng.getText().toString();
 
+        patientNum = Integer.parseInt(clusternewpatient);
+
         Cluster cluster_edit = new Cluster(clusterdate,clusterplace,clustersubdistrict,clusterdistrict,clusternewpatient,clusterLat,clusterLng);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef_clusterEdit = database.getReference("admin001/cluster/"+clusterPlace);
@@ -154,6 +160,7 @@ public class EditClusterActivity extends AppCompatActivity {
                     myRef_clusterEdit.child("clusterLng").setValue(cluster_edit.getClusterLng());
 
                     Intent intent = new Intent(EditClusterActivity.this, ListRiskAreaActivity.class);
+                    intent.putExtra("patient_number",patientNum);
                     startActivity(intent);
                 }
             }

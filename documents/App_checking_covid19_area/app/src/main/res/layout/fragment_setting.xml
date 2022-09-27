@@ -30,6 +30,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="124dp"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/prompt_medium"
                 android:gravity="center"
                 android:text="กำหนดรัศมี (km)"
                 android:textColor="#000000" />
@@ -52,6 +53,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="124dp"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/prompt_medium"
                 android:gravity="center"
                 android:text="การเเสดงข้อมูล"
                 android:textColor="#000000" />
@@ -74,6 +76,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="124dp"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/prompt_medium"
                 android:gravity="center"
                 android:text="เลือก Basemap"
                 android:textColor="#000000" />
@@ -95,6 +98,7 @@
                 android:id="@+id/btnadminlogin"
                 android:layout_width="196dp"
                 android:layout_height="100dp"
+                android:fontFamily="@font/prompt_medium"
                 android:gravity="center"
                 android:text="เข้าสู่ระบบ(เฉพาะผุ้ดูเเล)"
                 android:textColor="#000000" />
