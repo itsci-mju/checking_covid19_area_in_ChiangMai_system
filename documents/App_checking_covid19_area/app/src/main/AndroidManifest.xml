@@ -10,11 +10,10 @@
         android:name="com.example.googlemapdemo.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
     -->
-    <!--<uses-permission android:name="android.permission.INTERNET" />-->
-    <!--<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -24,10 +23,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_Bottom_navbar">
         <activity
+            android:name=".admin.GetLatLngClusterActivity"
+            android:exported="false"
+            android:label="@string/title_activity_get_lat_lng_cluster"
+            android:theme="@style/Theme.Test_Bottom_navbar.NoActionBar" />
+        <activity
             android:name=".ui_bar.CheckLocatUserActivity"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".admin.ListDistrictClusterActivity"
             android:exported="false" />
@@ -52,6 +54,9 @@
         <activity
             android:name=".admin.AddMohpromtActivity"
             android:exported="false" />
+        <activity
+            android:name=".admin.GetLatLngMohpromtActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -63,6 +68,7 @@
         <activity android:name=".admin.ListRiskAreaActivity" />
         <activity android:name=".admin.EditClusterActivity" />
         <activity android:name=".ui_bar.MohpromtActivity" />
+        <activity android:name=".ui_bar.NewsDetailActivity" />
         <activity
             android:name=".ui_bar.BottomNav"
             android:exported="false"

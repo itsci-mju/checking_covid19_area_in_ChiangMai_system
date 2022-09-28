@@ -2,19 +2,69 @@
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/co_peakpx"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_card">
+
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="272dp"
+            android:layout_height="241dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/top_1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="30dp">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/minnistry_of_public_health" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/prompt_medium"
+                android:gravity="center"
+                android:text="เข้าสู่ระบบ (เฉพาะเจ้าหน้าที่)"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
+        android:layout_height="379dp"
         android:layout_rowWeight="1"
         android:layout_column="0"
         android:layout_columnWeight="1"
         android:layout_gravity="fill"
         android:layout_margin="30dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="50dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="50dp"
         app:cardElevation="50dp">
@@ -22,28 +72,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/co_login" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/prompt_medium"
-                android:gravity="center"
-                android:text="เข้าสู่ระบบ (เฉพาะเจ้าหน้าที่)"
-                android:textSize="20dp"
-                android:textStyle="bold" />
 
             <LinearLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -143,6 +173,27 @@
                     android:textColorHint="#000000" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="30dp"
+                android:fontFamily="@font/prompt_medium"
+                android:gravity="center"
+                android:text="นโยบายความเป็นส่วนตัว" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:fontFamily="@font/prompt_medium"
+                android:gravity="center"
+                android:text="COVID-19 Application Privacy Notice" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </GridLayout>

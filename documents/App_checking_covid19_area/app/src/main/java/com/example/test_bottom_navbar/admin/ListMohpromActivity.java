@@ -115,8 +115,9 @@ public class ListMohpromActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void ClickMohpromtBack(View view){
+    public void ClickBTNBackByAdmin(View view){
         Intent intent = new Intent(ListMohpromActivity.this, Mainpage_admin.class);
+        //intent.putExtra("Allpatient_District",Allpatient_District);
         startActivity(intent);
     }
 }

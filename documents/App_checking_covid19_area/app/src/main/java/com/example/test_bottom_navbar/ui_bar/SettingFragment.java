@@ -17,23 +17,19 @@ import com.example.test_bottom_navbar.admin.LoginActivity;
 
 public class SettingFragment extends Fragment {
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
-
         ImageView btnimage = (ImageView) view.findViewById(R.id.btnimgadminlogin);
         btnimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
-            }
-        });
+            }});
         return view;
-
-
     }
-
 }

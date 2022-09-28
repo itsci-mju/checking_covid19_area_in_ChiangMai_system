@@ -25,6 +25,7 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getContext(),MainActivity.class);
         startActivity(intent);
 
+
         return view;
     }
 

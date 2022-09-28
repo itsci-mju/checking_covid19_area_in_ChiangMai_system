@@ -9,16 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.test_bottom_navbar.Cluster;
 import com.example.test_bottom_navbar.Mohpromt;
 import com.example.test_bottom_navbar.R;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +33,7 @@ public class AddMohpromtActivity extends AppCompatActivity {
     Mohpromt mohpromt_startdate;
     Mohpromt mohpromt_enddate;
     int mHour;
+    double Mohpromt_Lat,Mohpromt_Lng;
     int mMinute;
     private Spinner spinner,spinner2;
     ArrayAdapter<String> dataAdapter;
@@ -46,6 +45,17 @@ public class AddMohpromtActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mohprom);
+
+        Intent intentLatLng = getIntent();
+        Mohpromt_Lat = intentLatLng.getDoubleExtra("Mohpromt_Lat",Mohpromt_Lat);
+        Mohpromt_Lng = intentLatLng.getDoubleExtra("Mohpromt_Lng",Mohpromt_Lng);
+
+        System.out.println("////////////////////////////////////////////"+Mohpromt_Lat+":"+Mohpromt_Lng);
+
+        if (Mohpromt_Lat != 0.0 && Mohpromt_Lng != 0.0) {
+            this.GetLatLngFromMap();
+        }
+
         Intent intent = getIntent();
         Admin = intent.getStringExtra("Admin");
 
@@ -106,7 +116,7 @@ public class AddMohpromtActivity extends AppCompatActivity {
 
         final EditText mohpromtplace = (EditText) findViewById(R.id.txtadd_mohpromtplace);
         final Spinner listtype = (Spinner) findViewById(R.id.mohpromtlisttype);
-        final LinearLayout mohpromstartdate = (LinearLayout) findViewById(R.id.txtadd_mohpromtStartDate);
+        final LinearLayout mohpromstartdate = (LinearLayout) findViewById(R.id.txt_mohpromtDate);
         final  LinearLayout mohpromenddate = (LinearLayout) findViewById(R.id.txtadd_mohpromtEndDate);
 
         /*//RadioButton StartDate
@@ -245,10 +255,26 @@ public class AddMohpromtActivity extends AppCompatActivity {
         }
     }
 
+    public void GetLatLngFromMap(){
+        String M_lat,M_lng;
+        M_lat = Double.toString(Mohpromt_Lat);
+        M_lng = Double.toString(Mohpromt_Lng);
+
+        TextView txtlat = findViewById(R.id.mohpromtLat);
+        txtlat.setText(M_lat);
+        TextView txtlng = findViewById(R.id.mohpromtLng);
+        txtlng.setText(M_lng);
+    }
+
     public void ClickCancelAddMohprom (View view){
         Intent intent = new Intent(AddMohpromtActivity.this, Mainpage_admin.class);
         startActivity(intent);
     }
 
+    public void ClickGetlatlng_mohpromt (View view){
+        Intent intent = new Intent(AddMohpromtActivity.this, GetLatLngMohpromtActivity.class);
+        startActivity(intent);
+    }
 
 }
+

@@ -10,6 +10,7 @@
     <color name="colorPrimary">#3399ff</color>
     <color name="colorPrimaryDark">#156CAD</color>
     <color name="colorAccent">#ededed</color>
+    <color name="DrakBlue">#3F51B5</color>
 
 
     <!-- Base application theme. -->
@@ -17,7 +18,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/DrakBlue</item>
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item> <!--custom animation style-->
     </style>
 

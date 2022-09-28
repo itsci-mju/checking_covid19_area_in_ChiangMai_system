@@ -32,7 +32,7 @@
                 app:srcCompat="@drawable/location" />
 
             <TextView
-                android:id="@+id/txtedit_place"
+                android:id="@+id/txtview_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -44,7 +44,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtsubdistrict2"
+                android:id="@+id/txtviewsubdistrict2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -54,7 +54,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/txtedit_subdistrict"
+                android:id="@+id/txtview_subdistrict"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -63,7 +63,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/txtsubdistrict3"
+                android:id="@+id/txtview_subdistrict3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -73,7 +73,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/txtedit_district"
+                android:id="@+id/txtview_district"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -99,9 +99,9 @@
                 app:srcCompat="@drawable/calendar_dateinfect" />
 
             <TextView
-                android:id="@+id/txtedit_date"
+                android:id="@+id/txtview_date"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="15dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
                 android:text="Date"
@@ -117,7 +117,7 @@
 
 
             <TextView
-                android:id="@+id/txtedit_newpatient"
+                android:id="@+id/txtview_newpatient"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

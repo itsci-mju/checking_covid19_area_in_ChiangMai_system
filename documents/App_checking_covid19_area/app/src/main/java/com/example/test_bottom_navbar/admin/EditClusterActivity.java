@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EditClusterActivity extends AppCompatActivity {
-    String clusterPlace;
+    String clusterPlace,district_name;
     int patient_number;
     int patientNum;
     @Override
@@ -34,6 +34,7 @@ public class EditClusterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_cluster);
         clusterPlace = getIntent().getStringExtra("clusterPlace");
+        district_name = getIntent().getStringExtra("district_name");
         System.out.println("////////////////////////"+clusterPlace);
 
 
@@ -47,7 +48,7 @@ public class EditClusterActivity extends AppCompatActivity {
         return s;
     }
 
-    public void ClickDateCluster(View view) {
+    public void ClickDateCluster_Edit(View view) {
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
@@ -68,7 +69,7 @@ public class EditClusterActivity extends AppCompatActivity {
 
     public void getClusterToEdit(){
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference("admin001/cluster");
+        DatabaseReference myRef = database.getReference("admin001/cluster/"+district_name);
         Query query1 = myRef.orderByKey().equalTo(clusterPlace);
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -144,7 +145,7 @@ public class EditClusterActivity extends AppCompatActivity {
 
         Cluster cluster_edit = new Cluster(clusterdate,clusterplace,clustersubdistrict,clusterdistrict,clusternewpatient,clusterLat,clusterLng);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef_clusterEdit = database.getReference("admin001/cluster/"+clusterPlace);
+        DatabaseReference myRef_clusterEdit = database.getReference("admin001/cluster/"+district_name+"/"+clusterPlace);
         Query query1 =  myRef_clusterEdit.orderByValue();
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -178,5 +179,9 @@ public class EditClusterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void ClickGetlatlng (View view){
+        Intent intent = new Intent(EditClusterActivity.this, GetLatLngClusterActivity.class);
+        startActivity(intent);
+    }
 
 }

@@ -19,20 +19,6 @@
             android:layout_height="match_parent"
             tools:context=".ui_bar.MainActivity" />
 
-        <ImageView
-            android:id="@+id/Button_search"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:layout_gravity="right|top"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            android:padding="10dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/ic_baseline_search_24"
-            app:icon="@drawable/ic_baseline_search_24"
-            app:iconGravity="start"
-            app:iconSize="30dp" />
-
     </FrameLayout>
 
 </RelativeLayout>

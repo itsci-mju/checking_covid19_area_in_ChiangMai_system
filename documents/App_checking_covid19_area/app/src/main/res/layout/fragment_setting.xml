@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -9,102 +9,106 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:background="#FFFFFF"
         android:orientation="vertical">
 
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/btn"
-                android:layout_width="50dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/co_radi" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp">
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="124dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/prompt_medium"
-                android:gravity="center"
-                android:text="กำหนดรัศมี (km)"
-                android:textColor="#000000" />
+                <ImageView
+                    android:id="@+id/btn"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/co_radi" />
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="124dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/prompt_medium"
+                    android:gravity="center"
+                    android:text="กำหนดรัศมี (km)"
+                    android:textColor="#000000" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            </TableRow>
 
-            <ImageView
-                android:id="@+id/btn2"
-                android:layout_width="50dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/co_data" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="124dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/prompt_medium"
-                android:gravity="center"
-                android:text="การเเสดงข้อมูล"
-                android:textColor="#000000" />
+                <ImageView
+                    android:id="@+id/btn2"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/co_data" />
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="124dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/prompt_medium"
+                    android:gravity="center"
+                    android:text="การเเสดงข้อมูล"
+                    android:textColor="#000000" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            </TableRow>
 
-            <ImageView
-                android:id="@+id/btn3"
-                android:layout_width="50dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/co_themmap" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="124dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/prompt_medium"
-                android:gravity="center"
-                android:text="เลือก Basemap"
-                android:textColor="#000000" />
+                <ImageView
+                    android:id="@+id/btn3"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/co_themmap" />
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="124dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/prompt_medium"
+                    android:gravity="center"
+                    android:text="เลือก Basemap"
+                    android:textColor="#000000" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </TableRow>
 
-            <ImageView
-                android:id="@+id/btnimgadminlogin"
-                android:layout_width="50dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/co_login" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/btnadminlogin"
-                android:layout_width="196dp"
-                android:layout_height="100dp"
-                android:fontFamily="@font/prompt_medium"
-                android:gravity="center"
-                android:text="เข้าสู่ระบบ(เฉพาะผุ้ดูเเล)"
-                android:textColor="#000000" />
+                <ImageView
+                    android:id="@+id/btnimgadminlogin"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/co_login" />
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/btnadminlogin"
+                    android:layout_width="196dp"
+                    android:layout_height="100dp"
+                    android:fontFamily="@font/prompt_medium"
+                    android:gravity="center"
+                    android:text="เข้าสู่ระบบ(เฉพาะผุ้ดูเเล)"
+                    android:textColor="#000000" />
 
+            </TableRow>
+
+        </LinearLayout>
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

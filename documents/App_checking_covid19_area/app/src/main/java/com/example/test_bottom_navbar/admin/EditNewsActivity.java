@@ -123,7 +123,7 @@ public class EditNewsActivity extends AppCompatActivity {
                     TextView txtnewsDate = findViewById(R.id.txtedit_newsdate);
                     txtnewsDate.setText(newsDate);
 
-                    TextView txtnewsDetail = findViewById(R.id.txtedit_newsdetail);
+                    EditText txtnewsDetail = findViewById(R.id.txtedit_newsdetail);
                     txtnewsDetail.setText(newsDetail);
 
                     ImageView img = findViewById(R.id.image_editnews);

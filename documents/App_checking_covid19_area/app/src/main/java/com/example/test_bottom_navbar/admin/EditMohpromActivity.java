@@ -3,6 +3,7 @@ package com.example.test_bottom_navbar.admin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.test_bottom_navbar.Cluster;
@@ -25,10 +27,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class EditMohpromActivity extends AppCompatActivity {
     String Admin;
+    int mHour,mMinute;
     String mohpromtPlace;
     private Spinner spinner;
     ArrayAdapter<String> dataAdapter;
@@ -46,6 +50,39 @@ public class EditMohpromActivity extends AppCompatActivity {
         mohpromtPlace = intent.getStringExtra("mohpromtPlace");
         this.getmohpromtToEdit();
 
+    }
+
+    public void ClickStartTime_Edit(View view) {
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+        TimePickerDialog tpd = new TimePickerDialog(EditMohpromActivity.this, android.R.style.Theme_Holo_Dialog, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                mHour = i;
+                mMinute = i1;
+                EditText et = findViewById(R.id.mohpromtstartTime);
+                et.setText(i + ":" + i1 + "น.");
+            }
+        }, mHour, mMinute, true);
+        tpd.show();
+    }
+
+    public void ClickEndTime_Edit(View view) {
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+        TimePickerDialog tpd = new TimePickerDialog(EditMohpromActivity.this, android.R.style.Theme_Holo_Dialog, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                mHour = i;
+                mMinute = i1;
+                EditText et = findViewById(R.id.mohpromtendTime);
+                et.setText(i + ":" + i1+ "น.");
+
+            }
+        }, mHour, mMinute, true);
+        tpd.show();
     }
 
     public void getmohpromtToEdit(){
@@ -105,16 +142,13 @@ public class EditMohpromActivity extends AppCompatActivity {
 
     }
 
-    /*public void ClickToEditMohprom(){
-
+    public void ClickToEditMohpromt(View view){
         Mohpromt mohpromtToedit = new Mohpromt();
-
         TextView txteditMohpromplace = findViewById(R.id.txtedit_mohpromtplace);
         mohpromtToedit.setMohpromtPlace(txteditMohpromplace.getText().toString());
         TextView txteditMohpromType = findViewById(R.id.txtedit_mohpromtlisttype);
         mohpromtToedit.setMohpromtType(txteditMohpromType.getText().toString());
         //StartDate
-
         //EndDate
         EditText txteditMohpromStartTime = findViewById(R.id.txtedit_mohpromtstartTime);
         mohpromtToedit.setMohpromtStartTime(txteditMohpromStartTime.getText().toString());
@@ -129,43 +163,42 @@ public class EditMohpromActivity extends AppCompatActivity {
 
         String mohpromplace = txteditMohpromplace.getText().toString();
         String mohpromtype = txteditMohpromType.getText().toString();
-        //mogpromStartdate
-        //mohpromEndTime
+        String mogpromStartdate = txteditMohpromType.getText().toString();
+        String mohpromEndTime = txteditMohpromType.getText().toString();
         String mohpromstarttime = txteditMohpromStartTime.getText().toString();
         String mohpromendtime = txteditMohpromEndTime.getText().toString();
         String mohpromlat = txteditMohpromLat.getText().toString();
         String mohpormlng = txteditMohpromLng.getText().toString();
         String mohpromdetail = txteditMohpromDetail.getText().toString();
 
-        Mohpromt mohpromt_edit = new Mohpromt(mohpromplace,mohpromtype,mohpromstarttime,mohpromendtime,mohpromlat,mohpormlng,mohpromdetail);
+        Mohpromt mohpromt_edit = new Mohpromt(mohpromplace,mohpromtype,mogpromStartdate,mohpromEndTime,mohpromstarttime,mohpromendtime,mohpromlat,mohpormlng,mohpromdetail);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef_clusterEdit = database.getReference("admin001/cluster/"+clusterPlace);
+        DatabaseReference myRef_clusterEdit = database.getReference("admin001/mohpromt/"+mohpromtPlace);
         Query query1 =  myRef_clusterEdit.orderByValue();
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    myRef_clusterEdit.child("clusterDate").setValue(cluster_edit.getClusterDate());
-                    myRef_clusterEdit.child("clusterPlace").setValue(cluster_edit.getClusterPlace());
-                    myRef_clusterEdit.child("clusterDistrict").setValue(cluster_edit.getClusterDistrict());
-                    myRef_clusterEdit.child("clusterSubdistrict").setValue(cluster_edit.getClusterSubdistrict());
-                    myRef_clusterEdit.child("cluster_news_patient").setValue(cluster_edit.getCluster_news_patient());
+                    myRef_clusterEdit.child("mohpromtPlace").setValue(mohpromt_edit.getMohpromtPlace());
+                    myRef_clusterEdit.child("mohpromtType").setValue(mohpromt_edit.getMohpromtType());
+                    myRef_clusterEdit.child("mohpromtStartDate").setValue(mohpromt_edit.getMohpromtStartDate());
+                    myRef_clusterEdit.child("mohpromtEndDate").setValue(mohpromt_edit.getMohpromtEndDate());
+                    myRef_clusterEdit.child("mohpromtStartTime").setValue(mohpromt_edit.getMohpromtStartTime());
+                    myRef_clusterEdit.child("mohpromtEndTime").setValue(mohpromt_edit.getMohpromtEndTime());
+                    myRef_clusterEdit.child("mohpromtLat").setValue(mohpromt_edit.getMohpromtLat());
+                    myRef_clusterEdit.child("mohpromtLng").setValue(mohpromt_edit.getMohpromtLng());
+                    myRef_clusterEdit.child("mohpromtDetail").setValue(mohpromt_edit.getMohpromtDetail());
 
-                    myRef_clusterEdit.child("clusterLat").setValue(cluster_edit.getClusterLat());
-                    myRef_clusterEdit.child("clusterLng").setValue(cluster_edit.getClusterLng());
-
-                    Intent intent = new Intent(EditClusterActivity.this, ListRiskAreaActivity.class);
+                    Intent intent = new Intent(EditMohpromActivity.this, ListMohpromActivity.class);
                     startActivity(intent);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
-    }*/
+    }
 
     public void ClickBTNEditMohpromtCancel (View view){
         Intent intent = new Intent(EditMohpromActivity.this, ListMohpromActivity.class);

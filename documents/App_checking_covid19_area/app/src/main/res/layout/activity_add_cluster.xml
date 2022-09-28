@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/co_peakpx"
     tools:context=".admin.AddClusterActivity">
 
     <ScrollView
@@ -19,301 +18,436 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_row="0"
-            android:layout_rowWeight="1"
             android:layout_column="0"
-            android:layout_columnWeight="1"
             android:layout_gravity="fill"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="50dp">
+            app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView5"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="260dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/background_card">
 
-                <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/icon_addcluster" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="59dp"
-                    android:fontFamily="@font/prompt_medium"
-                    android:gravity="center"
-                    android:text="เพิ่มคลัสเตอร์"
-                    android:textColor="#000000"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="272dp"
+                        android:layout_height="241dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:srcCompat="@drawable/top_1" />
 
-                <TableLayout
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageView7"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="50dp"
+                                android:background="@drawable/bt_bg"
+                                android:src="@drawable/icon_addcluster" />
+
+                            <TextView
+                                android:id="@+id/textView5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/textView"
+                                android:layout_width="match_parent"
+                                android:layout_height="59dp"
+                                android:fontFamily="@font/prompt_medium"
+                                android:gravity="center"
+                                android:text="เพิ่มคลัสเตอร์"
+                                android:textColor="#FFFFFF"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <TableRow
-                        android:layout_width="358dp"
+                    <LinearLayout
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center">
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="25dp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/textView8"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/prompt_medium"
-                            android:gravity="center"
+                            android:gravity="left"
                             android:text="วัน/เดือน/ปี"
                             android:textColor="#050505"
-                            android:textSize="16sp" />
+                            android:textSize="18dp" />
 
-
-                        <EditText
-                            android:id="@+id/txtadd_datecluster"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_margin="5dp"
+                            android:layout_height="match_parent"
                             android:background="@drawable/txt_border"
-                            android:ems="1"
-                            android:inputType="textPersonName"
-                            android:onClick="ClickDateCluster"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                            android:orientation="horizontal">
 
+                            <EditText
+                                android:id="@+id/txtadd_datecluster"
+                                android:layout_width="300dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:fontFamily="@font/prompt_medium"
+                                android:hint="ว/ด/ป"
+                                android:inputType="textPersonName"
+                                android:onClick="ClickDateCluster"
+                                android:textSize="18dp"
+                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:onClick="ClickDateCluster"
-                            app:srcCompat="@drawable/calendar_dateinfect" />
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:onClick="ClickDateCluster"
+                                app:srcCompat="@drawable/ic_baseline_calendar_today_24"
+                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                        </LinearLayout>
 
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
+                        android:id="@+id/cluster_name"
                         android:layout_width="match_parent"
-                        android:layout_height="164dp"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center">
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="25dp"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView9"
-                            android:layout_width="5dp"
+                            android:id="@+id/textView25"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/prompt_medium"
-                            android:gravity="center"
+                            android:gravity="center|center_horizontal|left|center_vertical"
                             android:text="ชื่อสถานที่"
                             android:textColor="#000000"
-                            android:textSize="16sp" />
+                            android:textSize="18dp" />
 
-                        <EditText
-                            android:id="@+id/txtadd_place"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:background="@drawable/txt_border"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
-
-                    </TableRow>
-
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="62dp"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center">
-
-                        <TextView
-                            android:id="@+id/textView11"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/prompt_medium"
-                            android:gravity="center"
-                            android:text="ตำบล"
-                            android:textColor="#000000"
-                            android:textSize="16sp" />
-
-                        <EditText
-                            android:id="@+id/txtadd_subdistrict"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
                             android:background="@drawable/txt_border"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
+                            android:orientation="horizontal">
 
-                    </TableRow>
+                            <EditText
+                                android:id="@+id/txtadd_place"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:fontFamily="@font/prompt_medium"
+                                android:hint="ใส่ชื่อสถานที่"
+                                android:inputType="textPersonName"
+                                tools:ignore="TouchTargetSizeCheck" />
+                        </LinearLayout>
 
-                    <TableRow
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/distic_subdistric"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center">
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="25dp"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/textView19"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/prompt_medium"
-                            android:gravity="center"
-                            android:text="อำเภอ"
-                            android:textColor="#000000"
-                            android:textSize="16sp" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
-                        <EditText
-                            android:id="@+id/txtadd_district"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:background="@drawable/txt_border"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
+                            <LinearLayout
+                                android:layout_width="180dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
-                    </TableRow>
+                                <TextView
+                                    android:id="@+id/textView19"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:fontFamily="@font/prompt_medium"
+                                    android:gravity="center"
+                                    android:text="อำเภอ"
+                                    android:textColor="#000000"
+                                    android:textSize="18dp" />
 
-                    <TableRow
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/txt_border"
+                                    android:orientation="horizontal">
+
+                                    <Spinner
+                                        android:id="@+id/txtadd_district"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="5dp"
+                                        android:inputType="textPersonName"
+                                        android:fontFamily="@font/prompt_medium"
+                                        android:textSize="18dp"
+                                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="160dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/textView11"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:fontFamily="@font/prompt_medium"
+                                    android:gravity="center"
+                                    android:text="ตำบล"
+                                    android:textColor="#000000"
+                                    android:textSize="18dp" />
+
+                                <LinearLayout
+                                    android:layout_width="160dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/txt_border"
+                                    android:orientation="horizontal">
+
+                                    <Spinner
+                                        android:id="@+id/txtadd_subdistrict"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="5dp"
+                                        android:inputType="textPersonName"
+                                        android:fontFamily="@font/prompt_medium"
+                                        android:textSize="18dp"
+                                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/cluster_Lat"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center">
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="25dp"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/Lat"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/txtlat"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/prompt_medium"
-                            android:gravity="center"
+                            android:gravity="center|center_horizontal|left|center_vertical"
                             android:text="ละติจูด"
-                            android:textColor="#050505"
-                            android:textSize="16sp" />
+                            android:textColor="#000000"
+                            android:textSize="18dp" />
 
-                        <EditText
-                            android:id="@+id/txtLat"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:background="@drawable/txt_border"
-                            android:ems="10"
-                            android:inputType="textPersonName"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-                    </TableRow>
+                            android:orientation="horizontal">
 
-                    <TableRow
+                            <EditText
+                                android:id="@+id/txtLat"
+                                android:layout_width="300dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:fontFamily="@font/prompt_medium"
+                                android:hint="18.0123456"
+                                android:inputType="textPersonName"
+                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                            <ImageView
+                                android:id="@+id/imageView9"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:onClick="ClickGetlatlng"
+                                app:srcCompat="@android:drawable/ic_menu_mylocation"
+                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/cluster_Lng"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center">
-
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="25dp"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/Lng"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/txtlng"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/prompt_medium"
-                            android:gravity="center"
+                            android:gravity="center|center_horizontal|left|center_vertical"
                             android:text="ลองจิจูด"
-                            android:textColor="#050505"
-                            android:textSize="16sp" />
+                            android:textColor="#000000"
+                            android:textSize="18dp" />
 
-
-                        <EditText
-                            android:id="@+id/txtLng"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:background="@drawable/txt_border"
-                            android:ems="10"
-                            android:inputType="textPersonName"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                            android:orientation="horizontal">
 
+                            <EditText
+                                android:id="@+id/txtLng"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:fontFamily="@font/prompt_medium"
+                                android:hint="98.0123456"
+                                android:inputType="textPersonName"
+                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                        </LinearLayout>
 
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
-                        android:layout_width="312dp"
-                        android:layout_height="118dp"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center">
+                    <LinearLayout
+                        android:id="@+id/newpatient"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="25dp"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/txt_newpatient"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/prompt_medium"
-                            android:gravity="center"
+                            android:gravity="center|center_horizontal|left|center_vertical"
                             android:text="ยอดผู้ติดเชื้อ"
                             android:textColor="#000000"
-                            android:textSize="16sp" />
+                            android:textSize="18dp" />
 
-                        <EditText
-                            android:id="@+id/txtadd_newpatient"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:background="@drawable/txt_border"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
+                            android:orientation="horizontal">
 
-                    </TableRow>
-                </TableLayout>
+                            <EditText
+                                android:id="@+id/txtadd_newpatient"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:fontFamily="@font/prompt_medium"
+                                android:hint="ใส่ยอดผู้ติดเชื้อ"
+                                android:inputType="textPersonName" />
+                        </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/textView10"
+                    <LinearLayout
+                        android:id="@+id/save_button"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginRight="30dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/txt_border"
-                        android:backgroundTint="#039BE5"
-                        android:fontFamily="@font/prompt_medium"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="25dp"
                         android:gravity="center"
-                        android:onClick="ClickBTNAddCluster"
-                        android:text="บันทึก"
-                        android:textColor="#FFFFFF" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView13"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/txt_border"
-                        android:backgroundTint="#E53935"
-                        android:fontFamily="@font/prompt_medium"
-                        android:gravity="center"
-                        android:onClick="ClickBTNCancel"
-                        android:text="ยกเลิก"
-                        android:textColor="#FFFFFF" />
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/txt_border"
+                            android:backgroundTint="#3F51B5"
+                            android:fontFamily="@font/prompt_medium"
+                            android:gravity="center"
+                            android:onClick="ClickBTNAddCluster"
+                            android:text="บันทึก"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/txt_border"
+                            android:backgroundTint="#E53935"
+                            android:fontFamily="@font/prompt_medium"
+                            android:gravity="center"
+                            android:onClick="ClickBTNCancel"
+                            android:text="ยกเลิก"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
-
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </ScrollView>
 
