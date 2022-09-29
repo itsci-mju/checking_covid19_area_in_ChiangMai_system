@@ -143,6 +143,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError error) {}
             });
         }
+        Log.e("------------------------------Totalpatient_CM", String.valueOf(Totalpatient_CM));
     }
 
     public void OnClickClusterDetail(View view) {}
@@ -155,6 +156,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
     public void ClickBTNBackByAdmin(View view){
         Intent intent = new Intent(ListRiskAreaActivity.this, Mainpage_admin.class);
         intent.putExtra("Totalpatient_CM",Totalpatient_CM);
+        Log.e("------------------------------Totalpatient_CM", String.valueOf(Totalpatient_CM));
         intent.putExtra("Totalpatient_Sarapee",Totalpatient_Sarapee);
         intent.putExtra("Totalpatient_MaeRim",Totalpatient_MaeRim);
         intent.putExtra("Totalpatient_SunSai",Totalpatient_SunSai);
