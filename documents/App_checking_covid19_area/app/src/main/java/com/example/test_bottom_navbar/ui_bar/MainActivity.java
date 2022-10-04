@@ -92,35 +92,62 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     Circle myCircle4;
     Circle myCircle5;
     Circle myCircle6;
-    int Allpatient_CM;
-    int new_patient;
-    int Totalpatient_CM,Totalpatient_Sarapee,Totalpatient_MaeRim,Totalpatient_SunSai;
+
+    int Allpatient_District,Totalpatient_CM = 5,Totalpatient_Sarapee = 30,Totalpatient_MaeRim = 10,Totalpatient_SunSai = 60;
     private int STORAGE_PERMISSION_CODE = 1;
+    String statesobj[] = {};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CalRiskArea();
-        /*Intent intent = getIntent();
+
+        Intent intent = getIntent();
         Totalpatient_CM = intent.getIntExtra("Totalpatient_CM",Totalpatient_CM);
         Totalpatient_Sarapee = intent.getIntExtra("Totalpatient_Sarapee",Totalpatient_Sarapee);
         Totalpatient_MaeRim = intent.getIntExtra("Totalpatient_MaeRim",Totalpatient_MaeRim);
-        Totalpatient_SunSai = intent.getIntExtra("Totalpatient_SunSai",Totalpatient_SunSai);*/
+        Totalpatient_SunSai = intent.getIntExtra("Totalpatient_SunSai",Totalpatient_SunSai);
 
-        /*System.out.println("////////////////////////////////////////////CM"+Totalpatient_CM);
+        System.out.println("////////////////////////////////////////////CM"+Totalpatient_CM);
         System.out.println("////////////////////////////////////////////SP"+Totalpatient_Sarapee);
         System.out.println("////////////////////////////////////////////MR"+Totalpatient_MaeRim);
-        System.out.println("////////////////////////////////////////////SS"+Totalpatient_SunSai);*/
-
+        System.out.println("////////////////////////////////////////////SS"+Totalpatient_SunSai);
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(MainActivity.this, "ระบบได้เข้าถึงตำเเหน่งบนอุปกรณ์ของคุณแล้ว",Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "ระบบได้เข้าถึงตำเเหน่งบนอุปกรณ์ของคุณแล้ว",
+                    Toast.LENGTH_SHORT).show();
         } else {
             requestPermission();
         }
 
         FirebaseApp.initializeApp(this);
+
+        ///Search cluster
+       /* FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference myRef = database.getReference("admin001/cluster/");
+        Query query1 = myRef.orderByKey();
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot s : snapshot.getChildren()){
+                    Cluster cluster = s.getValue(Cluster.class);
+                    cluster.getClusterDistrict();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        imageView = (ImageView) findViewById(R.id.Button_search);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });*/
 
         SupportMapFragment googleMap =(SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_main);
@@ -155,45 +182,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(this,
                     new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
         }
-    }
 
-    private void CalRiskArea(){
-        for (int i = 0; i < District.length; i++) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-            String Cplace = District[i];
-            Query query1 = myRef.orderByValue();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
-                        new_patient = Integer.parseInt(cluster_news_patient);
-                        if(Cplace.equals("เมืองเชียงใหม่")){
-                            Totalpatient_CM = Totalpatient_CM+new_patient;
-                            Log.e("----------Totalpatient_CM", String.valueOf(Totalpatient_CM));
-                        }else if(Cplace.equals("สารภี")){
-                            Totalpatient_Sarapee = Totalpatient_Sarapee+new_patient;
-                            Log.e("----------Totalpatient_Sarapee", String.valueOf(Totalpatient_Sarapee));
-                        }else if(Cplace.equals("เเม่ริม")){
-                            Totalpatient_MaeRim = Totalpatient_MaeRim+new_patient;
-                            Log.e("----------Totalpatient_MaeRim", String.valueOf(Totalpatient_MaeRim));
-                        }else if(Cplace.equals("สันทราย")){
-                            Totalpatient_SunSai = Totalpatient_SunSai+new_patient;
-                            Log.e("----------Totalpatient_SunSai", String.valueOf(Totalpatient_SunSai));
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
     }
 
     public void openDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("ค้นหาคลัสเตอร์");
         builder.setView(R.layout.activity_list_cluster_user);
+
         AlertDialog alert = builder.create();
         alert.show();
     }
@@ -209,6 +205,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .title("I'm here !!!!")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                 //.icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.user_64)
+
         );
         mMap.moveCamera(CameraUpdateFactory.newLatLng(user_location));
         // Move the camera
@@ -240,18 +237,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         addingCircleView(location);
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
             });
         }
-        PolegonDistrict();
-    }
-
-    private void PolegonDistrict(){
         /////////////////////////////////////////Polygon/////////////////////////////////////////
-        LatLng user_location = new LatLng(18.7858623,98.9764537);
+
         ////////////////////เมืองเชียงใหม่////////////////////
         if(Totalpatient_CM <= 10){
             PolygonOptions MaungCM = new PolygonOptions()
@@ -479,6 +473,26 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     createDialog2();
                 }
             });
+        }else if(Totalpatient_SunSai <= 30) {
+            PolygonOptions Sunsai = new PolygonOptions()
+                    .add(sunsai1).add(sunsai2).add(sunsai3).add(sunsai4).add(sunsai5).add(sunsai6)
+                    .add(sunsai7).add(sunsai8).add(sunsai9).add(sunsai10).add(sunsai11).add(sunsai12)
+                    .add(sunsai19).add(sunsai20).add(sunsai21).add(sunsai22).add(sunsai23).add(sunsai24)
+                    .add(sunsai25).add(sunsai26).add(sunsai27).add(sunsai28).add(sunsai29).add(sunsai30)
+                    .add(sunsai31).add(sunsai32).add(sunsai33).add(sunsai34).add(sunsai35).add(sunsai36)
+
+                    .strokeColor(Color.argb(250, 255, 255, 0))
+                    .fillColor(Color.argb(30, 255, 255, 0));
+            Polygon polygonSunSai = mMap.addPolygon(Sunsai);
+            polygonSunSai.setClickable(true);
+            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+                @Override
+                public void onPolygonClick(@NonNull Polygon polygon) {
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
+                    mMap.animateCamera(cameraUpdate);
+                    createDialog2();
+                }
+            });
         }else if(Totalpatient_SunSai >= 50) {
             PolygonOptions Sunsai = new PolygonOptions()
                     .add(sunsai1).add(sunsai2).add(sunsai3).add(sunsai4).add(sunsai5).add(sunsai6)
@@ -504,11 +518,46 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
     private void createDialog2() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("อำเภอเมืองเชียงใหม่");
         builder.setMessage("????????????????");
+        /*LinearLayout list_cluster = findViewById(R.id.showlistdistrick);
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference myRef = database.getReference("admin001/cluster/เมืองเชียงใหม่");
+        Query query1 = myRef.orderByKey();
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    View cluster = getLayoutInflater().inflate(R.layout.layout_cluster, null);
+                    String clusterDate = ds.child("clusterDate").getValue().toString();
+                    String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
+                    String clusterPlace = ds.child("clusterPlace").getValue().toString();
+                    String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
+                    String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
+
+                    TextView txtplace = cluster.findViewById(R.id.txtview_place);
+                    txtplace.setText(clusterPlace);
+
+                    TextView txtsubdistrict = cluster.findViewById(R.id.txtview_subdistrict);
+                    txtsubdistrict.setText(clusterSubdistrict);
+
+                    TextView txtdistrict = cluster.findViewById(R.id.txtview_district);
+                    txtdistrict.setText(clusterDistrict);
+
+                    TextView txtdate = cluster.findViewById(R.id.txtview_date);
+                    txtdate.setText(clusterDate);
+
+                    TextView txtnewpatient = cluster.findViewById(R.id.txtview_newpatient);
+                    txtnewpatient.setText(cluster_news_patient);
+
+                    list_cluster.addView(cluster);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });*/
         AlertDialog alert1 = builder.create();
         alert1.show();
     }
@@ -634,6 +683,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         if(sarchbutton.equals(clusterPlace)){
                                 sarchLat = Double.parseDouble(clusterLat);
                                 sarchLng = Double.parseDouble(clusterLng);
+
                                 Toast.makeText(MainActivity.this, "พบข้อมูล", Toast.LENGTH_SHORT).show();
                                 LatLng sarch_location = new LatLng(sarchLat,sarchLng);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_location));
