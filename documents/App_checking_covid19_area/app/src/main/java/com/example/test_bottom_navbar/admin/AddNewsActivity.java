@@ -40,8 +40,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 
 public class AddNewsActivity extends AppCompatActivity {
-    String Admin;
-
+    String Admin,SetDefault_Date;
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView mButtonChooseImage;
     private TextView mButtonUpload;
@@ -68,6 +67,8 @@ public class AddNewsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Admin = intent.getStringExtra("Admin");
+
+        DateNewsDefault();
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +115,6 @@ public class AddNewsActivity extends AppCompatActivity {
         if(ImageUri != null) {
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(ImageUri));
-
             mUploadTask = fileReference.putFile(ImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -138,6 +138,10 @@ public class AddNewsActivity extends AppCompatActivity {
                             String newsDate = newsdate.getText().toString();
                             String newsDetail = newsdetail.getText().toString();
 
+                            if (newsTitle.equals("")) {
+                                Toast.makeText(AddNewsActivity.this, "กรุณากรอกหัวข้อข่าว", Toast.LENGTH_SHORT).show();
+                            }
+
                                 FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
                                 DatabaseReference myRef = database.getReference("admin001/news");
                                 Query query2 = myRef.orderByKey().equalTo(newsTitle);
@@ -149,8 +153,7 @@ public class AddNewsActivity extends AppCompatActivity {
                                             Error = "T";
                                         }
                                         if (Error.equals("F")) {
-                                            News Nw = new News(newsTitle
-                                                    , "https://firebasestorage.googleapis.com/v0/b/ti411app.appspot.com/o/uploads%2F"+url+"?alt=media&token="
+                                            News Nw = new News(newsTitle, "https://firebasestorage.googleapis.com/v0/b/ti411app.appspot.com/o/uploads%2F"+url+"?alt=media&token="
                                                     , newsDate, newsDetail);
                                             DatabaseReference stu1 = myRef.child(newsTitle);
                                             stu1.setValue(Nw);
@@ -163,7 +166,6 @@ public class AddNewsActivity extends AppCompatActivity {
                                             Toast.makeText(AddNewsActivity.this, "ชื่อสถานที่เกิดคลัสเตอร์ ซ้ำ", Toast.LENGTH_LONG).show();
                                         }
                                     }
-
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -212,6 +214,19 @@ public class AddNewsActivity extends AppCompatActivity {
         }, mYear, mMonth, mDay);
         datePickerDialog.getDatePicker().setMaxDate(c.getTimeInMillis());
         datePickerDialog.show();
+    }
+
+    public void DateNewsDefault(){
+        Calendar calendar = Calendar.getInstance();
+        EditText txtdate = findViewById(R.id.txtadd_newsdate);
+        int mYear = calendar.get(Calendar.YEAR);
+        int mMonth = calendar.get(Calendar.MONTH);
+        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        String day = checklength(String.valueOf(mDay));
+        String months = checklength(String.valueOf(mMonth + 1));
+        txtdate.setText(day + "-" + months + "-" + mYear);
+        SetDefault_Date = txtdate.getText().toString();
+        txtdate.setText(SetDefault_Date);
     }
 
     public void ClickCancelAddNews (View view){

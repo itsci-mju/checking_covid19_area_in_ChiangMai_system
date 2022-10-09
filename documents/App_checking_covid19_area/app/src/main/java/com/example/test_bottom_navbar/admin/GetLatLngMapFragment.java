@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,26 @@ public class GetLatLngMapFragment extends Fragment {
     double Cluster_Lat,Cluster_Lng;
     private ImageButton ButtonBack;
     private Button ButtonGetLatLng;
+    String place_def,subdistrict_def,district_def,news_patient_def,Clat_def,Clng_def;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_get_lat_lng_map, container, false);
+
+        Bundle bundle = getActivity().getIntent().getExtras();
+        place_def = bundle.getString("place_def");
+        subdistrict_def = bundle.getString("subdistrict_def");
+        district_def = bundle.getString("district_def");
+        news_patient_def = bundle.getString("news_patient_def");
+        Clat_def = bundle.getString("Clat_def");
+        Clng_def = bundle.getString("Clng_def");
+
+        getActivity().getIntent().getExtras().get("place_def");
+        getActivity().getIntent().getExtras().get("subdistrict_def");
+        getActivity().getIntent().getExtras().get("district_def");
+        getActivity().getIntent().getExtras().get("news_patient_def");
+        getActivity().getIntent().getExtras().get("Clat_def");
+        getActivity().getIntent().getExtras().get("Clng_def");
 
         SupportMapFragment supportMapFragment = (SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.google_map);
@@ -76,13 +93,16 @@ public class GetLatLngMapFragment extends Fragment {
             }
         });
 
-
         ButtonGetLatLng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intentLatLng = new Intent(getContext(), AddClusterActivity.class);
                 intentLatLng.putExtra("Cluster_Lat", Cluster_Lat);
                 intentLatLng.putExtra("Cluster_Lng", Cluster_Lng);
+                intentLatLng.putExtra("place_def", place_def);
+                intentLatLng.putExtra("subdistrict_def", subdistrict_def);
+                intentLatLng.putExtra("district_def", district_def);
+                intentLatLng.putExtra("news_patient_def", news_patient_def);
                 startActivity(intentLatLng);
             }
         });
@@ -91,6 +111,14 @@ public class GetLatLngMapFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AddClusterActivity.class);
+                intent.putExtra("Cluster_Lat", Cluster_Lat);
+                intent.putExtra("Cluster_Lng", Cluster_Lng);
+                intent.putExtra("place_def", place_def);
+                intent.putExtra("subdistrict_def", subdistrict_def);
+                intent.putExtra("district_def", district_def);
+                intent.putExtra("news_patient_def", news_patient_def);
+                intent.putExtra("Clat_def", Clat_def);
+                intent.putExtra("Clng_def", Clng_def);
                 startActivity(intent);
             }
         });

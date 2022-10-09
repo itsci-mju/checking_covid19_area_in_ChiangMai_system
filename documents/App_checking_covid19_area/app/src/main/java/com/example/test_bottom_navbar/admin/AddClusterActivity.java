@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +31,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Calendar;
 
 public class AddClusterActivity extends AppCompatActivity {
-    String Admin,i,district_name,C_lat,C_lng;
+    String Admin,i,district_name,C_lat,C_lng,SetDefault_Date;
+    String clusterDate,clusterSubdistrict,clusterDistrict,cluster_news_patient,clusterLat,clusterLng;
+    String place_def,subdistrict_def,district_def,news_patient_def,Clat_def,Clng_def;
     double Cluster_Lat,Cluster_Lng;
     int patientNum;
     private Spinner spinner_district,spinner_subdistrict;
@@ -72,7 +75,25 @@ public class AddClusterActivity extends AppCompatActivity {
         Cluster_Lat = intentLatLng.getDoubleExtra("Cluster_Lat",Cluster_Lat);
         Cluster_Lng = intentLatLng.getDoubleExtra("Cluster_Lng",Cluster_Lng);
 
-        System.out.println("////////////////////////////////////////////"+Cluster_Lat+":"+Cluster_Lng);
+        Intent intentget = getIntent();
+        place_def = intentget.getStringExtra("place_def");
+        subdistrict_def = intentget.getStringExtra("subdistrict_def");
+        district_def = intentget.getStringExtra("district_def");
+        news_patient_def = intentget.getStringExtra("news_patient_def");
+
+        String String_place_def = place_def;
+        EditText place = findViewById(R.id.txtadd_place);
+        place.setText(String_place_def);
+
+/*      String String_subdistrict_def = subdistrict_def;
+        Spinner subdistrict = findViewById(R.id.txtadd_subdistrict);
+
+        String String_district_def = district_def;
+        Spinner district = findViewById(R.id.txtadd_district);*/
+
+        String String_news_patient_def = news_patient_def;
+        EditText news_patient = findViewById(R.id.txtadd_newpatient);
+        news_patient.setText(String_news_patient_def);
 
         if (Cluster_Lat != 0.0 && Cluster_Lng != 0.0) {
             this.GetLatLngFromMap();
@@ -80,6 +101,8 @@ public class AddClusterActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Admin = intent.getStringExtra("Admin");
+
+        DateClusterDefault();
 
         spinner_district = findViewById(R.id.txtadd_district);
         dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item,district);
@@ -221,16 +244,29 @@ public class AddClusterActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    public void DateClusterDefault(){
+        Calendar calendar = Calendar.getInstance();
+        EditText txtdate = findViewById(R.id.txtadd_datecluster);
+        int mYear = calendar.get(Calendar.YEAR);
+        int mMonth = calendar.get(Calendar.MONTH);
+        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        String day = checklength(String.valueOf(mDay));
+        String months = checklength(String.valueOf(mMonth + 1));
+        txtdate.setText(day + "-" + months + "-" + mYear);
+        SetDefault_Date = txtdate.getText().toString();
+        txtdate.setText(SetDefault_Date);
+    }
+
     public void GetLatLngFromMap(){
         String C_lat,C_lng;
         C_lat = Double.toString(Cluster_Lat);
         C_lng = Double.toString(Cluster_Lng);
-
         TextView txtlat = findViewById(R.id.txtLat);
         txtlat.setText(C_lat);
         TextView txtlng = findViewById(R.id.txtLng);
         txtlng.setText(C_lng);
     }
+
 
     public void ClickBTNAddCluster(View view) {
         final EditText date = (EditText) findViewById(R.id.txtadd_datecluster);
@@ -312,7 +348,28 @@ public class AddClusterActivity extends AppCompatActivity {
     }
 
     public void ClickGetlatlng (View view){
+        EditText place = findViewById(R.id.txtadd_place);
+        Spinner subdistrict = findViewById(R.id.txtadd_subdistrict);
+        Spinner district = findViewById(R.id.txtadd_district);
+        EditText newspatient = findViewById(R.id.txtadd_newpatient);
+        EditText lat = findViewById(R.id.txtLat);
+        EditText lng = findViewById(R.id.txtLng);
+
+        place_def = place.getText().toString();
+        subdistrict_def = subdistrict.getSelectedItem().toString();
+        district_def = district.getSelectedItem().toString();
+        news_patient_def = newspatient.getText().toString();
+        Clat_def = lat.getText().toString();
+        Clng_def = lng.getText().toString();
+
         Intent intent = new Intent(AddClusterActivity.this, GetLatLngClusterActivity.class);
+        intent.putExtra("place_def",place_def);
+        intent.putExtra("subdistrict_def",subdistrict_def);
+        intent.putExtra("district_def",district_def);
+        intent.putExtra("news_patient_def",news_patient_def);
+        intent.putExtra("Clat_def",Clat_def);
+        intent.putExtra("Clng_def",Clng_def);
+
         startActivity(intent);
     }
 

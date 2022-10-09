@@ -4,12 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-import android.animation.IntEvaluator;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -19,7 +16,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,7 +25,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,10 +35,9 @@ import android.widget.Toast;
 
 import com.example.test_bottom_navbar.Cluster;
 import com.example.test_bottom_navbar.R;
-import com.example.test_bottom_navbar.admin.AddClusterActivity;
-import com.example.test_bottom_navbar.admin.ListRiskAreaActivity;
-import com.example.test_bottom_navbar.admin.Mainpage_admin;
 
+import com.example.test_bottom_navbar.admin.EditClusterActivity;
+import com.example.test_bottom_navbar.admin.ListRiskAreaActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,14 +47,10 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.GroundOverlay;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -69,70 +61,136 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.skyfishjy.library.RippleBackground;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private ImageView imageView;
     private EditText SarchButton;
+    Context ctx;
     private Button button;
     Intent intent = getIntent();
     private Dialog dialog;
     String location,clusterPlace,sarchbutton;
-    String LatLng,string_clusterlat,string_clusterlng;
+    String LatLng,string_clusterlat,string_clusterlng,String_clusterDistrict;
     Double sarchLat,sarchLng;
     private GoogleMap mMap,user_location,sarch_location;
     Cluster cluster = new Cluster();
     private Context context;
     private String[] District= {"เมืองเชียงใหม่","สารภี","เเม่ริม","สันกำเเพง","สันทราย"};
     Circle myCircle1;
-    Circle myCircle2;
-    Circle myCircle3;
-    Circle myCircle4;
-    Circle myCircle5;
-    Circle myCircle6;
-    int Allpatient_CM;
+    String Array_District;
+    int Allpatient_CM,Allpatient_SP,Allpatient_MR,Allpatient_SS;
     int new_patient;
+    int pCM,pSP,pMR,pSS;
     int Totalpatient_CM,Totalpatient_Sarapee,Totalpatient_MaeRim,Totalpatient_SunSai;
     private int STORAGE_PERMISSION_CODE = 1;
+    BottomNavigationView bottomNavigationView;
+    RippleBackground rippleBackground;
+    ImageView imgAni,imgAni2;
+    Button buttonlistcovidArea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CalRiskArea();
-        /*Intent intent = getIntent();
-        Totalpatient_CM = intent.getIntExtra("Totalpatient_CM",Totalpatient_CM);
-        Totalpatient_Sarapee = intent.getIntExtra("Totalpatient_Sarapee",Totalpatient_Sarapee);
-        Totalpatient_MaeRim = intent.getIntExtra("Totalpatient_MaeRim",Totalpatient_MaeRim);
-        Totalpatient_SunSai = intent.getIntExtra("Totalpatient_SunSai",Totalpatient_SunSai);*/
 
-        /*System.out.println("////////////////////////////////////////////CM"+Totalpatient_CM);
-        System.out.println("////////////////////////////////////////////SP"+Totalpatient_Sarapee);
-        System.out.println("////////////////////////////////////////////MR"+Totalpatient_MaeRim);
-        System.out.println("////////////////////////////////////////////SS"+Totalpatient_SunSai);*/
-
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if(ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(MainActivity.this, "ระบบได้เข้าถึงตำเเหน่งบนอุปกรณ์ของคุณแล้ว",Toast.LENGTH_SHORT).show();
-        } else {
+        }else{
             requestPermission();
         }
 
         FirebaseApp.initializeApp(this);
-
         SupportMapFragment googleMap =(SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_main);
+                .findFragmentById(R.id.ZoomIn);
         googleMap.getMapAsync(this);
-        BottomNavigationView bottomNav = findViewById(R.id.nav_host_fragment_activity_bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-    }
 
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId())
+                {
+                    case R.id.nav_home:
+                        return true;
+                    case R.id.nav_news:
+                        startActivity(new Intent(getApplicationContext(), NewsActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.nav_mohpromt:
+                        startActivity(new Intent(getApplicationContext(), MohpromtActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.nav_setting:
+                        startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+            return false;
+            }
+        });
+
+        //View layout = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_list_cluster_user, null);
+
+        //dialog = new Dialog(MainActivity.this);
+
+        ////openDialog
+       /* AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Title");
+        //builder.setView(layout);
+        builder.setNegativeButton("กลับ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });*/
+        buttonlistcovidArea = findViewById(R.id.listcovidArea);
+        buttonlistcovidArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //builder.show();
+
+                dialog = new Dialog(MainActivity.this);
+                dialog.setContentView(R.layout.layout_cluster);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.layout_shap_cluster));
+
+                }
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setCancelable(false); //Optional
+                dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
+
+/*                for (int i=0;i < District.length;i++) {
+                    System.out.println(District[i]);
+                    LinearLayout list_cluster = findViewById(R.id.showlistcluster_user);
+                    list_cluster.removeAllViews();
+                    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                    DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+                    Query query1 = myRef.orderByKey();
+                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                Log.e("Data_cluster", ds.getValue().toString());
+                                View cluster = getLayoutInflater().inflate(R.layout.layout_cluster, null);
+                                String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
+                                TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
+                                txtdistrict.setText(clusterDistrict);
+                                list_cluster.addView(cluster);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
+                }*/
+            }
+        });
+    }
+    
     private void requestPermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
             new AlertDialog.Builder(this)
                     .setTitle("ระบบ")
                     .setMessage("อนุญาตให้ระบบเข้าถึงตำเเหน่งที่ตั้งในอุปกรณ์ของคุณหรือไม่")
@@ -151,7 +209,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     })
                     .create().show();
-        } else {
+        }else {
+            System.out.println("........................................................else permission");
             ActivityCompat.requestPermissions(this,
                     new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
         }
@@ -164,6 +223,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             String Cplace = District[i];
             Query query1 = myRef.orderByValue();
             query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("LongLogTag")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
@@ -182,7 +242,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             Totalpatient_SunSai = Totalpatient_SunSai+new_patient;
                             Log.e("----------Totalpatient_SunSai", String.valueOf(Totalpatient_SunSai));
                         }
+                        Allpatient_CM = Totalpatient_CM;
+                        System.out.println("------------------------------------------"+Allpatient_CM);
+                        Allpatient_SP = Totalpatient_Sarapee;
+                        System.out.println("------------------------------------------"+Allpatient_SP);
+                        Allpatient_MR = Totalpatient_MaeRim;
+                        System.out.println("------------------------------------------"+Allpatient_MR);
+                        Allpatient_SS = Totalpatient_SunSai;
+                        System.out.println("------------------------------------------"+Allpatient_SS);
                     }
+                    mMap.clear();
+                    PolegonDistrict();
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {}
@@ -190,12 +260,30 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void openDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("ค้นหาคลัสเตอร์");
-        builder.setView(R.layout.activity_list_cluster_user);
-        AlertDialog alert = builder.create();
-        alert.show();
+    public void setListCluster(){
+        for (int i=0;i < District.length;i++) {
+            System.out.println(District[i]);
+            LinearLayout list_cluster = findViewById(R.id.showlistcluster_user);
+            list_cluster.removeAllViews();
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+            Query query1 = myRef.orderByKey();
+            query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Log.e("Data_cluster", ds.getValue().toString());
+                        View cluster = getLayoutInflater().inflate(R.layout.layout_cluster, null);
+                        String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
+                        TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
+                        txtdistrict.setText(clusterDistrict);
+                        list_cluster.addView(cluster);
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+        }
     }
 
     @Override
@@ -214,11 +302,33 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         // Move the camera
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(arrayList.get(i)));
         //Zoom setUp
-        mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
+        mMap.animateCamera( CameraUpdateFactory.zoomTo( 15.5f ) );
         //Zoom button
         mMap.getUiSettings().setZoomControlsEnabled(true);
         addingCircleView_user(user_location);
+        CalRiskArea();
+        QurryMarker();
+    }
 
+    public void ClickZoomInperson(View view){
+        LatLng user_location = new LatLng(18.7858623,98.9764537);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(user_location));
+        mMap.animateCamera( CameraUpdateFactory.zoomTo( 15.5f ) );
+    }
+
+    public void ClickZoomOut(View view){
+        mMap.animateCamera( CameraUpdateFactory.zoomTo( 10.5f ) );
+    }
+
+    private void QurryMarker(){
+        LatLng user_location = new LatLng(18.7858623,98.9764537);
+        mMap.addMarker(new MarkerOptions()
+                        .position(user_location)
+                        .title("I'm here !!!!")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                //.icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.user_64)
+        );
+        addingCircleView_user(user_location);
         //instance firebase
         for (int i=0;i < District.length;i++) {
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -231,11 +341,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         Cluster cluster = s.getValue(Cluster.class);
                         LatLng location = new LatLng(Double.parseDouble(cluster.getClusterLat()), Double.parseDouble(cluster.getClusterLng()));
                         mMap.addMarker(new MarkerOptions().position(location)
-                                        .title(cluster.getClusterPlace())
-                                        .snippet(cluster.getClusterDate() + " อ." +
-                                                cluster.getClusterDistrict() + " ต." +
-                                                cluster.getClusterSubdistrict() + " ยอด: " +
-                                                cluster.getCluster_news_patient())
+                                .title(cluster.getClusterPlace())
+                                .snippet(cluster.getClusterDate()+
+                                        " อ." + cluster.getClusterDistrict()+
+                                        " ต." + cluster.getClusterSubdistrict()+
+                                        " ยอด: " + cluster.getCluster_news_patient()
+
+                                )
                         );
                         addingCircleView(location);
                     }
@@ -246,14 +358,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
         }
-        PolegonDistrict();
     }
 
+
     private void PolegonDistrict(){
+        QurryMarker();
         /////////////////////////////////////////Polygon/////////////////////////////////////////
         LatLng user_location = new LatLng(18.7858623,98.9764537);
         ////////////////////เมืองเชียงใหม่////////////////////
-        if(Totalpatient_CM <= 10){
+        if(Allpatient_CM == 0){
             PolygonOptions MaungCM = new PolygonOptions()
                     .add(m1).add(m2).add(m3).add(m4).add(m5).add(m6).add(m7).add(m8).add(m9).add(m10)
                     .add(m11).add(m12).add(m13).add(m14).add(m15).add(m16).add(m17).add(m18).add(m19).add(m20)
@@ -263,15 +376,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 0, 255, 0));
             Polygon polygonMaungCM = mMap.addPolygon(MaungCM);
             polygonMaungCM.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    //createDialog1();
-                }
-            });
-        }else if(Totalpatient_CM <= 30) {
+        }else if(Allpatient_CM <= 30) {
             PolygonOptions MaungCM = new PolygonOptions()
                     .add(m1).add(m2).add(m3).add(m4).add(m5).add(m6).add(m7).add(m8).add(m9).add(m10)
                     .add(m11).add(m12).add(m13).add(m14).add(m15).add(m16).add(m17).add(m18).add(m19).add(m20)
@@ -281,15 +386,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 255, 255, 0));
             Polygon polygonMaungCM = mMap.addPolygon(MaungCM);
             polygonMaungCM.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    //createDialog1();
-                }
-            });
-        }else if(Totalpatient_CM >= 50) {
+        }else if(Allpatient_CM <= 50) {
             PolygonOptions MaungCM = new PolygonOptions()
                     .add(m1).add(m2).add(m3).add(m4).add(m5).add(m6).add(m7).add(m8).add(m9).add(m10)
                     .add(m11).add(m12).add(m13).add(m14).add(m15).add(m16).add(m17).add(m18).add(m19).add(m20)
@@ -299,19 +396,30 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 255, 0, 0));
             Polygon polygonMaungCM = mMap.addPolygon(MaungCM);
             polygonMaungCM.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    //createDialog1();
-                }
-            });
+            PolygonOptions MaungCM1 = new PolygonOptions()
+                    .add(m1).add(m2).add(m3).add(m4).add(m5).add(m6).add(m7).add(m8).add(m9).add(m10)
+                    .add(m11).add(m12).add(m13).add(m14).add(m15).add(m16).add(m17).add(m18).add(m19).add(m20)
+                    .add(m21).add(m22).add(m23).add(m24).add(m25).add(m26).add(m27).add(m28).add(m29).add(m30)
+                    .add(m31).add(m32).add(m33).add(m34).add(m35)
+                    .strokeColor(Color.argb(130, 255, 255, 0))
+                    .fillColor(Color.argb(30, 255, 255, 0));
+            Polygon polygonMaungCM1 = mMap.addPolygon(MaungCM1);
+            polygonMaungCM1.setClickable(true);
+        }else if(Allpatient_CM >= 100) {
+            PolygonOptions MaungCM = new PolygonOptions()
+                    .add(m1).add(m2).add(m3).add(m4).add(m5).add(m6).add(m7).add(m8).add(m9).add(m10)
+                    .add(m11).add(m12).add(m13).add(m14).add(m15).add(m16).add(m17).add(m18).add(m19).add(m20)
+                    .add(m21).add(m22).add(m23).add(m24).add(m25).add(m26).add(m27).add(m28).add(m29).add(m30)
+                    .add(m31).add(m32).add(m33).add(m34).add(m35)
+                    .strokeColor(Color.argb(125, 255, 0, 0))
+                    .fillColor(Color.argb(30, 255, 0, 0));
+            Polygon polygonMaungCM = mMap.addPolygon(MaungCM);
+            polygonMaungCM.setClickable(true);
         }
         ////////////////////End เมืองเชียงใหม่////////////////////
 
         ////////////////////เเม่ริม////////////////////
-        if(Totalpatient_MaeRim <= 10) {
+        if(Allpatient_MR == 0) {
             PolygonOptions MaeRim = new PolygonOptions()
                     .add(ma1).add(ma2).add(ma3).add(ma4).add(ma5).add(ma6)
                     .add(ma7).add(ma8).add(ma9).add(ma10).add(ma11).add(ma12)
@@ -323,15 +431,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 0, 255, 0));
             Polygon polygonMaeRim = mMap.addPolygon(MaeRim);
             polygonMaeRim.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    createDialog2();
-                }
-            });
-        }else if(Totalpatient_MaeRim <= 30) {
+        }else if(Allpatient_MR <= 30) {
             PolygonOptions MaeRim = new PolygonOptions()
                     .add(ma1).add(ma2).add(ma3).add(ma4).add(ma5).add(ma6)
                     .add(ma7).add(ma8).add(ma9).add(ma10).add(ma11).add(ma12)
@@ -343,15 +443,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 255, 255, 0));
             Polygon polygonMaeRim = mMap.addPolygon(MaeRim);
             polygonMaeRim.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    createDialog2();
-                }
-            });
-        }else if(Totalpatient_MaeRim >= 50) {
+        }else if(Allpatient_MR <= 50) {
             PolygonOptions MaeRim = new PolygonOptions()
                     .add(ma1).add(ma2).add(ma3).add(ma4).add(ma5).add(ma6)
                     .add(ma7).add(ma8).add(ma9).add(ma10).add(ma11).add(ma12)
@@ -363,19 +455,34 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 255, 0, 0));
             Polygon polygonMaeRim = mMap.addPolygon(MaeRim);
             polygonMaeRim.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    createDialog2();
-                }
-            });
+            PolygonOptions MaeRim1 = new PolygonOptions()
+                    .add(ma1).add(ma2).add(ma3).add(ma4).add(ma5).add(ma6)
+                    .add(ma7).add(ma8).add(ma9).add(ma10).add(ma11).add(ma12)
+                    .add(ma13).add(ma14).add(ma15).add(ma16).add(ma17).add(ma18)
+                    .add(ma19).add(ma20).add(ma21).add(ma22).add(ma23).add(ma24)
+                    .add(ma25).add(ma26).add(ma27).add(ma28).add(ma29).add(ma30)
+                    .add(ma31).add(ma32)
+                    .strokeColor(Color.argb(130, 255, 255, 0))
+                    .fillColor(Color.argb(30, 255, 255, 0));
+            Polygon polygonMaeRim1 = mMap.addPolygon(MaeRim1);
+            polygonMaeRim1.setClickable(true);
+        }else if(Allpatient_MR >= 100){
+            PolygonOptions MaeRim = new PolygonOptions()
+                    .add(ma1).add(ma2).add(ma3).add(ma4).add(ma5).add(ma6)
+                    .add(ma7).add(ma8).add(ma9).add(ma10).add(ma11).add(ma12)
+                    .add(ma13).add(ma14).add(ma15).add(ma16).add(ma17).add(ma18)
+                    .add(ma19).add(ma20).add(ma21).add(ma22).add(ma23).add(ma24)
+                    .add(ma25).add(ma26).add(ma27).add(ma28).add(ma29).add(ma30)
+                    .add(ma31).add(ma32)
+                    .strokeColor(Color.argb(250, 255, 0, 0))
+                    .fillColor(Color.argb(30, 255, 0, 0));
+            Polygon polygonMaeRim = mMap.addPolygon(MaeRim);
+            polygonMaeRim.setClickable(true);
         }
         ////////////////////End เเม่ริม////////////////////
 
         ////////////////////สารภี////////////////////
-        if(Totalpatient_Sarapee <= 10) {
+        if(Allpatient_SP == 0) {
             PolygonOptions Sarapee = new PolygonOptions()
                     .add(sarapee1).add(sarapee2).add(sarapee3).add(sarapee4).add(sarapee5).add(sarapee6)
                     .add(sarapee7).add(sarapee8).add(sarapee9).add(sarapee10).add(sarapee11).add(sarapee12)
@@ -387,15 +494,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 0, 255, 0));
             Polygon polygonSarapee = mMap.addPolygon(Sarapee);
             polygonSarapee.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    createDialog2();
-                }
-            });
-        }else if(Totalpatient_Sarapee <= 30){
+        }else if(Allpatient_SP <= 30){
             PolygonOptions Sarapee = new PolygonOptions()
                     .add(sarapee1).add(sarapee2).add(sarapee3).add(sarapee4).add(sarapee5).add(sarapee6)
                     .add(sarapee7).add(sarapee8).add(sarapee9).add(sarapee10).add(sarapee11).add(sarapee12)
@@ -407,15 +506,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 255, 255, 0));
             Polygon polygonSarapee = mMap.addPolygon(Sarapee);
             polygonSarapee.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    createDialog2();
-                }
-            });
-        }else if(Totalpatient_Sarapee >= 50){
+        }else if(Allpatient_SP <= 50){
             PolygonOptions Sarapee = new PolygonOptions()
                     .add(sarapee1).add(sarapee2).add(sarapee3).add(sarapee4).add(sarapee5).add(sarapee6)
                     .add(sarapee7).add(sarapee8).add(sarapee9).add(sarapee10).add(sarapee11).add(sarapee12)
@@ -427,83 +518,92 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 255, 0, 0));
             Polygon polygonSarapee = mMap.addPolygon(Sarapee);
             polygonSarapee.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    createDialog2();
-                }
-            });
+            PolygonOptions Sarapee1 = new PolygonOptions()
+                    .add(sarapee1).add(sarapee2).add(sarapee3).add(sarapee4).add(sarapee5).add(sarapee6)
+                    .add(sarapee7).add(sarapee8).add(sarapee9).add(sarapee10).add(sarapee11).add(sarapee12)
+                    .add(sarapee13).add(sarapee14).add(sarapee15).add(sarapee16).add(sarapee17).add(sarapee18)
+                    .add(sarapee19).add(sarapee20).add(sarapee21).add(sarapee22).add(sarapee23).add(sarapee24)
+                    .add(sarapee25).add(sarapee26).add(sarapee27).add(sarapee28).add(sarapee29).add(sarapee30)
+                    .add(sarapee31).add(sarapee32)
+                    .strokeColor(Color.argb(130, 255, 255, 0))
+                    .fillColor(Color.argb(30, 255, 255, 0));
+            Polygon polygonSarapee1 = mMap.addPolygon(Sarapee1);
+            polygonSarapee1.setClickable(true);
+
+        }else if(Allpatient_SP >= 100){
+            PolygonOptions Sarapee = new PolygonOptions()
+                    .add(sarapee1).add(sarapee2).add(sarapee3).add(sarapee4).add(sarapee5).add(sarapee6)
+                    .add(sarapee7).add(sarapee8).add(sarapee9).add(sarapee10).add(sarapee11).add(sarapee12)
+                    .add(sarapee13).add(sarapee14).add(sarapee15).add(sarapee16).add(sarapee17).add(sarapee18)
+                    .add(sarapee19).add(sarapee20).add(sarapee21).add(sarapee22).add(sarapee23).add(sarapee24)
+                    .add(sarapee25).add(sarapee26).add(sarapee27).add(sarapee28).add(sarapee29).add(sarapee30)
+                    .add(sarapee31).add(sarapee32)
+                    .strokeColor(Color.argb(250, 255, 0, 0))
+                    .fillColor(Color.argb(30, 255, 0, 0));
+            Polygon polygonSarapee = mMap.addPolygon(Sarapee);
+            polygonSarapee.setClickable(true);
         }
         ////////////////////End สารภี////////////////////
 
         ////////////////////สันทราย////////////////////
-        if(Totalpatient_SunSai <= 10){
+        if(Allpatient_SS == 0){
             PolygonOptions Sunsai = new PolygonOptions()
                     .add(sunsai1).add(sunsai2).add(sunsai3).add(sunsai4).add(sunsai5).add(sunsai6)
                     .add(sunsai7).add(sunsai8).add(sunsai9).add(sunsai10).add(sunsai11).add(sunsai12)
                     .add(sunsai19).add(sunsai20).add(sunsai21).add(sunsai22).add(sunsai23).add(sunsai24)
                     .add(sunsai25).add(sunsai26).add(sunsai27).add(sunsai28).add(sunsai29).add(sunsai30)
                     .add(sunsai31).add(sunsai32).add(sunsai33).add(sunsai34).add(sunsai35).add(sunsai36)
-
                     .strokeColor(Color.argb(250, 0, 255, 0))
                     .fillColor(Color.argb(30, 0, 255, 0));
             Polygon polygonSunSai = mMap.addPolygon(Sunsai);
             polygonSunSai.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    createDialog2();
-                }
-            });
-        }else if(Totalpatient_SunSai <= 30) {
+        }else if(Allpatient_SS <= 30) {
             PolygonOptions Sunsai = new PolygonOptions()
                     .add(sunsai1).add(sunsai2).add(sunsai3).add(sunsai4).add(sunsai5).add(sunsai6)
                     .add(sunsai7).add(sunsai8).add(sunsai9).add(sunsai10).add(sunsai11).add(sunsai12)
                     .add(sunsai19).add(sunsai20).add(sunsai21).add(sunsai22).add(sunsai23).add(sunsai24)
                     .add(sunsai25).add(sunsai26).add(sunsai27).add(sunsai28).add(sunsai29).add(sunsai30)
                     .add(sunsai31).add(sunsai32).add(sunsai33).add(sunsai34).add(sunsai35).add(sunsai36)
-
                     .strokeColor(Color.argb(250, 255, 255, 0))
                     .fillColor(Color.argb(30, 255, 255, 0));
             Polygon polygonSunSai = mMap.addPolygon(Sunsai);
             polygonSunSai.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    createDialog2();
-                }
-            });
-        }else if(Totalpatient_SunSai >= 50) {
+        }else if(Allpatient_SS <= 50) {
             PolygonOptions Sunsai = new PolygonOptions()
                     .add(sunsai1).add(sunsai2).add(sunsai3).add(sunsai4).add(sunsai5).add(sunsai6)
                     .add(sunsai7).add(sunsai8).add(sunsai9).add(sunsai10).add(sunsai11).add(sunsai12)
                     .add(sunsai19).add(sunsai20).add(sunsai21).add(sunsai22).add(sunsai23).add(sunsai24)
                     .add(sunsai25).add(sunsai26).add(sunsai27).add(sunsai28).add(sunsai29).add(sunsai30)
                     .add(sunsai31).add(sunsai32).add(sunsai33).add(sunsai34).add(sunsai35).add(sunsai36)
-
                     .strokeColor(Color.argb(250, 255, 0, 0))
                     .fillColor(Color.argb(30, 255, 0, 0));
             Polygon polygonSunSai = mMap.addPolygon(Sunsai);
             polygonSunSai.setClickable(true);
-            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                @Override
-                public void onPolygonClick(@NonNull Polygon polygon) {
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(user_location, 12);
-                    mMap.animateCamera(cameraUpdate);
-                    createDialog2();
-                }
-            });
+            PolygonOptions Sunsai1 = new PolygonOptions()
+                    .add(sunsai1).add(sunsai2).add(sunsai3).add(sunsai4).add(sunsai5).add(sunsai6)
+                    .add(sunsai7).add(sunsai8).add(sunsai9).add(sunsai10).add(sunsai11).add(sunsai12)
+                    .add(sunsai19).add(sunsai20).add(sunsai21).add(sunsai22).add(sunsai23).add(sunsai24)
+                    .add(sunsai25).add(sunsai26).add(sunsai27).add(sunsai28).add(sunsai29).add(sunsai30)
+                    .add(sunsai31).add(sunsai32).add(sunsai33).add(sunsai34).add(sunsai35).add(sunsai36)
+                    .strokeColor(Color.argb(130, 255, 255, 0))
+                    .fillColor(Color.argb(30, 255, 255, 0));
+            Polygon polygonSunSai1 = mMap.addPolygon(Sunsai1);
+            polygonSunSai1.setClickable(true);
+        }else if(Allpatient_SS >= 100) {
+            PolygonOptions Sunsai = new PolygonOptions()
+                    .add(sunsai1).add(sunsai2).add(sunsai3).add(sunsai4).add(sunsai5).add(sunsai6)
+                    .add(sunsai7).add(sunsai8).add(sunsai9).add(sunsai10).add(sunsai11).add(sunsai12)
+                    .add(sunsai19).add(sunsai20).add(sunsai21).add(sunsai22).add(sunsai23).add(sunsai24)
+                    .add(sunsai25).add(sunsai26).add(sunsai27).add(sunsai28).add(sunsai29).add(sunsai30)
+                    .add(sunsai31).add(sunsai32).add(sunsai33).add(sunsai34).add(sunsai35).add(sunsai36)
+                    .strokeColor(Color.argb(250, 255, 0, 0))
+                    .fillColor(Color.argb(30, 255, 0, 0));
+            Polygon polygonSunSai = mMap.addPolygon(Sunsai);
+            polygonSunSai.setClickable(true);
         }
         ////////////////////End สันทราย////////////////////
 
     }
-
 
     private void createDialog2() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -530,7 +630,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .strokeColor(Color.parseColor("#1AFB2323"))
                 .strokeWidth(1);
         myCircle1 = mMap.addCircle(circleOptions);
-        circleOptions = new CircleOptions()
+        /*circleOptions = new CircleOptions()
                 .center(mLatLng)   //set center
                 .radius(80)   //set radius in meters
                 .fillColor(Color.parseColor("#40FB2323"))  //default
@@ -565,44 +665,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .fillColor(Color.parseColor("#CCFB2323"))  //default
                 .strokeColor(Color.parseColor("#CCFB2323"))
                 .strokeWidth(1);
-        myCircle6 = mMap.addCircle(circleOptions);
+        myCircle6 = mMap.addCircle(circleOptions);*/
+
     }
 
     private void addingCircleView_user(LatLng mLatLng) {
         CircleOptions circleOptions = new CircleOptions()
                 .center(mLatLng)   //set center
                 .radius(500)   //set radius in meters
-                .fillColor(Color.argb(30, 0, 0, 255))  //default
+                .fillColor(Color.argb(50, 0, 0, 255))  //default
                 .strokeColor(Color.argb(40, 0, 0, 255))
                 .strokeWidth(2);
         myCircle1 = mMap.addCircle(circleOptions);
+
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-
-                    switch (item.getItemId()){
-                        case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
-                            break;
-                        case R.id.nav_favorites:
-                            selectedFragment = new DashboardFragment();
-                            break;
-                        case R.id.nav_search:
-                            selectedFragment = new NotificationsFragment();
-                            break;
-                        case R.id.nav_setting:
-                            selectedFragment = new SettingFragment();
-                            break;
-                    }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
-                    return true;
-                }
-            };
 
     public void ClickbynBack(View view){
         Intent intent = new Intent(MainActivity.this,MainActivity.class);
@@ -636,22 +712,21 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                 sarchLng = Double.parseDouble(clusterLng);
                                 Toast.makeText(MainActivity.this, "พบข้อมูล", Toast.LENGTH_SHORT).show();
                                 LatLng sarch_location = new LatLng(sarchLat,sarchLng);
+
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_location));
                                 mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
                         }else if(sarchbutton.equals("")){
                             Toast.makeText(MainActivity.this, "กรุณากรอกชื่อสถานที่", Toast.LENGTH_SHORT).show();
+                        }else if(sarchbutton != clusterPlace){
+                            Toast.makeText(MainActivity.this, "ไม่พบข้อมูล"+sarchbutton, Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
             });
-
-
         }
 
     }

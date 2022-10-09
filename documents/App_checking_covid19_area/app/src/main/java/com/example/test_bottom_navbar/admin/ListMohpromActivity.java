@@ -58,10 +58,10 @@ public class ListMohpromActivity extends AppCompatActivity {
                     txtmohpromt_place.setText(mohpromtPlace);
                     TextView txtmohpromt_type = mohpromt.findViewById(R.id.txt_mohpromttype);
                     txtmohpromt_type.setText(mohpromtType);
-                    /*TextView txtmohpromt_startdate = mohpromt.findViewById(R.id.txt_mohpromt_startdate);
-                    txtmohpromt_startdate.setText(mohpromtStartDate);*/
-                    /*TextView txtmohpromt_enddate = mohpromt.findViewById(R.id.txt_mohpromt_enddate);
-                    txtmohpromt_enddate.setText(mohpromtEndDate);*/
+                    TextView txtmohpromt_startdate = mohpromt.findViewById(R.id.txt_mohpromt_startdate);
+                    txtmohpromt_startdate.setText(mohpromtStartDate);
+                    TextView txtmohpromt_enddate = mohpromt.findViewById(R.id.txt_mohpromt_enddate);
+                    txtmohpromt_enddate.setText(mohpromtEndDate);
                     TextView txtmohpromt_starttime = mohpromt.findViewById(R.id.txt_mohpromt_starttime);
                     txtmohpromt_starttime.setText(mohpromtStartTime);
                     TextView txtmohpromt_endtime = mohpromt.findViewById(R.id.txt_mohpromtendtime);

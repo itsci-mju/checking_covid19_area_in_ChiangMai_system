@@ -129,14 +129,20 @@
                     android:layout_gravity="fill"
                     android:layout_margin="8dp"
                     app:cardBackgroundColor="#FFFFFF"
+                    android:onClick="ClickAddCluster"
+                    android:clickable="true"
+                    android:background="@drawable/border_ripple"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
+                        android:clickable="true"
+                        android:onClick="ClickAddCluster"
+                        android:background="@drawable/border_ripple"
                         android:orientation="vertical">
 
                         <ImageView
@@ -144,7 +150,6 @@
                             android:layout_height="60dp"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/bt_bg"
-                            android:onClick="ClickAddCluster"
                             android:src="@drawable/icon_addcluster"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -177,10 +182,13 @@
                     app:cardElevation="8dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
+                        android:clickable="true"
+                        android:onClick="ClickListRiskArea"
+                        android:background="@drawable/border_ripple"
                         android:orientation="vertical">
 
                         <ImageView
@@ -188,7 +196,6 @@
                             android:layout_height="50dp"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/bt_bg"
-                            android:onClick="ClickListRiskArea"
                             android:src="@drawable/co_location"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -221,10 +228,13 @@
                     app:cardElevation="8dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
+                        android:clickable="true"
+                        android:onClick="ClickListNews"
+                        android:background="@drawable/border_ripple"
                         android:orientation="vertical">
 
                         <ImageView
@@ -232,7 +242,6 @@
                             android:layout_height="50dp"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/bt_bg"
-                            android:onClick="ClickListNews"
                             android:src="@drawable/co_newspaper"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -265,10 +274,13 @@
                     app:cardElevation="8dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
+                        android:clickable="true"
+                        android:onClick="ClickAddNews"
+                        android:background="@drawable/border_ripple"
                         android:orientation="vertical">
 
                         <ImageView
@@ -276,7 +288,6 @@
                             android:layout_height="60dp"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/bt_bg"
-                            android:onClick="ClickAddNews"
                             android:src="@drawable/icon_addnews"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -309,10 +320,13 @@
                     app:cardElevation="8dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
+                        android:clickable="true"
+                        android:onClick="ClickAddMohprom"
+                        android:background="@drawable/border_ripple"
                         android:orientation="vertical">
 
                         <ImageView
@@ -320,7 +334,6 @@
                             android:layout_height="60dp"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/bt_bg"
-                            android:onClick="ClickAddMohprom"
                             android:src="@drawable/icon_addmohpormt"
                             app:srcCompat="@drawable/icon_addmohpormt"
                             tools:ignore="SpeakableTextPresentCheck" />
@@ -356,10 +369,13 @@
                     app:cardElevation="8dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
+                        android:clickable="true"
+                        android:onClick="ClickListMohprom"
+                        android:background="@drawable/border_ripple"
                         android:orientation="vertical">
 
                         <ImageView
@@ -367,7 +383,6 @@
                             android:layout_height="60dp"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/bt_bg"
-                            android:onClick="ClickListMohprom"
                             android:src="@drawable/co_hospital"
                             app:srcCompat="@drawable/co_hospital"
                             tools:ignore="SpeakableTextPresentCheck" />
@@ -410,8 +425,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:background="#FFFFFF"
                     android:gravity="center"
+                    android:clickable="true"
+                    android:onClick="Clicklogout"
+                    android:background="@drawable/border_ripple"
                     android:orientation="vertical">
 
                     <ImageView
@@ -419,7 +436,6 @@
                         android:layout_height="60dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/bt_bg"
-                        android:onClick="Clicklogout"
                         android:src="@drawable/co_logout"
                         app:srcCompat="@drawable/co_logout"
                         tools:ignore="SpeakableTextPresentCheck" />

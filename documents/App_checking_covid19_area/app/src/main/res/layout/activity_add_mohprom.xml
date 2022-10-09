@@ -225,104 +225,66 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:layout_marginRight="10dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
                                         android:orientation="horizontal">
 
-                                        <RadioButton
-                                            android:id="@+id/radioButton3"
+                                        <CheckBox
+                                            android:id="@+id/radioButton_starttime1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/prompt_medium"
                                             android:text="จ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
-                                        <RadioButton
-                                            android:id="@+id/radioButton4"
+                                        <CheckBox
+                                            android:id="@+id/radioButton_starttime2"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/prompt_medium"
                                             android:text="อ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
-                                        <RadioButton
-                                            android:id="@+id/radioButton5"
+                                        <CheckBox
+                                            android:id="@+id/radioButton_starttime3"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/prompt_medium"
                                             android:text="พ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
-                                        <RadioButton
-                                            android:id="@+id/radioButton6"
+                                        <CheckBox
+                                            android:id="@+id/radioButton_starttime4"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/prompt_medium"
                                             android:text="พฤ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
-                                        <RadioButton
-                                            android:id="@+id/radioButton7"
+                                        <CheckBox
+                                            android:id="@+id/radioButton_starttime5"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/prompt_medium"
                                             android:text="ศ."
                                             tools:ignore="TouchTargetSizeCheck" />
 
-                                    </LinearLayout>
-                                </RadioGroup>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/txtadd_mohpromtEndDate"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:layout_marginBottom="10dp"
-                                android:gravity="left"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/textView19"
-                                    android:layout_width="173dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="10dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="5dp"
-                                    android:fontFamily="@font/prompt_medium"
-                                    android:text="วันเปิดให้บริการพิเศษ"
-                                    android:textColor="#000000"
-                                    android:textSize="18dp" />
-
-                                <RadioGroup
-                                    android:id="@+id/mohpromtselect_endtime"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="40dp"
-                                    android:gravity="center">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:layout_marginRight="10dp"
-                                        android:orientation="horizontal">
-
-                                        <RadioButton
-                                            android:id="@+id/radioButton15"
+                                        <CheckBox
+                                            android:id="@+id/radioButton_Endtime1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/prompt_medium"
                                             android:text="ส."
                                             tools:ignore="TouchTargetSizeCheck" />
 
-                                        <RadioButton
-                                            android:id="@+id/radioButton16"
+                                        <CheckBox
+                                            android:id="@+id/radioButton_Endtime2"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/prompt_medium"
                                             android:text="อา."
                                             tools:ignore="TouchTargetSizeCheck" />
+
                                     </LinearLayout>
                                 </RadioGroup>
 
@@ -572,7 +534,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView10"
+                            android:id="@+id/button_addMohpromt"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_marginLeft="30dp"
@@ -584,7 +546,6 @@
                             android:backgroundTint="#3F51B5"
                             android:fontFamily="@font/prompt_medium"
                             android:gravity="center"
-                            android:onClick="ClickAddMohpromt"
                             android:text="บันทึก"
                             android:textColor="#FFFFFF"
                             android:textSize="18dp" />

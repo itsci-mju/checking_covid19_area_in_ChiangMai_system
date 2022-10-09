@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -42,6 +43,7 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
     String sarchbutton,MohpromtPlace;
     Double sarchLat,sarchLng;
     private String[] District= {"เมืองเชียงใหม่","สารภี","เเม่ริม","สันกำเเพง","สันทราย"};
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +54,35 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                 .findFragmentById(R.id.map_main_not);
         googleMap.getMapAsync(MohpromtActivity.this);
 
-        BottomNavigationView bottomNav = findViewById(R.id.nav_host_fragment_activity_bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        bottomNavigationView.setSelectedItemId(R.id.nav_mohpromt);
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId())
+                {
+                    case R.id.nav_home:
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.nav_news:
+                        startActivity(new Intent(getApplicationContext(), NewsActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.nav_mohpromt:
+                        return true;
+                    case R.id.nav_setting:
+                        startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
+
 
     //instance firebase
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -197,11 +224,7 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
         }
 
     }
-
-
-
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+/*    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -225,8 +248,7 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                             selectedFragment).commit();
                     return true;
                 }
-            };
-
+            };*/
 
 
 }

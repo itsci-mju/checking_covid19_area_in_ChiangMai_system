@@ -19,30 +19,18 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.test_bottom_navbar.R;
 
 public class GetLatLngClusterActivity extends AppCompatActivity {
-    String Cluster_latlng;
+    String place_def,txtplace_def;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_lat_lng_cluster);
 
         Fragment fragment = new GetLatLngMapFragment();
-
+        fragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_layout,fragment)
                 .commit();
     }
-
-    public void ClickGetlatlngBack (View view){
-        Intent intent = new Intent(GetLatLngClusterActivity.this, AddClusterActivity.class);
-        startActivity(intent);
-    }
-
-    public void ClickSaveLatLng(View view){
-        Intent intent = new Intent(GetLatLngClusterActivity.this, AddClusterActivity.class);
-        intent.putExtra("Cluster_latlng", Cluster_latlng);
-        startActivity(intent);
-    }
-
 
 }

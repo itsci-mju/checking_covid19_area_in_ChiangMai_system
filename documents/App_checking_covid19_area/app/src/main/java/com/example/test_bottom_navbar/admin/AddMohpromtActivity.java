@@ -3,15 +3,21 @@ package com.example.test_bottom_navbar.admin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,20 +32,32 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class AddMohpromtActivity extends AppCompatActivity {
-    String Admin;
+    String Admin,StringMohpormtStartDate,StringMohpormtEndDate;
+    String[] SetDefault_Date;
     Mohpromt mohpromt_startdate;
     Mohpromt mohpromt_enddate;
     int mHour;
     double Mohpromt_Lat,Mohpromt_Lng;
     int mMinute;
+    String StartTime_Seclect = "";
+    String StartTime_NotSeclect = "";
     private Spinner spinner,spinner2;
     ArrayAdapter<String> dataAdapter;
+    TextView  txttime1 ,txttime2 ,txttime3 ,txttime4 ,txttime5 ;
     RadioButton S_mon,S_tue,S_wed,S_thu,S_fri,S_sat,S_sun;
     RadioButton E_mon,E_tue,E_wed,E_thu,E_fri,E_sat,E_sun;
     String[] type = {"คลินิก","ร้านยา","ร.พ","จุดจ่ายยา"};
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+    TextView btnDisplay ;
+    String Mplace_def,Mstartdate_def,Menddate_def,Mdetail_def;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +68,15 @@ public class AddMohpromtActivity extends AppCompatActivity {
         Mohpromt_Lat = intentLatLng.getDoubleExtra("Mohpromt_Lat",Mohpromt_Lat);
         Mohpromt_Lng = intentLatLng.getDoubleExtra("Mohpromt_Lng",Mohpromt_Lng);
 
-        System.out.println("////////////////////////////////////////////"+Mohpromt_Lat+":"+Mohpromt_Lng);
+        Intent intentget = getIntent();
+        Mplace_def = intentget.getStringExtra("Mplace_def");
+        Mstartdate_def = intentget.getStringExtra("Mstartdate_def");
+        Menddate_def = intentget.getStringExtra("Menddate_def");
+        Mdetail_def = intentget.getStringExtra("Mdetail_def");
+
+        String String_Mplace_def = Mplace_def;
+        EditText mohpromtplace = findViewById(R.id.txtadd_mohpromtplace);
+        mohpromtplace.setText(String_Mplace_def);
 
         if (Mohpromt_Lat != 0.0 && Mohpromt_Lng != 0.0) {
             this.GetLatLngFromMap();
@@ -65,7 +91,7 @@ public class AddMohpromtActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(AddMohpromtActivity.this, "เลือก "+parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -73,6 +99,14 @@ public class AddMohpromtActivity extends AppCompatActivity {
 
             }
         });
+        findRadioButton();
+    }
+
+    public String checklength(String s) {
+        if (s.length() < 2) {
+            s = "0" + s;
+        }
+        return s;
     }
 
     public void ClickStartTime(View view) {
@@ -84,8 +118,10 @@ public class AddMohpromtActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 mHour = i;
                 mMinute = i1;
+                String Hour = checklength(String.valueOf(i));
+                String Minute = checklength(String.valueOf(i1));
                 EditText et = findViewById(R.id.mohpromtstartTime);
-                et.setText(i + ":" + i1 + "น.");
+                et.setText(Hour + " : " + Minute + " น.");
             }
         }, mHour, mMinute, true);
         tpd.show();
@@ -100,42 +136,24 @@ public class AddMohpromtActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 mHour = i;
                 mMinute = i1;
+                String Hour = checklength(String.valueOf(i));
+                String Minute = checklength(String.valueOf(i1));
                 EditText et = findViewById(R.id.mohpromtendTime);
-                et.setText(i + ":" + i1+ "น.");
+                et.setText(Hour + " : " + Minute + "น.");
 
             }
         }, mHour, mMinute, true);
         tpd.show();
     }
 
-
-    public void ClickAddMohpromt(View view) {
-
+    @SuppressLint("LongLogTag")
+    public void ClickAddMohpromt() {
         mohpromt_startdate = new Mohpromt();
         mohpromt_enddate = new Mohpromt();
-
         final EditText mohpromtplace = (EditText) findViewById(R.id.txtadd_mohpromtplace);
         final Spinner listtype = (Spinner) findViewById(R.id.mohpromtlisttype);
         final LinearLayout mohpromstartdate = (LinearLayout) findViewById(R.id.txt_mohpromtDate);
-        final  LinearLayout mohpromenddate = (LinearLayout) findViewById(R.id.txtadd_mohpromtEndDate);
-
-        /*//RadioButton StartDate
-        S_mon = findViewById(R.id.start_mon);
-        S_tue = findViewById(R.id.start_tue);
-        S_wed = findViewById(R.id.start_wed);
-        S_thu = findViewById(R.id.start_thu);
-        S_fri = findViewById(R.id.start_fri);
-        S_sat = findViewById(R.id.start_sat);
-        S_sun = findViewById(R.id.start_sun);
-        //RadioButton EndDate
-        E_mon = findViewById(R.id.end_mon);
-        E_tue = findViewById(R.id.end_tue);
-        E_wed = findViewById(R.id.end_wed);
-        E_thu = findViewById(R.id.end_thu);
-        E_fri = findViewById(R.id.end_fri);
-        E_sat = findViewById(R.id.end_sat);
-        E_sun = findViewById(R.id.end_sun);*/
-
+        //final LinearLayout mohpromenddate = (LinearLayout) findViewById(R.id.txtadd_mohpromtEndDate);
         final EditText starttime = (EditText) findViewById(R.id.mohpromtstartTime);
         final EditText endtime = (EditText) findViewById(R.id.mohpromtendTime);
         final EditText mohpromtlat = (EditText) findViewById(R.id.mohpromtLat);
@@ -144,71 +162,23 @@ public class AddMohpromtActivity extends AppCompatActivity {
 
         String mohpromt_place = mohpromtplace.getText().toString();
         String mohpromt_listype = listtype.getSelectedItem().toString();
-        String mohpromt_startdate = mohpromstartdate.toString();
-        String mohpromt_enddate = mohpromenddate.toString();
-
-        /*//GetText StartDate
-        String smon = S_mon.getText().toString();
-        String stue = S_tue.getText().toString();
-        String swed = S_wed.getText().toString();
-        String sthu = S_thu.getText().toString();
-        String sfri = S_fri.getText().toString();
-        String ssat = S_sat.getText().toString();
-        String ssun = S_sun.getText().toString();
-        //GetText EndDate
-        String emon = E_mon.getText().toString();
-        String etue = E_tue.getText().toString();
-        String ewed = E_wed.getText().toString();
-        String ethu = E_thu.getText().toString();
-        String efri = E_fri.getText().toString();
-        String esat = E_sat.getText().toString();
-        String esun = E_sun.getText().toString();*/
-
+        String mohpromt_startdate = StartTime_Seclect;
+        StringMohpormtStartDate = mohpromt_startdate;
+        Log.e("-----------------------------------------------------",StringMohpormtStartDate);
+        String mohpromt_enddate = StartTime_NotSeclect;
+        StringMohpormtEndDate = mohpromt_enddate.substring(1);
+        Log.e("-----------------------------------------------------",StringMohpormtEndDate);
         String mohpromt_starttime = starttime.getText().toString();
         String mohpromt_endtime = endtime.getText().toString();
         String mohpromt_lat = mohpromtlat.getText().toString();
         String mohpromt_lng = mohpromtlng.getText().toString();
         String mohpromt_detail = mohpromtdetail.getText().toString();
 
-        /*//set StartDate
-        if(S_mon.isChecked()){
-            mohpromt_startdate.setMohpromtStartDate(smon);
-        }else if(S_tue.isChecked()){
-            mohpromt_startdate.setMohpromtStartDate(stue);
-        }else if(S_wed.isChecked()){
-            mohpromt_startdate.setMohpromtStartDate(swed);
-        }else if(S_thu.isChecked()){
-            mohpromt_startdate.setMohpromtStartDate(sthu);
-        }else if(S_fri.isChecked()){
-            mohpromt_startdate.setMohpromtStartDate(sfri);
-        }else if(S_sat.isChecked()){
-            mohpromt_startdate.setMohpromtStartDate(ssat);
-        }else if(S_sun.isChecked()) {
-            mohpromt_startdate.setMohpromtStartDate(ssun);
-        }
-
-        //set EndDate
-        if(E_mon.isChecked()){
-            mohpromt_enddate.setMohpromtStartDate(emon);
-        }else if(E_tue.isChecked()){
-            mohpromt_enddate.setMohpromtStartDate(etue);
-        }else if(E_wed.isChecked()){
-            mohpromt_enddate.setMohpromtStartDate(ewed);
-        }else if(E_thu.isChecked()){
-            mohpromt_enddate.setMohpromtStartDate(ethu);
-        }else if(E_fri.isChecked()){
-            mohpromt_enddate.setMohpromtStartDate(efri);
-        }else if(E_sat.isChecked()){
-            mohpromt_enddate.setMohpromtStartDate(esat);
-        }else if(E_sun.isChecked()) {
-            mohpromt_enddate.setMohpromtStartDate(esun);
-        }*/
-
         //Check Error
         if (mohpromt_place.equals("")) {
             Toast.makeText(AddMohpromtActivity.this, "กรุณากรอกชื่อ", Toast.LENGTH_SHORT).show();
         } else if(mohpromt_starttime.equals("")){
-            Toast.makeText(AddMohpromtActivity.this, "กรุณากรอก ยอดผู้ติดเชื้อใหม่", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddMohpromtActivity.this, "กรุณาเลือกวันที่เปิดให้บริการ", Toast.LENGTH_SHORT).show();
 
         } else if(mohpromt_endtime.equals("")){
             Toast.makeText(AddMohpromtActivity.this, "กรุณากรอก ละติจูดของสถานที่", Toast.LENGTH_SHORT).show();
@@ -222,7 +192,6 @@ public class AddMohpromtActivity extends AppCompatActivity {
         } else if(mohpromt_detail.equals("")){
             Toast.makeText(AddMohpromtActivity.this, "กรุณากรอก ลองจิจูดของสถานที่", Toast.LENGTH_SHORT).show();
         } else {
-
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
             DatabaseReference myRef = database.getReference("admin001/mohpromt");
             Query query1 = myRef.orderByKey().equalTo(mohpromt_place);
@@ -234,7 +203,7 @@ public class AddMohpromtActivity extends AppCompatActivity {
                         Error = "T";
                     }
                     if (Error.equals("F")) {
-                        Mohpromt MT = new Mohpromt(mohpromt_place,mohpromt_listype,mohpromt_startdate,mohpromt_enddate,
+                        Mohpromt MT = new Mohpromt(mohpromt_place,mohpromt_listype,StringMohpormtStartDate,StringMohpormtEndDate,
                                 mohpromt_starttime, mohpromt_endtime,mohpromt_lat,mohpromt_lng,mohpromt_detail);
                         DatabaseReference stu1 = myRef.child(mohpromt_place);
                         stu1.setValue(MT);
@@ -259,11 +228,105 @@ public class AddMohpromtActivity extends AppCompatActivity {
         String M_lat,M_lng;
         M_lat = Double.toString(Mohpromt_Lat);
         M_lng = Double.toString(Mohpromt_Lng);
-
         TextView txtlat = findViewById(R.id.mohpromtLat);
         txtlat.setText(M_lat);
         TextView txtlng = findViewById(R.id.mohpromtLng);
         txtlng.setText(M_lng);
+    }
+
+    public void ClickOnButtonGroup() {
+        radioGroup = (RadioGroup) findViewById(R.id.mohpromtselect_starttime);
+        btnDisplay = (TextView) findViewById(R.id.button_addMohpromt);
+        btnDisplay.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onClick(View view) {
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                String t1 = String.valueOf(selectedId);
+                Log.e("--------------------------------------------------------------sss",t1);
+                //findRadioButton(selectedId);
+            }
+        });
+    }
+
+    @SuppressLint("LongLogTag")
+    private void findRadioButton() {
+        CheckBox Mon,tues,wednes,thurs,frid,satur,sun;
+        Mon = (CheckBox) findViewById(R.id.radioButton_starttime1);
+        tues = (CheckBox) findViewById(R.id.radioButton_starttime2);
+        wednes = (CheckBox) findViewById(R.id.radioButton_starttime3);
+        thurs = (CheckBox) findViewById(R.id.radioButton_starttime4);
+        frid = (CheckBox) findViewById(R.id.radioButton_starttime5);
+        satur = (CheckBox) findViewById(R.id.radioButton_Endtime1);
+        sun = (CheckBox) findViewById(R.id.radioButton_Endtime2);
+        btnDisplay = (TextView) findViewById(R.id.button_addMohpromt);
+        String m = Mon.getText().toString();
+        Log.e("--------------------------------------------------------------ddddd",m);
+        btnDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Mon.isChecked()){
+                    String mo = Mon.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+mo;
+                    Log.e("--------------------------------------------------------------1",StartTime_Seclect);
+                }else{
+                    String mo = Mon.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+mo;
+                }
+                if(tues.isChecked()){
+                    String tu = tues.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+tu;
+                    Log.e("--------------------------------------------------------------2",StartTime_Seclect);
+                }else{
+                    String tu = tues.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+tu;
+                }
+                if(wednes.isChecked()){
+                    String w = wednes.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+w;
+                    Log.e("--------------------------------------------------------------3",StartTime_Seclect);
+                }else{
+                    String w = wednes.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+w;
+                }
+                if(thurs.isChecked()){
+                    String th = thurs.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+th;
+                    Log.e("--------------------------------------------------------------4",StartTime_Seclect);
+                }else{
+                    String th = thurs.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+th;
+                }
+                if(frid.isChecked()){
+                    String f = frid.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+f;
+                    Log.e("--------------------------------------------------------------5",StartTime_Seclect);
+                }else{
+                    String f = thurs.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+f;
+                }
+                if(satur.isChecked()){
+                    String sa = satur.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+sa;
+                    Log.e("--------------------------------------------------------------6",StartTime_Seclect);
+                }else{
+                    String sa = satur.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+sa;
+                }
+                if(sun.isChecked()){
+                    String s = sun.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+s;
+                    Log.e("--------------------------------------------------------------7",StartTime_Seclect);
+                }else{
+                    String s = sun.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+s;
+                }
+
+                Log.e("-------------------------------------STS",StartTime_Seclect);
+                Log.e("-------------------------------------STNS",StartTime_NotSeclect);
+                ClickAddMohpromt();
+            }
+        });
     }
 
     public void ClickCancelAddMohprom (View view){
@@ -272,9 +335,23 @@ public class AddMohpromtActivity extends AppCompatActivity {
     }
 
     public void ClickGetlatlng_mohpromt (View view){
+        EditText mohpromtplace = findViewById(R.id.txtadd_mohpromtplace);
+        EditText starttime = findViewById(R.id.mohpromtstartTime);
+        EditText endtime = findViewById(R.id.mohpromtendTime);
+        EditText mohpromtdetail = findViewById(R.id.mohpromtdetail);
+
+        Mplace_def =  mohpromtplace.getText().toString();
+        Mstartdate_def = starttime.getText().toString();
+        Menddate_def = endtime.getText().toString();
+        Mdetail_def = mohpromtdetail.getText().toString();
+
         Intent intent = new Intent(AddMohpromtActivity.this, GetLatLngMohpromtActivity.class);
+        intent.putExtra("Mplace_def",Mplace_def);
+        intent.putExtra("Mstartdate_def",Mstartdate_def);
+        intent.putExtra("Menddate_def",Menddate_def);
+        intent.putExtra("Mdetail_def",Mdetail_def);
+
         startActivity(intent);
     }
-
 }
 

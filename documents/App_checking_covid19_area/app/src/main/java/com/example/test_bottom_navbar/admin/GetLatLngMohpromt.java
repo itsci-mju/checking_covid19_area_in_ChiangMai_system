@@ -25,10 +25,22 @@ public class GetLatLngMohpromt extends Fragment {
     double Mohpromt_Lat,Mohpromt_Lng;
     private ImageButton ButtonBack;
     private Button ButtonGetLatLng;
+    String Mplace_def,Mstartdate_def,Menddate_def,Mdetail_def;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_get_lat_lng_map, container, false);
+
+        Bundle bundle = getActivity().getIntent().getExtras();
+        Mplace_def = bundle.getString("Mplace_def");
+        Mstartdate_def = bundle.getString("Mstartdate_def");
+        Menddate_def = bundle.getString("Menddate_def");
+        Mdetail_def = bundle.getString("Mdetail_def");
+
+        getActivity().getIntent().getExtras().get("Mplace_def");
+        getActivity().getIntent().getExtras().get("Mstartdate_def");
+        getActivity().getIntent().getExtras().get("Menddate_def");
+        getActivity().getIntent().getExtras().get("Mdetail_def");
 
         SupportMapFragment supportMapFragment = (SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.google_map);
@@ -68,13 +80,16 @@ public class GetLatLngMohpromt extends Fragment {
             }
         });
 
-
         ButtonGetLatLng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intentLatLng = new Intent(getContext(), AddMohpromtActivity.class);
                 intentLatLng.putExtra("Mohpromt_Lat", Mohpromt_Lat);
                 intentLatLng.putExtra("Mohpromt_Lng", Mohpromt_Lng);
+                intentLatLng.putExtra("Mplace_def",Mplace_def);
+                intentLatLng.putExtra("Mstartdate_def",Mstartdate_def);
+                intentLatLng.putExtra("Menddate_def",Menddate_def);
+                intentLatLng.putExtra("Mdetail_def",Mdetail_def);
                 startActivity(intentLatLng);
             }
         });
@@ -83,6 +98,10 @@ public class GetLatLngMohpromt extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AddMohpromtActivity.class);
+                intent.putExtra("Mplace_def",Mplace_def);
+                intent.putExtra("Mstartdate_def",Mstartdate_def);
+                intent.putExtra("Menddate_def",Menddate_def);
+                intent.putExtra("Mdetail_def",Mdetail_def);
                 startActivity(intent);
             }
         });

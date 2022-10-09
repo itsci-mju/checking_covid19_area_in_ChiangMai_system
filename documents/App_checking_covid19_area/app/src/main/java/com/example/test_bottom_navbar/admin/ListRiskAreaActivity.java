@@ -41,7 +41,6 @@ public class ListRiskAreaActivity extends AppCompatActivity {
         Intent getpatient = getIntent();
         patient_number = getpatient.getIntExtra("patient_number",patient_number);
         System.out.println("////////////////////////////////////////////"+Allpatient_District);
-
         this.setListClusterByAdmin();
     }
 
@@ -83,27 +82,6 @@ public class ListRiskAreaActivity extends AppCompatActivity {
 
                         patient_number = Integer.parseInt(txtnewpatient.getText().toString());
 
-                        if(district_name == "เมืองเชียงใหม่"){
-                            Totalpatient_CM = Totalpatient_CM + patient_number;
-                            System.out.println("////////////////////////////////////////////" + district_name);
-                            System.out.println("////////////////////////////////////////////" + Totalpatient_CM);
-                        }else if(district_name == "สารภี"){
-                            Totalpatient_Sarapee = Totalpatient_Sarapee + patient_number;
-                            System.out.println("////////////////////////////////////////////" + district_name);
-                            System.out.println("////////////////////////////////////////////" + Totalpatient_Sarapee);
-                        }else if(district_name == "เเม่ริม") {
-                            Totalpatient_MaeRim = Totalpatient_MaeRim + patient_number;
-                            System.out.println("////////////////////////////////////////////" + district_name);
-                            System.out.println("////////////////////////////////////////////" + Totalpatient_MaeRim);
-                        }else if(district_name == "สันทราย") {
-                            Totalpatient_SunSai = Totalpatient_SunSai + patient_number;
-                            System.out.println("////////////////////////////////////////////" + district_name);
-                            System.out.println("////////////////////////////////////////////" + Totalpatient_SunSai);
-                        }
-
-                        /*Allpatient_District = Allpatient_District + patient_number;
-                        System.out.println("////////////////////////////////////////////" + Allpatient_District);*/
-
                         ImageView btn_Call = (ImageView) cluster.findViewById(R.id.txtdelete);
                         btn_Call.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -136,7 +114,6 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                             }
                         });
                         list_cluster.addView(cluster);
-
                     }
                 }
                 @Override
@@ -146,26 +123,8 @@ public class ListRiskAreaActivity extends AppCompatActivity {
         Log.e("------------------------------Totalpatient_CM", String.valueOf(Totalpatient_CM));
     }
 
-    public void OnClickClusterDetail(View view) {}
-
-    public void ClickToEditCluster(View view){
-        Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
-        startActivity(intent);
-    }
-
     public void ClickBTNBackByAdmin(View view){
         Intent intent = new Intent(ListRiskAreaActivity.this, Mainpage_admin.class);
-        intent.putExtra("Totalpatient_CM",Totalpatient_CM);
-        Log.e("------------------------------Totalpatient_CM", String.valueOf(Totalpatient_CM));
-        intent.putExtra("Totalpatient_Sarapee",Totalpatient_Sarapee);
-        intent.putExtra("Totalpatient_MaeRim",Totalpatient_MaeRim);
-        intent.putExtra("Totalpatient_SunSai",Totalpatient_SunSai);
-
-        startActivity(intent);
-    }
-
-    public void ClickbynBack(View view){
-        Intent intent = new Intent(ListRiskAreaActivity.this,MainActivity.class);
         startActivity(intent);
     }
 

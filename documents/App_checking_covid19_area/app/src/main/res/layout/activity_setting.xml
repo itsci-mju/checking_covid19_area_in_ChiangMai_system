@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".ui_bar.SettingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/btn"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/co_radi" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="124dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/prompt_medium"
+                    android:gravity="center"
+                    android:text="กำหนดรัศมี (km)"
+                    android:textColor="#000000" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/btn2"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/co_data" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="124dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/prompt_medium"
+                    android:gravity="center"
+                    android:text="การเเสดงข้อมูล"
+                    android:textColor="#000000" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/btn3"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/co_themmap" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="124dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/prompt_medium"
+                    android:gravity="center"
+                    android:text="เลือก Basemap"
+                    android:textColor="#000000" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_ripple"
+                android:clickable="true"
+                android:onClick="ClickToLogin">
+
+                <ImageView
+                    android:id="@+id/btnimgadminlogin"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/co_login" />
+
+                <TextView
+                    android:id="@+id/btnadminlogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:fontFamily="@font/prompt_medium"
+                    android:gravity="center|left"
+                    android:text="เข้าสู่ระบบ(เฉพาะเจ้าหน้าที่)"
+                    android:textColor="#000000" />
+
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:itemTextColor="@drawable/selector"
+        app:itemIconTint="@drawable/selector"
+        app:menu="@menu/bottom_nav_menu"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

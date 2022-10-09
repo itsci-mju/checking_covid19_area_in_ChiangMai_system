@@ -11,6 +11,7 @@
     <color name="colorPrimaryDark">#156CAD</color>
     <color name="colorAccent">#ededed</color>
     <color name="DrakBlue">#3F51B5</color>
+    <color name="Gray">#808080</color>
 
 
     <!-- Base application theme. -->

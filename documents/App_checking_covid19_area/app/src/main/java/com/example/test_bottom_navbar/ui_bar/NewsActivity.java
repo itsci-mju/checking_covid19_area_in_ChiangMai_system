@@ -21,6 +21,8 @@ import android.widget.ViewFlipper;
 
 import com.example.test_bottom_navbar.R;
 import com.example.test_bottom_navbar.admin.AddClusterActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,7 +44,8 @@ public class NewsActivity extends AppCompatActivity {
     String news_titleTxt_error = "ไม่พบข้อมูล";
     int imgArray[]={R.drawable.img_s1,R.drawable.img_s2,R.drawable.img_s5};
     List<String> myListNews = new ArrayList<String>();
-    String sarchbutton,news_titleTxt,news_dateCalendar,news_dateTxt,NewsTitle;
+    String sarchbutton,news_titleTxt,news_dateCalendar,news_dateTxt,NewsTitle,myListNews_String;
+    BottomNavigationView bottomNavigationView;
 
     @Nullable
     @Override
@@ -59,8 +62,33 @@ public class NewsActivity extends AppCompatActivity {
             showImge(imgArray[i]);
         }
 
-        BottomNavigationView bottomNav = findViewById(R.id.nav_host_fragment_activity_bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        bottomNavigationView.setSelectedItemId(R.id.nav_news);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId())
+                {
+                    case R.id.nav_home:
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.nav_news:
+                        return true;
+                    case R.id.nav_mohpromt:
+                        startActivity(new Intent(getApplicationContext(), MohpromtActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.nav_setting:
+                        startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void showImge(int img){
@@ -162,15 +190,21 @@ public class NewsActivity extends AppCompatActivity {
                         if(news_dateTxt.equals(sarchbutton)){
                             myListNews.add(news_titleTxt);
                         }
-
                     }
                     System.out.println(myListNews);
-                    if(myListNews != null){
-                        ListSearchNews();
-                    }else{
-                        Toast.makeText(NewsActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
-                    }
+                    myListNews_String = myListNews.toString();
+                    System.out.println(myListNews_String);
 
+                    if(sarchbutton.equals("")){
+                        setListNewsByUser();
+                        Toast.makeText(NewsActivity.this, "กรุณากรอกวันที่", Toast.LENGTH_SHORT).show();
+                    }else if(myListNews_String.equals("[]")){
+                        setListNewsByUser();
+                        Toast.makeText(NewsActivity.this, "ไม่พบข่าวประจำวันที่ "+sarchbutton, Toast.LENGTH_SHORT).show();
+                    }
+                    if(myListNews != null){
+                            ListSearchNews();
+                        }
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {}
@@ -221,7 +255,7 @@ public class NewsActivity extends AppCompatActivity {
     }
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+/*    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -245,5 +279,5 @@ public class NewsActivity extends AppCompatActivity {
                             selectedFragment).commit();
                     return true;
                 }
-            };
+            };*/
 }

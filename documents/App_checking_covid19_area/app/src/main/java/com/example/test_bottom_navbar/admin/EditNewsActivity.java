@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -48,12 +50,16 @@ public class EditNewsActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private Uri ImageUri;
     private static final int PICK_IMAGE_REQUEST = 1;
+    String Editimg = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_news);
         newsTitle = getIntent().getStringExtra("newsTitle");
         this.getNewsToEdit();
+
+        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
 
         mButtonChooseImage = findViewById(R.id.image_editnews);
         mButtonUpload = findViewById(R.id.button_edit_new);
@@ -116,6 +122,7 @@ public class EditNewsActivity extends AppCompatActivity {
                     String newsDate = ds.child("newsDate").getValue().toString();
                     String newsDetail = ds.child("detail").getValue().toString();
                     String newsImg = ds.child("newsImg").getValue().toString();
+                    Editimg = newsImg;
 
                     TextView txtnewstitle = findViewById(R.id.txtedit_newstitle);
                     txtnewstitle.setText(newsTitle);
@@ -128,11 +135,13 @@ public class EditNewsActivity extends AppCompatActivity {
 
                     ImageView img = findViewById(R.id.image_editnews);
                     Picasso.with(EditNewsActivity.this).load(newsImg).into(img);
+
+
+
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
@@ -142,7 +151,6 @@ public class EditNewsActivity extends AppCompatActivity {
         if(ImageUri != null) {
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(ImageUri));
-
             mUploadTask = fileReference.putFile(ImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -155,7 +163,7 @@ public class EditNewsActivity extends AppCompatActivity {
                                 }
                             }, 5000);
 
-                            /*News newsToedit = new News();
+                            News newsToedit = new News();
                             TextView txtedittitle_news = findViewById(R.id.txtedit_newstitle);
                             newsToedit.setNewsTitle(txtedittitle_news.getText().toString());
                             TextView txteditdate_news = findViewById(R.id.txtedit_newsdate);
@@ -163,16 +171,13 @@ public class EditNewsActivity extends AppCompatActivity {
                             TextView txteditdetail_news = findViewById(R.id.txtedit_newsdetail);
                             newsToedit.setDetail(txteditdetail_news.getText().toString());
 
-                            String newstitle  = txtedittitle_news.getText().toString();
-                            String newsdate = txteditdate_news.getText().toString();
-                            String newsdetail = txteditdetail_news.getText().toString();*/
-
                             String URL = fileReference.toString();
                             String url = URL.substring(34);
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
                             DatabaseReference myRef_newsEdit = database.getReference("admin001/news/"+newsTitle);
                             Query query1 =  myRef_newsEdit.orderByValue();
+
                             query1.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -203,55 +208,30 @@ public class EditNewsActivity extends AppCompatActivity {
                             mProgressBar.setProgress((int) progress);
                         }
                     });
-        }else {
-            Toast.makeText(this, "กรุณาเลือกไฟล์รูปภาพ",Toast.LENGTH_SHORT).show();
+        }else{
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef_newsEdit = database.getReference("admin001/news/"+newsTitle);
+            Query query1 =  myRef_newsEdit.orderByValue();
+
+            query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        myRef_newsEdit.child("newsImg").setValue(Editimg);
+                        myRef_newsEdit.child("detail").setValue(editNewsDetail.getText().toString().trim());
+
+                        Intent intent = new Intent(EditNewsActivity.this, ListRiskAreaActivity.class);
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
         }
 
 
     }
-
-/*    public void ClickEditNews(){
-        News newsToedit = new News();
-
-        ImageView edit_image_news = findViewById(R.id.image_editnews);
-        newsToedit.setNewsImg(edit_image_news.toString());
-        TextView txtedittitle_news = findViewById(R.id.txtedit_newstitle);
-        newsToedit.setNewsTitle(txtedittitle_news.getText().toString());
-        TextView txteditdate_news = findViewById(R.id.txtedit_newsdate);
-        newsToedit.setNewsDate(txteditdate_news.getText().toString());
-        TextView txteditdetail_news = findViewById(R.id.txtedit_newsdetail);
-        newsToedit.setDetail(txteditdetail_news.getText().toString());
-
-        String newstitle  = txtedittitle_news.getText().toString();
-        String newsdate = txteditdate_news.getText().toString();
-        String newsdetail = txteditdetail_news.getText().toString();
-        String newsimage = edit_image_news.toString();
-
-        News news_edit = new News(newstitle,newsimage,newsdate,newsdetail);
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef_newsEdit = database.getReference("admin001/news/"+newsTitle);
-        Query query1 =  myRef_newsEdit.orderByValue();
-        query1.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    myRef_newsEdit.child("newsImg").setValue(news_edit.getNewsImg());
-                    myRef_newsEdit.child("newsTitle").setValue(news_edit.getNewsTitle());
-                    myRef_newsEdit.child("newsDate").setValue(news_edit.getNewsDate());
-                    myRef_newsEdit.child("detail").setValue(news_edit.getDetail());
-
-                    Intent intent = new Intent(EditNewsActivity.this, ListNewsActivity.class);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }*/
-
 
     public void ClickEditNewsCancel (View view){
         Intent intent = new Intent(EditNewsActivity.this, ListNewsActivity.class);

@@ -17,7 +17,6 @@ public class GetLatLngMohpromtActivity extends AppCompatActivity {
         setContentView(R.layout.activity_get_lat_lng_mohprmt);
 
         Fragment fragment = new GetLatLngMohpromt();
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_layout_m,fragment)

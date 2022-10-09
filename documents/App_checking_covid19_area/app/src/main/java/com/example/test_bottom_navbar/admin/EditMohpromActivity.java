@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,11 +34,15 @@ import java.util.List;
 
 public class EditMohpromActivity extends AppCompatActivity {
     String Admin;
+    String StringMohpormtStartDate,StringMohpormtEndDate;
     int mHour,mMinute;
     String mohpromtPlace;
     private Spinner spinner;
     ArrayAdapter<String> dataAdapter;
     String[] type = {"คลินิก","ร้านยา","ร.พ","จุดจ่ายยา"};
+    String StartTime_Seclect = "";
+    String StartTime_NotSeclect = "";
+    TextView btnDisplay ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,7 @@ public class EditMohpromActivity extends AppCompatActivity {
         mohpromtPlace = intent.getStringExtra("mohpromtPlace");
         this.getmohpromtToEdit();
 
+        findRadioButton();
     }
 
     public void ClickStartTime_Edit(View view) {
@@ -103,18 +110,18 @@ public class EditMohpromActivity extends AppCompatActivity {
                     String mohpromtLat = ds.child("mohpromtLat").getValue().toString();
                     String mohpromtLng = ds.child("mohpromtLng").getValue().toString();
                     String mohpromtDetail = ds.child("mohpromtDetail").getValue().toString();
-                     
+
                     TextView txtmohpromtplace = findViewById(R.id.txtedit_mohpromtplace);
                     txtmohpromtplace.setText(mohpromtPlace);
 
                     TextView txtmohpromtype = findViewById(R.id.txtedit_mohpromtlisttype);
                     txtmohpromtype.setText(mohpromtType);
 
-                    /*Spinner txtmohpromtstartdate = findViewById(R.id.txtedit_mohpromtlistStartDate);
-                    txtmohpromtstartdate.getSelectedItem().toString();
+                    StartTime_Seclect = mohpromtStartDate;
 
-                    Spinner txtmohpromtenddate = findViewById(R.id.txtedit_mohpromtlistEndDate);
-                    txtmohpromtenddate.getSelectedItem().toString();*/
+                    StartTime_NotSeclect = mohpromtEndDate;
+
+                    CheckSelectStartDate();
 
                     EditText txtmohpromtstarttime = findViewById(R.id.txtedit_mohpromtstartTime);
                     txtmohpromtstarttime.setText(mohpromtStartTime);
@@ -142,14 +149,13 @@ public class EditMohpromActivity extends AppCompatActivity {
 
     }
 
-    public void ClickToEditMohpromt(View view){
+    public void ClickToEditMohpromt(){
         Mohpromt mohpromtToedit = new Mohpromt();
         TextView txteditMohpromplace = findViewById(R.id.txtedit_mohpromtplace);
         mohpromtToedit.setMohpromtPlace(txteditMohpromplace.getText().toString());
         TextView txteditMohpromType = findViewById(R.id.txtedit_mohpromtlisttype);
         mohpromtToedit.setMohpromtType(txteditMohpromType.getText().toString());
-        //StartDate
-        //EndDate
+
         EditText txteditMohpromStartTime = findViewById(R.id.txtedit_mohpromtstartTime);
         mohpromtToedit.setMohpromtStartTime(txteditMohpromStartTime.getText().toString());
         EditText txteditMohpromEndTime = findViewById(R.id.txtedit_mohpromtendTime);
@@ -163,15 +169,17 @@ public class EditMohpromActivity extends AppCompatActivity {
 
         String mohpromplace = txteditMohpromplace.getText().toString();
         String mohpromtype = txteditMohpromType.getText().toString();
-        String mogpromStartdate = txteditMohpromType.getText().toString();
-        String mohpromEndTime = txteditMohpromType.getText().toString();
+        String mohpromt_startdate = StartTime_Seclect;
+        StringMohpormtStartDate = mohpromt_startdate;
+        String mohpromt_enddate = StartTime_NotSeclect;
+        StringMohpormtEndDate = mohpromt_enddate.substring(1);
         String mohpromstarttime = txteditMohpromStartTime.getText().toString();
         String mohpromendtime = txteditMohpromEndTime.getText().toString();
         String mohpromlat = txteditMohpromLat.getText().toString();
         String mohpormlng = txteditMohpromLng.getText().toString();
         String mohpromdetail = txteditMohpromDetail.getText().toString();
 
-        Mohpromt mohpromt_edit = new Mohpromt(mohpromplace,mohpromtype,mogpromStartdate,mohpromEndTime,mohpromstarttime,mohpromendtime,mohpromlat,mohpormlng,mohpromdetail);
+        Mohpromt mohpromt_edit = new Mohpromt(mohpromplace,mohpromtype,StringMohpormtStartDate,StringMohpormtEndDate,mohpromstarttime,mohpromendtime,mohpromlat,mohpormlng,mohpromdetail);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef_clusterEdit = database.getReference("admin001/mohpromt/"+mohpromtPlace);
         Query query1 =  myRef_clusterEdit.orderByValue();
@@ -200,9 +208,123 @@ public class EditMohpromActivity extends AppCompatActivity {
         });
     }
 
+    public void CheckSelectStartDate() {
+        System.out.println("--------------------------------------------" + StartTime_Seclect);
+        for (int i = 0; i < StartTime_Seclect.length(); i++) {
+            String[] arr = StartTime_Seclect.split(",");
+            for (int u = 0; u < arr.length; u++) {
+                if (arr[u].equals("จ.")) {
+                    CheckBox checkmon = findViewById(R.id.checkmon);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("อ.")) {
+                    CheckBox checkmon = findViewById(R.id.checktue);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("พ.")) {
+                    CheckBox checkmon = findViewById(R.id.checkwed);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("พฤ.")) {
+                    CheckBox checkmon = findViewById(R.id.checkthu);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("ศ.")) {
+                    CheckBox checkmon = findViewById(R.id.checkfri);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("ส.")) {
+                    CheckBox checkmon = findViewById(R.id.checksat);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("อา.")) {
+                    CheckBox checkmon = findViewById(R.id.checksun);
+                    checkmon.setChecked(true);
+                }
+            }
+        }
+    }
+    private void findRadioButton() {
+        CheckBox Mon,tues,wednes,thurs,frid,satur,sun;
+        Mon = (CheckBox) findViewById(R.id.checkmon);
+        tues = (CheckBox) findViewById(R.id.checktue);
+        wednes = (CheckBox) findViewById(R.id.checkwed);
+        thurs = (CheckBox) findViewById(R.id.checkthu);
+        frid = (CheckBox) findViewById(R.id.checkfri);
+        satur = (CheckBox) findViewById(R.id.checksat);
+        sun = (CheckBox) findViewById(R.id.checksun);
+        btnDisplay = (TextView) findViewById(R.id.button_editMohpromt);
+        String m = Mon.getText().toString();
+        btnDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StartTime_Seclect = "";
+                StartTime_NotSeclect = "";
+
+                if(Mon.isChecked()){
+                    String mo = Mon.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+mo;
+                    Log.e("--------------------------------------------------------------1",StartTime_Seclect);
+                }else{
+                    String mo = Mon.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+mo;
+                }
+                if(tues.isChecked()){
+                    String tu = tues.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+tu;
+                    Log.e("--------------------------------------------------------------2",StartTime_Seclect);
+                }else{
+                    String tu = tues.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+tu;
+                }
+                if(wednes.isChecked()){
+                    String w = wednes.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+w;
+                    Log.e("--------------------------------------------------------------3",StartTime_Seclect);
+                }else{
+                    String w = wednes.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+w;
+                }
+                if(thurs.isChecked()){
+                    String th = thurs.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+th;
+                    Log.e("--------------------------------------------------------------4",StartTime_Seclect);
+                }else{
+                    String th = thurs.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+th;
+                }
+                if(frid.isChecked()){
+                    String f = frid.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+f;
+                    Log.e("--------------------------------------------------------------5",StartTime_Seclect);
+                }else{
+                    String f = thurs.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+f;
+                }
+                if(satur.isChecked()){
+                    String sa = satur.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+sa;
+                    Log.e("--------------------------------------------------------------6",StartTime_Seclect);
+                }else{
+                    String sa = satur.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+sa;
+                }
+                if(sun.isChecked()){
+                    String s = sun.getText().toString();
+                    StartTime_Seclect = StartTime_Seclect+","+s;
+                    Log.e("--------------------------------------------------------------7",StartTime_Seclect);
+                }else{
+                    String s = sun.getText().toString();
+                    StartTime_NotSeclect = StartTime_NotSeclect+","+s;
+                }
+
+                Log.e("-------------------------------------STS",StartTime_Seclect);
+                Log.e("-------------------------------------STNS",StartTime_NotSeclect);
+
+                ClickToEditMohpromt();
+            }
+        });
+    }
+
     public void ClickBTNEditMohpromtCancel (View view){
         Intent intent = new Intent(EditMohpromActivity.this, ListMohpromActivity.class);
         startActivity(intent);
     }
+
+
 
 }

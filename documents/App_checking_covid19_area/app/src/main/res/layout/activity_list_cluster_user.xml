@@ -2,41 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="350dp"
-    android:layout_height="350dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:padding="10dp"
     tools:context=".admin.ListRiskAreaActivity">
 
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
-        android:background="#FDFCFC"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/showlistcluster_user"
             android:layout_width="match_parent"
-            android:layout_height="494dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/showlistcluster_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
-        </ScrollView>
-
-        <ImageView
-            android:id="@+id/imageView_back_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="ClickbynBack"
-            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
-
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

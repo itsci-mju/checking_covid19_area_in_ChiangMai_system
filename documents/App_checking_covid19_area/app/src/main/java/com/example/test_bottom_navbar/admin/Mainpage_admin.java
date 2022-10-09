@@ -16,12 +16,6 @@ public class Mainpage_admin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage_admin);
-
-        Intent intent = getIntent();
-        Totalpatient_CM = intent.getIntExtra("Totalpatient_CM",Totalpatient_CM);
-        Totalpatient_Sarapee = intent.getIntExtra("Totalpatient_Sarapee",Totalpatient_Sarapee);
-        Totalpatient_MaeRim = intent.getIntExtra("Totalpatient_MaeRim",Totalpatient_MaeRim);
-        Totalpatient_SunSai = intent.getIntExtra("Totalpatient_SunSai",Totalpatient_SunSai);
     }
 
     public void ClickAddCluster(View view){
@@ -62,10 +56,6 @@ public class Mainpage_admin extends AppCompatActivity {
 
     public void Clicklogout(View view){
         Intent intent = new Intent(Mainpage_admin.this, MainActivity.class);
-        intent.putExtra("Totalpatient_CM",Totalpatient_CM);
-        intent.putExtra("Totalpatient_Sarapee",Totalpatient_Sarapee);
-        intent.putExtra("Totalpatient_MaeRim",Totalpatient_MaeRim);
-        intent.putExtra("Totalpatient_SunSai",Totalpatient_SunSai);
         startActivity(intent);
     }
 }
