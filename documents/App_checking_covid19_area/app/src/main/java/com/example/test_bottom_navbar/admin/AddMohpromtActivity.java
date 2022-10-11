@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.test_bottom_navbar.Mohpromt;
 import com.example.test_bottom_navbar.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,8 +47,8 @@ public class AddMohpromtActivity extends AppCompatActivity {
     int mHour;
     double Mohpromt_Lat,Mohpromt_Lng;
     int mMinute;
-    String StartTime_Seclect = "";
-    String StartTime_NotSeclect = "";
+    String StartTime_Seclect = "",Get_StartTime_Seclect = "";
+    String StartTime_NotSeclect = "",Get_StartTime_NotSeclect = "";
     private Spinner spinner,spinner2;
     ArrayAdapter<String> dataAdapter;
     TextView  txttime1 ,txttime2 ,txttime3 ,txttime4 ,txttime5 ;
@@ -57,7 +58,7 @@ public class AddMohpromtActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     TextView btnDisplay ;
-    String Mplace_def,Mstartdate_def,Menddate_def,Mdetail_def;
+    String Mplace_def,Mstarttime_def,Mendtime_def,Mdetail_def;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +71,31 @@ public class AddMohpromtActivity extends AppCompatActivity {
 
         Intent intentget = getIntent();
         Mplace_def = intentget.getStringExtra("Mplace_def");
-        Mstartdate_def = intentget.getStringExtra("Mstartdate_def");
-        Menddate_def = intentget.getStringExtra("Menddate_def");
+        Mstarttime_def = intentget.getStringExtra("Mstarttime_def");
+        Mendtime_def = intentget.getStringExtra("Mendtime_def");
         Mdetail_def = intentget.getStringExtra("Mdetail_def");
+        StartTime_Seclect = intentget.getStringExtra("StartTime_Seclect");
+        StartTime_NotSeclect = intentget.getStringExtra("StartTime_NotSeclect");
+
+        GetfromGetLatLng();
 
         String String_Mplace_def = Mplace_def;
+        String String_Mstartdate_def = Mstarttime_def;
+        String String_Menddate_def = Mendtime_def;
+        String String_Mdetail_def = Mdetail_def;
+
         EditText mohpromtplace = findViewById(R.id.txtadd_mohpromtplace);
         mohpromtplace.setText(String_Mplace_def);
+
+        EditText mohpromtstartdate = findViewById(R.id.mohpromtstartTime);
+        mohpromtstartdate.setText(String_Mstartdate_def);
+
+        EditText mohpromtenddate = findViewById(R.id.mohpromtendTime);
+        mohpromtenddate.setText(String_Menddate_def);
+
+        EditText mohpromtdetail = findViewById(R.id.mohpromtdetail);
+        mohpromtdetail.setText(String_Mdetail_def);
+
 
         if (Mohpromt_Lat != 0.0 && Mohpromt_Lng != 0.0) {
             this.GetLatLngFromMap();
@@ -91,15 +110,48 @@ public class AddMohpromtActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
         findRadioButton();
+    }
+
+    public void GetfromGetLatLng(){
+
+        StartTime_Seclect = Get_StartTime_Seclect;
+
+        System.out.println("-------------------------------"+StartTime_Seclect);
+
+        for (int i = 0; i < StartTime_Seclect.length(); i++) {
+            String[] arr = StartTime_Seclect.split(",");
+            for (int u = 0; u < arr.length; u++) {
+                if (arr[u].equals("จ.")) {
+                    CheckBox checkmon = findViewById(R.id.radioButton_starttime1);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("อ.")) {
+                    CheckBox checkmon = findViewById(R.id.radioButton_starttime2);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("พ.")) {
+                    CheckBox checkmon = findViewById(R.id.radioButton_starttime3);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("พฤ.")) {
+                    CheckBox checkmon = findViewById(R.id.radioButton_starttime4);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("ศ.")) {
+                    CheckBox checkmon = findViewById(R.id.radioButton_starttime5);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("ส.")) {
+                    CheckBox checkmon = findViewById(R.id.radioButton_starttime6);
+                    checkmon.setChecked(true);
+                }if (arr[u].equals("อา.")) {
+                    CheckBox checkmon = findViewById(R.id.radioButton_starttime7);
+                    checkmon.setChecked(true);
+                }
+            }
+        }
     }
 
     public String checklength(String s) {
@@ -139,7 +191,7 @@ public class AddMohpromtActivity extends AppCompatActivity {
                 String Hour = checklength(String.valueOf(i));
                 String Minute = checklength(String.valueOf(i1));
                 EditText et = findViewById(R.id.mohpromtendTime);
-                et.setText(Hour + " : " + Minute + "น.");
+                et.setText(Hour + " : " + Minute + " น.");
 
             }
         }, mHour, mMinute, true);
@@ -152,13 +204,22 @@ public class AddMohpromtActivity extends AppCompatActivity {
         mohpromt_enddate = new Mohpromt();
         final EditText mohpromtplace = (EditText) findViewById(R.id.txtadd_mohpromtplace);
         final Spinner listtype = (Spinner) findViewById(R.id.mohpromtlisttype);
-        final LinearLayout mohpromstartdate = (LinearLayout) findViewById(R.id.txt_mohpromtDate);
+        //final LinearLayout mohpromstartdate = (LinearLayout) findViewById(R.id.txt_mohpromtDate);
         //final LinearLayout mohpromenddate = (LinearLayout) findViewById(R.id.txtadd_mohpromtEndDate);
         final EditText starttime = (EditText) findViewById(R.id.mohpromtstartTime);
         final EditText endtime = (EditText) findViewById(R.id.mohpromtendTime);
         final EditText mohpromtlat = (EditText) findViewById(R.id.mohpromtLat);
         final EditText mohpromtlng = (EditText) findViewById(R.id.mohpromtLng);
         final EditText mohpromtdetail = (EditText) findViewById(R.id.mohpromtdetail);
+
+        CheckBox Mon,tues,wednes,thurs,frid,satur,sun;
+        Mon = (CheckBox) findViewById(R.id.radioButton_starttime1);
+        tues = (CheckBox) findViewById(R.id.radioButton_starttime2);
+        wednes = (CheckBox) findViewById(R.id.radioButton_starttime3);
+        thurs = (CheckBox) findViewById(R.id.radioButton_starttime4);
+        frid = (CheckBox) findViewById(R.id.radioButton_starttime5);
+        satur = (CheckBox) findViewById(R.id.radioButton_starttime6);
+        sun = (CheckBox) findViewById(R.id.radioButton_starttime7);
 
         String mohpromt_place = mohpromtplace.getText().toString();
         String mohpromt_listype = listtype.getSelectedItem().toString();
@@ -177,19 +238,15 @@ public class AddMohpromtActivity extends AppCompatActivity {
         //Check Error
         if (mohpromt_place.equals("")) {
             Toast.makeText(AddMohpromtActivity.this, "กรุณากรอกชื่อ", Toast.LENGTH_SHORT).show();
-        } else if(mohpromt_starttime.equals("")){
-            Toast.makeText(AddMohpromtActivity.this, "กรุณาเลือกวันที่เปิดให้บริการ", Toast.LENGTH_SHORT).show();
-
+        }else if(!Mon.isChecked()&&!tues.isChecked()&&!wednes.isChecked()&&!thurs.isChecked()&&!frid.isChecked()&&!satur.isChecked()&&!sun.isChecked()){
+            Toast.makeText(AddMohpromtActivity.this, "กรุณาเลือกวันเปิดให้บริการ", Toast.LENGTH_SHORT).show();
+        }else if(mohpromt_starttime.equals("")){
+            Toast.makeText(AddMohpromtActivity.this, "กรุณาเลือกเวลาเปิดให้บริการ", Toast.LENGTH_SHORT).show();
         } else if(mohpromt_endtime.equals("")){
-            Toast.makeText(AddMohpromtActivity.this, "กรุณากรอก ละติจูดของสถานที่", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(AddMohpromtActivity.this, "กรุณาเลือกเวลาปิดให้บริการ", Toast.LENGTH_SHORT).show();
         } else if(mohpromt_lat.equals("")) {
-            Toast.makeText(AddMohpromtActivity.this, "กรุณากรอก ลองจิจูดของสถานที่", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(AddMohpromtActivity.this, "กรุณากรอก ละติจูดของสถานที่", Toast.LENGTH_SHORT).show();
         } else if(mohpromt_lng.equals("")) {
-            Toast.makeText(AddMohpromtActivity.this, "กรุณากรอก ลองจิจูดของสถานที่", Toast.LENGTH_SHORT).show();
-
-        } else if(mohpromt_detail.equals("")){
             Toast.makeText(AddMohpromtActivity.this, "กรุณากรอก ลองจิจูดของสถานที่", Toast.LENGTH_SHORT).show();
         } else {
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -257,8 +314,8 @@ public class AddMohpromtActivity extends AppCompatActivity {
         wednes = (CheckBox) findViewById(R.id.radioButton_starttime3);
         thurs = (CheckBox) findViewById(R.id.radioButton_starttime4);
         frid = (CheckBox) findViewById(R.id.radioButton_starttime5);
-        satur = (CheckBox) findViewById(R.id.radioButton_Endtime1);
-        sun = (CheckBox) findViewById(R.id.radioButton_Endtime2);
+        satur = (CheckBox) findViewById(R.id.radioButton_starttime6);
+        sun = (CheckBox) findViewById(R.id.radioButton_starttime7);
         btnDisplay = (TextView) findViewById(R.id.button_addMohpromt);
         String m = Mon.getText().toString();
         Log.e("--------------------------------------------------------------ddddd",m);
@@ -321,7 +378,6 @@ public class AddMohpromtActivity extends AppCompatActivity {
                     String s = sun.getText().toString();
                     StartTime_NotSeclect = StartTime_NotSeclect+","+s;
                 }
-
                 Log.e("-------------------------------------STS",StartTime_Seclect);
                 Log.e("-------------------------------------STNS",StartTime_NotSeclect);
                 ClickAddMohpromt();
@@ -341,17 +397,82 @@ public class AddMohpromtActivity extends AppCompatActivity {
         EditText mohpromtdetail = findViewById(R.id.mohpromtdetail);
 
         Mplace_def =  mohpromtplace.getText().toString();
-        Mstartdate_def = starttime.getText().toString();
-        Menddate_def = endtime.getText().toString();
+        Mstarttime_def = starttime.getText().toString();
+        Mendtime_def = endtime.getText().toString();
         Mdetail_def = mohpromtdetail.getText().toString();
 
         Intent intent = new Intent(AddMohpromtActivity.this, GetLatLngMohpromtActivity.class);
         intent.putExtra("Mplace_def",Mplace_def);
-        intent.putExtra("Mstartdate_def",Mstartdate_def);
-        intent.putExtra("Menddate_def",Menddate_def);
+        intent.putExtra("Mstarttime_def",Mstarttime_def);
+        intent.putExtra("Mendtime_def",Mendtime_def);
         intent.putExtra("Mdetail_def",Mdetail_def);
+        intent.putExtra("StartTime_Seclect",StartTime_Seclect);
+        intent.putExtra("StartTime_NotSeclect",StartTime_NotSeclect);
 
+        GetSelectCheckBoxDate();
         startActivity(intent);
     }
+
+    public void GetSelectCheckBoxDate(){
+        CheckBox Mon,tues,wednes,thurs,frid,satur,sun;
+        Mon = (CheckBox) findViewById(R.id.radioButton_starttime1);
+        tues = (CheckBox) findViewById(R.id.radioButton_starttime2);
+        wednes = (CheckBox) findViewById(R.id.radioButton_starttime3);
+        thurs = (CheckBox) findViewById(R.id.radioButton_starttime4);
+        frid = (CheckBox) findViewById(R.id.radioButton_starttime5);
+        satur = (CheckBox) findViewById(R.id.radioButton_starttime6);
+        sun = (CheckBox) findViewById(R.id.radioButton_starttime7);
+
+        if(Mon.isChecked()){
+            String mo = Mon.getText().toString();
+            StartTime_Seclect = StartTime_Seclect+mo;
+        }else{
+            String mo = Mon.getText().toString();
+            StartTime_NotSeclect = StartTime_NotSeclect+mo;
+        }
+        if(tues.isChecked()){
+            String tu = tues.getText().toString();
+            StartTime_Seclect = StartTime_Seclect+","+tu;
+        }else{
+            String tu = tues.getText().toString();
+            StartTime_NotSeclect = StartTime_NotSeclect+","+tu;
+        }
+        if(wednes.isChecked()){
+            String w = wednes.getText().toString();
+            StartTime_Seclect = StartTime_Seclect+","+w;
+        }else{
+            String w = wednes.getText().toString();
+            StartTime_NotSeclect = StartTime_NotSeclect+","+w;
+        }
+        if(thurs.isChecked()){
+            String th = thurs.getText().toString();
+            StartTime_Seclect = StartTime_Seclect+","+th;
+        }else{
+            String th = thurs.getText().toString();
+            StartTime_NotSeclect = StartTime_NotSeclect+","+th;
+        }
+        if(frid.isChecked()){
+            String f = frid.getText().toString();
+            StartTime_Seclect = StartTime_Seclect+","+f;
+        }else{
+            String f = thurs.getText().toString();
+            StartTime_NotSeclect = StartTime_NotSeclect+","+f;
+        }
+        if(satur.isChecked()){
+            String sa = satur.getText().toString();
+            StartTime_Seclect = StartTime_Seclect+","+sa;
+        }else{
+            String sa = satur.getText().toString();
+            StartTime_NotSeclect = StartTime_NotSeclect+","+sa;
+        }
+        if(sun.isChecked()){
+            String s = sun.getText().toString();
+            StartTime_Seclect = StartTime_Seclect+","+s;
+        }else{
+            String s = sun.getText().toString();
+            StartTime_NotSeclect = StartTime_NotSeclect+","+s;
+        }
+    }
 }
+
 

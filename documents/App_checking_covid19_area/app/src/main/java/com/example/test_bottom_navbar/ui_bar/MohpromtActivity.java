@@ -125,7 +125,10 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                         mMap.addMarker(new MarkerOptions().position(location)
                                 .title(mohpromt.getMohpromtPlace())
                                 .snippet(mohpromt.getMohpromtType() +
-                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
+                                        " \nเปิด " + mohpromt.getMohpromtStartTime() + " ถึง " + mohpromt.getMohpromtEndTime()
+                                        +" \nวันเปิดให้บริการ : "+ mohpromt.getMohpromtStartDate() +" \nวันหยุด : "+ mohpromt.getMohpromtEndDate()
+                                        +" \nรายละเอียด :\n"+ mohpromt.getMohpromtDetail()
+                                )
                                 .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_clinic_location_24))
                         );
 
@@ -134,7 +137,10 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                         mMap.addMarker(new MarkerOptions().position(location)
                                 .title(mohpromt.getMohpromtPlace())
                                 .snippet(mohpromt.getMohpromtType() +
-                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
+                                        " \nเปิด " + mohpromt.getMohpromtStartTime() + " ถึง " + mohpromt.getMohpromtEndTime()
+                                        +" \nวันเปิดให้บริการ : "+ mohpromt.getMohpromtStartDate() +" \nวันหยุด : "+ mohpromt.getMohpromtEndDate()
+                                        +" \nรายละเอียด :\n"+ mohpromt.getMohpromtDetail()
+                                )
                                 .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_hospital_location_24))
                         );
 
@@ -143,17 +149,24 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                         mMap.addMarker(new MarkerOptions().position(location)
                                 .title(mohpromt.getMohpromtPlace())
                                 .snippet(mohpromt.getMohpromtType() +
-                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
+                                        " \nเปิด " + mohpromt.getMohpromtStartTime() + " ถึง " + mohpromt.getMohpromtEndTime()
+                                        +" \nวันเปิดให้บริการ : "+ mohpromt.getMohpromtStartDate() +" \nวันหยุด : "+ mohpromt.getMohpromtEndDate()
+                                        +" \nรายละเอียด :\n"+ mohpromt.getMohpromtDetail()
+                                )
                                 .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_dispensing_location_30))
                         );
                     } else {
                         mMap.addMarker(new MarkerOptions().position(location)
                                 .title(mohpromt.getMohpromtPlace())
                                 .snippet(mohpromt.getMohpromtType() +
-                                        " เปิด " + mohpromt.getMohpromtStartTime() + "ถึง " + mohpromt.getMohpromtEndTime())
+                                        " \nเปิด " + mohpromt.getMohpromtStartTime() + " ถึง " + mohpromt.getMohpromtEndTime()
+                                        +" \nวันเปิดให้บริการ : "+ mohpromt.getMohpromtStartDate() +" \nวันหยุด : "+ mohpromt.getMohpromtEndDate()
+                                        +" \nรายละเอียด :\n"+ mohpromt.getMohpromtDetail()
+                                )
                                 .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_pharmacy_location_30))
                         );
                     }
+                    mMap.setInfoWindowAdapter(new InfoMohpromtWindowAdapter(MohpromtActivity.this));
                 }
 
 

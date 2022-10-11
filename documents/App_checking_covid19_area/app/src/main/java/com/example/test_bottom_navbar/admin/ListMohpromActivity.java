@@ -72,7 +72,7 @@ public class ListMohpromActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(ListMohpromActivity.this);
-                            builder.setTitle("คำความเตือน");
+                            builder.setTitle("เเจ้งเตือน");
                             builder.setMessage("คุณเเน่ใจหรอว่าต้องการลบ ?");
                             builder.setPositiveButton("ฉันเเน่ใจ", new DialogInterface.OnClickListener() {
                                 @Override

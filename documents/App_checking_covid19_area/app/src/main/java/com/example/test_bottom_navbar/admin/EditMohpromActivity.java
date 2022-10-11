@@ -3,6 +3,7 @@ package com.example.test_bottom_navbar.admin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,6 +60,13 @@ public class EditMohpromActivity extends AppCompatActivity {
         findRadioButton();
     }
 
+    public String checklength(String s) {
+        if (s.length() < 2) {
+            s = "0" + s;
+        }
+        return s;
+    }
+
     public void ClickStartTime_Edit(View view) {
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -68,8 +76,10 @@ public class EditMohpromActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 mHour = i;
                 mMinute = i1;
-                EditText et = findViewById(R.id.mohpromtstartTime);
-                et.setText(i + ":" + i1 + "น.");
+                String Hour = checklength(String.valueOf(i));
+                String Minute = checklength(String.valueOf(i1));
+                EditText et = findViewById(R.id.txtedit_mohpromtstartTime);
+                et.setText(Hour + " : " + Minute + " น.");
             }
         }, mHour, mMinute, true);
         tpd.show();
@@ -84,9 +94,10 @@ public class EditMohpromActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 mHour = i;
                 mMinute = i1;
-                EditText et = findViewById(R.id.mohpromtendTime);
-                et.setText(i + ":" + i1+ "น.");
-
+                String Hour = checklength(String.valueOf(i));
+                String Minute = checklength(String.valueOf(i1));
+                EditText et = findViewById(R.id.txtedit_mohpromtendTime);
+                et.setText(Hour + " : " + Minute+ " น.");
             }
         }, mHour, mMinute, true);
         tpd.show();
@@ -250,6 +261,7 @@ public class EditMohpromActivity extends AppCompatActivity {
         btnDisplay = (TextView) findViewById(R.id.button_editMohpromt);
         String m = Mon.getText().toString();
         btnDisplay.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("LongLogTag")
             @Override
             public void onClick(View view) {
                 StartTime_Seclect = "";
@@ -258,7 +270,6 @@ public class EditMohpromActivity extends AppCompatActivity {
                 if(Mon.isChecked()){
                     String mo = Mon.getText().toString();
                     StartTime_Seclect = StartTime_Seclect+mo;
-                    Log.e("--------------------------------------------------------------1",StartTime_Seclect);
                 }else{
                     String mo = Mon.getText().toString();
                     StartTime_NotSeclect = StartTime_NotSeclect+mo;
@@ -266,7 +277,6 @@ public class EditMohpromActivity extends AppCompatActivity {
                 if(tues.isChecked()){
                     String tu = tues.getText().toString();
                     StartTime_Seclect = StartTime_Seclect+","+tu;
-                    Log.e("--------------------------------------------------------------2",StartTime_Seclect);
                 }else{
                     String tu = tues.getText().toString();
                     StartTime_NotSeclect = StartTime_NotSeclect+","+tu;
@@ -274,7 +284,6 @@ public class EditMohpromActivity extends AppCompatActivity {
                 if(wednes.isChecked()){
                     String w = wednes.getText().toString();
                     StartTime_Seclect = StartTime_Seclect+","+w;
-                    Log.e("--------------------------------------------------------------3",StartTime_Seclect);
                 }else{
                     String w = wednes.getText().toString();
                     StartTime_NotSeclect = StartTime_NotSeclect+","+w;
@@ -282,7 +291,6 @@ public class EditMohpromActivity extends AppCompatActivity {
                 if(thurs.isChecked()){
                     String th = thurs.getText().toString();
                     StartTime_Seclect = StartTime_Seclect+","+th;
-                    Log.e("--------------------------------------------------------------4",StartTime_Seclect);
                 }else{
                     String th = thurs.getText().toString();
                     StartTime_NotSeclect = StartTime_NotSeclect+","+th;
@@ -290,7 +298,6 @@ public class EditMohpromActivity extends AppCompatActivity {
                 if(frid.isChecked()){
                     String f = frid.getText().toString();
                     StartTime_Seclect = StartTime_Seclect+","+f;
-                    Log.e("--------------------------------------------------------------5",StartTime_Seclect);
                 }else{
                     String f = thurs.getText().toString();
                     StartTime_NotSeclect = StartTime_NotSeclect+","+f;
@@ -298,7 +305,6 @@ public class EditMohpromActivity extends AppCompatActivity {
                 if(satur.isChecked()){
                     String sa = satur.getText().toString();
                     StartTime_Seclect = StartTime_Seclect+","+sa;
-                    Log.e("--------------------------------------------------------------6",StartTime_Seclect);
                 }else{
                     String sa = satur.getText().toString();
                     StartTime_NotSeclect = StartTime_NotSeclect+","+sa;
@@ -306,15 +312,12 @@ public class EditMohpromActivity extends AppCompatActivity {
                 if(sun.isChecked()){
                     String s = sun.getText().toString();
                     StartTime_Seclect = StartTime_Seclect+","+s;
-                    Log.e("--------------------------------------------------------------7",StartTime_Seclect);
                 }else{
                     String s = sun.getText().toString();
                     StartTime_NotSeclect = StartTime_NotSeclect+","+s;
                 }
-
                 Log.e("-------------------------------------STS",StartTime_Seclect);
                 Log.e("-------------------------------------STNS",StartTime_NotSeclect);
-
                 ClickToEditMohpromt();
             }
         });

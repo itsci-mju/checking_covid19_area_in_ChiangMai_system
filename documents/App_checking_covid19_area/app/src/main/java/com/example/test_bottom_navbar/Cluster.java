@@ -19,7 +19,6 @@ public class Cluster implements Serializable {
         this.clusterSubdistrict = clusterSubdistrict;
         this.clusterDistrict = clusterDistrict;
         this.cluster_news_patient = cluster_news_patient;
-
         this.clusterLat = clusterLat;
         this.clusterLng = clusterLng;
     }

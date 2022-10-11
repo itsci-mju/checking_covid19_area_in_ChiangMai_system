@@ -25,7 +25,7 @@ public class GetLatLngMohpromt extends Fragment {
     double Mohpromt_Lat,Mohpromt_Lng;
     private ImageButton ButtonBack;
     private Button ButtonGetLatLng;
-    String Mplace_def,Mstartdate_def,Menddate_def,Mdetail_def;
+    String Mplace_def,Mstarttime_def,Mendtime_def,Mdetail_def,StartTime_Seclect,StartTime_NotSeclect;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,14 +33,18 @@ public class GetLatLngMohpromt extends Fragment {
 
         Bundle bundle = getActivity().getIntent().getExtras();
         Mplace_def = bundle.getString("Mplace_def");
-        Mstartdate_def = bundle.getString("Mstartdate_def");
-        Menddate_def = bundle.getString("Menddate_def");
+        Mstarttime_def = bundle.getString("Mstarttime_def");
+        Mendtime_def = bundle.getString("Mendtime_def");
         Mdetail_def = bundle.getString("Mdetail_def");
+        StartTime_Seclect = bundle.getString("StartTime_Seclect");
+        StartTime_NotSeclect = bundle.getString("StartTime_NotSeclect");
 
         getActivity().getIntent().getExtras().get("Mplace_def");
         getActivity().getIntent().getExtras().get("Mstartdate_def");
         getActivity().getIntent().getExtras().get("Menddate_def");
         getActivity().getIntent().getExtras().get("Mdetail_def");
+        getActivity().getIntent().getExtras().get("StartTime_Seclect");
+        getActivity().getIntent().getExtras().get("StartTime_NotSeclect");
 
         SupportMapFragment supportMapFragment = (SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.google_map);
@@ -87,9 +91,11 @@ public class GetLatLngMohpromt extends Fragment {
                 intentLatLng.putExtra("Mohpromt_Lat", Mohpromt_Lat);
                 intentLatLng.putExtra("Mohpromt_Lng", Mohpromt_Lng);
                 intentLatLng.putExtra("Mplace_def",Mplace_def);
-                intentLatLng.putExtra("Mstartdate_def",Mstartdate_def);
-                intentLatLng.putExtra("Menddate_def",Menddate_def);
+                intentLatLng.putExtra("Mstarttime_def",Mstarttime_def);
+                intentLatLng.putExtra("Mendtime_def",Mendtime_def);
                 intentLatLng.putExtra("Mdetail_def",Mdetail_def);
+                intentLatLng.putExtra("StartTime_Seclect",StartTime_Seclect);
+                intentLatLng.putExtra("StartTime_NotSeclect",StartTime_NotSeclect);
                 startActivity(intentLatLng);
             }
         });
@@ -99,9 +105,11 @@ public class GetLatLngMohpromt extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AddMohpromtActivity.class);
                 intent.putExtra("Mplace_def",Mplace_def);
-                intent.putExtra("Mstartdate_def",Mstartdate_def);
-                intent.putExtra("Menddate_def",Menddate_def);
+                intent.putExtra("Mstarttime_def",Mstarttime_def);
+                intent.putExtra("Mendtime_def",Mendtime_def);
                 intent.putExtra("Mdetail_def",Mdetail_def);
+                intent.putExtra("StartTime_Seclect",StartTime_Seclect);
+                intent.putExtra("StartTime_NotSeclect",StartTime_NotSeclect);
                 startActivity(intent);
             }
         });

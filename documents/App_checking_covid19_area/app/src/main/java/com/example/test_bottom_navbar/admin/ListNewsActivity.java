@@ -64,7 +64,7 @@ public class ListNewsActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(ListNewsActivity.this);
-                            builder.setTitle("คำความเตือน");
+                            builder.setTitle("เเจ้งเตือน");
                             builder.setMessage("คุณเเน่ใจหรอว่าต้องการลบข่าวนี้ ?");
                             builder.setPositiveButton("ฉันเเน่ใจ", new DialogInterface.OnClickListener() {
                                 @Override

@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
@@ -60,8 +63,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.skyfishjy.library.RippleBackground;
+import com.squareup.picasso.Picasso;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback{
+@SuppressLint("NewApi")
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
     private ImageView imageView;
     private EditText SarchButton;
@@ -109,7 +114,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch (item.getItemId())
                 {
                     case R.id.nav_home:
@@ -130,64 +134,80 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             return false;
             }
         });
+    }
 
-        //View layout = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_list_cluster_user, null);
+    @SuppressLint("NewApi")
+    public void showPopUp(View view){
+        PopupMenu popupMenu = new PopupMenu(this,view);
+        popupMenu.setOnMenuItemClickListener(MainActivity.this);
+        popupMenu.inflate(R.menu.bottom_popup_menu);
+        popupMenu.show();
+    }
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        return false;
+    }
 
-        //dialog = new Dialog(MainActivity.this);
+    public void ListClusterInDialog(View view){
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
+        builderSingle.setIcon(R.drawable.co_covid19);
+        builderSingle.setTitle("Select One Name:-");
 
-        ////openDialog
-       /* AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Title");
-        //builder.setView(layout);
-        builder.setNegativeButton("กลับ", new DialogInterface.OnClickListener() {
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.select_dialog_item);
+        arrayAdapter.add("Hardik");
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });*/
-        buttonlistcovidArea = findViewById(R.id.listcovidArea);
-        buttonlistcovidArea.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //builder.show();
-
-                dialog = new Dialog(MainActivity.this);
-                dialog.setContentView(R.layout.layout_cluster);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.layout_shap_cluster));
-
-                }
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.setCancelable(false); //Optional
-                dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
-
-/*                for (int i=0;i < District.length;i++) {
-                    System.out.println(District[i]);
-                    LinearLayout list_cluster = findViewById(R.id.showlistcluster_user);
-                    list_cluster.removeAllViews();
-                    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                    DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-                    Query query1 = myRef.orderByKey();
-                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot ds : snapshot.getChildren()) {
-                                Log.e("Data_cluster", ds.getValue().toString());
-                                View cluster = getLayoutInflater().inflate(R.layout.layout_cluster, null);
-                                String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                                TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
-                                txtdistrict.setText(clusterDistrict);
-                                list_cluster.addView(cluster);
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {}
-                    });
-                }*/
+            public void onClick(DialogInterface dialog, int which) {
+                String strName = arrayAdapter.getItem(which);
+                AlertDialog.Builder builderInner = new AlertDialog.Builder(MainActivity.this);
+                builderInner.setMessage(strName);
+                builderInner.setTitle("Your Selected Item is");
+                builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builderInner.show();
             }
         });
+        builderSingle.setNegativeButton("กลับ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builderSingle.show();
     }
-    
+
+    private void addToAdapter(){
+        for (int i=0;i < District.length;i++) {
+            System.out.println(District[i]);
+            LinearLayout list_cluster = findViewById(R.id.showlistcluster_user);
+            list_cluster.removeAllViews();
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+            Query query1 = myRef.orderByKey();
+            query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Log.e("Data_cluster", ds.getValue().toString());
+                        View cluster = getLayoutInflater().inflate(R.layout.layout_cluster, null);
+                        String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
+                        TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
+                        txtdistrict.setText(clusterDistrict);
+                        list_cluster.addView(cluster);
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+        }
+    }
+
     private void requestPermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -324,7 +344,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng user_location = new LatLng(18.7858623,98.9764537);
         mMap.addMarker(new MarkerOptions()
                         .position(user_location)
-                        .title("I'm here !!!!")
+                        .title("คุณอยู่จุดนี้")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                 //.icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.user_64)
         );
@@ -343,23 +363,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.addMarker(new MarkerOptions().position(location)
                                 .title(cluster.getClusterPlace())
                                 .snippet(cluster.getClusterDate()+
-                                        " อ." + cluster.getClusterDistrict()+
+                                        " \nอ." + cluster.getClusterDistrict()+
                                         " ต." + cluster.getClusterSubdistrict()+
-                                        " ยอด: " + cluster.getCluster_news_patient()
-
+                                        " \nยอดผู้ติดเชื้อ: " + cluster.getCluster_news_patient()
                                 )
                         );
                         addingCircleView(location);
+                        mMap.setInfoWindowAdapter(new InfoWindowAdapter(MainActivity.this));
                     }
                 }
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+                public void onCancelled(@NonNull DatabaseError error) {}
             });
         }
     }
-
 
     private void PolegonDistrict(){
         QurryMarker();
@@ -887,4 +904,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     LatLng sungom16= new LatLng(18.679349,99.106240);
     LatLng sungom17= new LatLng(18.679119,99.113281);
     LatLng sungom18= new LatLng(18.683833,99.126633);
+
+
 }

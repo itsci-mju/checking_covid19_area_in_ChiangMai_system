@@ -270,7 +270,7 @@
                                             tools:ignore="TouchTargetSizeCheck" />
 
                                         <CheckBox
-                                            android:id="@+id/radioButton_Endtime1"
+                                            android:id="@+id/radioButton_starttime6"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/prompt_medium"
@@ -278,7 +278,7 @@
                                             tools:ignore="TouchTargetSizeCheck" />
 
                                         <CheckBox
-                                            android:id="@+id/radioButton_Endtime2"
+                                            android:id="@+id/radioButton_starttime7"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/prompt_medium"

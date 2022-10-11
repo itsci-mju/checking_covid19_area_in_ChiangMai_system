@@ -1,8 +1,11 @@
 package com.example.test_bottom_navbar.admin;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,16 +32,19 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddClusterActivity extends AppCompatActivity {
-    String Admin,i,district_name,C_lat,C_lng,SetDefault_Date;
+    String Admin,i,district_name,subdistrict_name,C_lat,C_lng,SetDefault_Date,SetDefault_Date_set14;
     String clusterDate,clusterSubdistrict,clusterDistrict,cluster_news_patient,clusterLat,clusterLng;
     String place_def,subdistrict_def,district_def,news_patient_def,Clat_def,Clng_def;
     double Cluster_Lat,Cluster_Lng;
     int patientNum;
     private Spinner spinner_district,spinner_subdistrict;
     private TextView txtLat,txtLng;
-    ArrayAdapter<String> dataAdapter;
+    ArrayAdapter<String> dataAdapter_district;
+    ArrayAdapter<String> dataAdapter_subdistrict;
+    String positionOfSelectedDataFromSpinner_district,positionOfSelectedDataFromSpinner_subdistrict;
 
     String[] district = {"เมืองเชียงใหม่","จอมทอง","เเม่เเจ่ม","เชียงดาว","ดอยสะเก็ด","แม่แตง","แม่ริม","สะเมิง","ฝาง","แม่อาย","พร้าว","สันป่าตอง","สันกำแพง","สันทราย","หางดง","ฮอด","ดอยเต่า","อมก๋อย","สารภี","เวียงแหง","ไชยปราการ","แม่วาง","แม่ออน","ดอยหล่อ"};
     String[] sub_CM = {"ศรีภูมิ","พระสิงห์","หายยา","ช้างม่อย","ช้างคลาน","วัดเกต","ช้างเผือก","สุเทพ","แม่เหียะ","ป่าแดด","หนองหอย","ท่าศาลา","หนองป่าครั่ง","ฟ้าฮ่าม","ป่าตัน","สันผีเสื้อ"};
@@ -85,19 +91,18 @@ public class AddClusterActivity extends AppCompatActivity {
         EditText place = findViewById(R.id.txtadd_place);
         place.setText(String_place_def);
 
-/*      String String_subdistrict_def = subdistrict_def;
-        Spinner subdistrict = findViewById(R.id.txtadd_subdistrict);
+        //spinner_district.setSelection(positionOfSelectedDataFromSpinner_district);
+        //spinner_subdistrict.setSelection(positionOfSelectedDataFromSpinner_subdistrict);
 
-        String String_district_def = district_def;
-        Spinner district = findViewById(R.id.txtadd_district);*/
 
         String String_news_patient_def = news_patient_def;
         EditText news_patient = findViewById(R.id.txtadd_newpatient);
         news_patient.setText(String_news_patient_def);
 
         if (Cluster_Lat != 0.0 && Cluster_Lng != 0.0) {
-            this.GetLatLngFromMap();
+                this.GetLatLngFromMap();
         }
+
 
         Intent intent = getIntent();
         Admin = intent.getStringExtra("Admin");
@@ -105,109 +110,159 @@ public class AddClusterActivity extends AppCompatActivity {
         DateClusterDefault();
 
         spinner_district = findViewById(R.id.txtadd_district);
-        dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item,district);
-        spinner_district.setAdapter(dataAdapter);
+        dataAdapter_district = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item,district);
+        spinner_district.setAdapter(dataAdapter_district);
+        System.out.println("-------------------------------------------spinnder----"+spinner_district.getSelectedItem().toString());
+        positionOfSelectedDataFromSpinner_district = spinner_district.getSelectedItem().toString();
         spinner_district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(AddClusterActivity.this, "เลือก "+parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
                 district_name = parent.getItemAtPosition(position).toString();
+
                 if (district_name == "เมืองเชียงใหม่") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_CM);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_CM);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "จอมทอง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Chomthong);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Chomthong);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "เเม่เเจ่ม") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeJam);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeJam);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "เชียงดาว") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_ChiangDao);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_ChiangDao);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "ดอยสะเก็ด") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_DoiSaket);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_DoiSaket);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "แม่แตง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeTaeng);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeTaeng);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "แม่ริม") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeRim);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeRim);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "สะเมิง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Samoeng);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Samoeng);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "ฝาง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Fang);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Fang);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "แม่อาย") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeEye);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeEye);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "พร้าว") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Phrao);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Phrao);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "สันป่าตอง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_SanPaTong);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_SanPaTong);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "สันกำแพง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Sankumpang);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Sankumpang);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "สันทราย") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_SanSai);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_SanSai);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "หางดง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_HangDong);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_HangDong);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "ฮอด") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Hot);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Hot);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "ดอยเต่า") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_DoiTao);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_DoiTao);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "อมก๋อย") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_AumKoi);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_AumKoi);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "สารภี") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Sarapee);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Sarapee);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "เวียงแหง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_WiangHaeg);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_WiangHaeg);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "ไชยปราการ") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Chaiprakarn);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Chaiprakarn);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "แม่วาง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeWang);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeWang);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "แม่ออน") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeOn);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeOn);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }else if (district_name == "ดอยหล่อ") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
-                    dataAdapter = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_DoiLo);
-                    spinner_subdistrict.setAdapter(dataAdapter);
+                    dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_DoiLo);
+                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
+
                 }
             }
             @Override
@@ -226,6 +281,7 @@ public class AddClusterActivity extends AppCompatActivity {
         return s;
     }
 
+    @SuppressLint("NewApi")
     public void ClickDateCluster(View view) {
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
@@ -244,6 +300,7 @@ public class AddClusterActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    @SuppressLint("LongLogTag")
     public void DateClusterDefault(){
         Calendar calendar = Calendar.getInstance();
         EditText txtdate = findViewById(R.id.txtadd_datecluster);
@@ -255,6 +312,37 @@ public class AddClusterActivity extends AppCompatActivity {
         txtdate.setText(day + "-" + months + "-" + mYear);
         SetDefault_Date = txtdate.getText().toString();
         txtdate.setText(SetDefault_Date);
+
+
+        Calendar calendar1 = Calendar.getInstance();
+        int mYear1 = calendar1.get(Calendar.YEAR);
+        int mMonth1 = calendar1.get(Calendar.MONTH);
+        int mDay1 = calendar1.get(Calendar.DAY_OF_MONTH);
+        String day1 = checklength(String.valueOf(mDay1));
+        String months1 = checklength(String.valueOf(mMonth1 + 1));
+        txtdate.setText(day1 + "-" + months1 + "-" + mYear1);
+
+        int days = 31;
+        if(months == "4" || months == "6" || months == "9" || months == "11"){
+            days = 30 ;
+        }
+
+        int day_payment = mDay+7;
+        int Month_payment = 0 ;
+        int year_payment = mYear;
+
+        if(day_payment > days){
+            day_payment = day_payment - days;
+            Month_payment = mMonth+2;
+            if(Month_payment > 12){
+                year_payment +=  1;
+            }
+        }else {
+            Month_payment = mMonth+1;
+        }
+
+
+        SetDefault_Date = txtdate.getText().toString();
     }
 
     public void GetLatLngFromMap(){
@@ -266,7 +354,6 @@ public class AddClusterActivity extends AppCompatActivity {
         TextView txtlng = findViewById(R.id.txtLng);
         txtlng.setText(C_lng);
     }
-
 
     public void ClickBTNAddCluster(View view) {
         final EditText date = (EditText) findViewById(R.id.txtadd_datecluster);
@@ -364,8 +451,8 @@ public class AddClusterActivity extends AppCompatActivity {
 
         Intent intent = new Intent(AddClusterActivity.this, GetLatLngClusterActivity.class);
         intent.putExtra("place_def",place_def);
-        intent.putExtra("subdistrict_def",subdistrict_def);
-        intent.putExtra("district_def",district_def);
+        intent.putExtra("district_def",positionOfSelectedDataFromSpinner_district);
+        intent.putExtra("subdistrict_def",positionOfSelectedDataFromSpinner_subdistrict);
         intent.putExtra("news_patient_def",news_patient_def);
         intent.putExtra("Clat_def",Clat_def);
         intent.putExtra("Clng_def",Clng_def);

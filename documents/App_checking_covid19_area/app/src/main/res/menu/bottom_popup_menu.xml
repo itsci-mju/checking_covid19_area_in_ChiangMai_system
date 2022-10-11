@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/nav_home"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fontFamily="@font/prompt_medium"
         android:icon="@drawable/ic_baseline_location_on_24"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/nav_news"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fontFamily="@font/prompt_medium"
+        android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_dashboard" />
 
     <item
         android:id="@+id/nav_mohpromt"
-        android:icon="@drawable/ic_baseline_add_location_24"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fontFamily="@font/prompt_medium"
+        app:startIconDrawable="@drawable/ic_baseline_location_on_24"
         android:title="@string/title_notifications" />
 
     <item
         android:id="@+id/nav_setting"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fontFamily="@font/prompt_medium"
+        android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/title_setting" />
-
 
 </menu>

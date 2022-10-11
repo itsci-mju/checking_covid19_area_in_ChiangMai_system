@@ -87,7 +87,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(ListRiskAreaActivity.this);
-                                builder.setTitle("คำความเตือน");
+                                builder.setTitle("เเจ้งเตือน");
                                 builder.setMessage("คุณเเน่ใจหรอว่าต้องการลบคลัสเตอร์นี้ ?");
                                 builder.setPositiveButton("ฉันเเน่ใจ", new DialogInterface.OnClickListener() {
                                     @Override
