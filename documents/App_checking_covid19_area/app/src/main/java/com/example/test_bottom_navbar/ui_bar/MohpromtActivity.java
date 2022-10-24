@@ -60,21 +60,10 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch (item.getItemId())
                 {
-                    case R.id.nav_home:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.nav_news:
-                        startActivity(new Intent(getApplicationContext(), NewsActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.nav_mohpromt:
-                        return true;
-                    case R.id.nav_setting:
-                        startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+                    case R.id.nav_back:
+                        startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                 }
@@ -82,13 +71,10 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
     }
-
-
     //instance firebase
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference myRef = database.getReference("admin001/mohpromt");
     Query query1 = myRef.orderByKey();
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -104,14 +90,12 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                 .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_baseline_person_pin_circle_24))
 
         );
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(user_location));
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
         //Zoom setUp
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
         //Zoom button
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
 
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -225,8 +209,30 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                             LatLng sarch_location = new LatLng(sarchLat,sarchLng);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_location));
                             mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
-                        }else if(sarchbutton.equals("")){
+                        }else if(sarchbutton.equals("อำเภอเมืองเชียงใหม่")||sarchbutton.equals("เมืองเชียงใหม่")){
+                            LatLng sarch_district_location = new LatLng(18.788315431666554, 98.98526644745863);
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(11.5f));
+
+                        } else if(sarchbutton.equals("อำเภอแม่ริม")||sarchbutton.equals("แม่ริม")){
+                            LatLng sarch_district_location = new LatLng(18.930049705282652, 98.89436050125632);
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
+
+                        } else if(sarchbutton.equals("อำเภอสันทราย")||sarchbutton.equals("สันทราย")){
+                            LatLng sarch_district_location = new LatLng(18.93283814873816, 99.04031290127963);
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
+
+                        } else if(sarchbutton.equals("อำเภอสารภี")||sarchbutton.equals("สารภี")){
+                            LatLng sarch_district_location = new LatLng(18.699573834395185, 99.0193778674712);
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(11.5f));
+
+                        } else if(sarchbutton.equals("")) {
                             Toast.makeText(MohpromtActivity.this, "กรุณากรอกชื่อสถานที่", Toast.LENGTH_SHORT).show();
+                        }else if (sarchbutton != MohpromtPlace) {
+                            Toast.makeText(MohpromtActivity.this, "ไม่พบข้อมูล" + sarchbutton, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

@@ -72,18 +72,8 @@ public class NewsActivity extends AppCompatActivity {
 
                 switch (item.getItemId())
                 {
-                    case R.id.nav_home:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.nav_news:
-                        return true;
-                    case R.id.nav_mohpromt:
-                        startActivity(new Intent(getApplicationContext(), MohpromtActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.nav_setting:
-                        startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+                    case R.id.nav_back:
+                        startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                 }
@@ -259,31 +249,4 @@ public class NewsActivity extends AppCompatActivity {
         }
         myListNews.clear();
     }
-
-
-/*    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-
-                    switch (item.getItemId()){
-                        case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
-                            break;
-                        case R.id.nav_favorites:
-                            selectedFragment = new DashboardFragment();
-                            break;
-                        case R.id.nav_search:
-                            selectedFragment = new NotificationsFragment();
-                            break;
-                        case R.id.nav_setting:
-                            selectedFragment = new SettingFragment();
-                            break;
-                    }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
-                    return true;
-                }
-            };*/
 }

@@ -586,8 +586,7 @@ public class AddClusterActivity extends AppCompatActivity {
         final EditText place = (EditText) findViewById(R.id.txtadd_place);
         final Spinner subdistrict = (Spinner) findViewById(R.id.txtadd_subdistrict);
         final Spinner district = (Spinner) findViewById(R.id.txtadd_district);
-        final EditText newspatient = (EditText) findViewById(R.id.txtadd_newpatient);
-
+        final EditText newpatient = (EditText) findViewById(R.id.txtadd_newpatient);
         final EditText lat = (EditText) findViewById(R.id.txtLat);
         final EditText lng = (EditText) findViewById(R.id.txtLng);
 
@@ -595,7 +594,13 @@ public class AddClusterActivity extends AppCompatActivity {
         String clusterPlace = place.getText().toString();
         String clusterSubdistrict = subdistrict.getSelectedItem().toString();
         String clusterDistrict = district.getSelectedItem().toString();
-        String cluster_news_patient = newspatient.getText().toString();
+
+        String cluster_All_patient= newpatient.getText().toString();
+        String cluster_getwell_patient = "0";
+        String cluster_Allpatient_district = cluster_All_patient;
+        String cluster_Allgetwell_district = "0";
+        String cluster_Allhealing_district = cluster_All_patient;
+        String cluster_news_patient= cluster_All_patient;
 
         patientNum = Integer.parseInt(cluster_news_patient);
 
@@ -614,7 +619,7 @@ public class AddClusterActivity extends AppCompatActivity {
         } else if (clusterDistrict.equals("")) {
             Toast.makeText(AddClusterActivity.this, "กรุณากรอก อำเภอ", Toast.LENGTH_SHORT).show();
 
-        } else if(cluster_news_patient.equals("")){
+        } else if(cluster_All_patient.equals("")){
             Toast.makeText(AddClusterActivity.this, "กรุณากรอก ยอดผู้ติดเชื้อใหม่", Toast.LENGTH_SHORT).show();
 
         } else if(clusterLat.equals("")){
@@ -635,7 +640,11 @@ public class AddClusterActivity extends AppCompatActivity {
                         Error = "T";
                     }
                     if (Error.equals("F")) {
-                        Cluster CT = new Cluster(clusterDate,clusterPlace,clusterSubdistrict,clusterDistrict,cluster_news_patient,clusterLat,clusterLng);
+                        Cluster CT = new Cluster(clusterDate,clusterPlace,clusterSubdistrict,
+                                clusterDistrict,cluster_getwell_patient,cluster_news_patient,
+                                cluster_All_patient,cluster_Allpatient_district,cluster_Allgetwell_district,
+                                cluster_Allhealing_district,clusterLat,clusterLng);
+
                         DatabaseReference stu1 = myRef.child(clusterPlace);
                         stu1.setValue(CT);
                         Intent intent = new Intent(AddClusterActivity.this, ListRiskAreaActivity.class);

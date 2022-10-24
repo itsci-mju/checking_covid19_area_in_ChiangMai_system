@@ -133,7 +133,7 @@
 
 
             <TextView
-                android:id="@+id/txtedit_newpatient"
+                android:id="@+id/txtedit_allpatient"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

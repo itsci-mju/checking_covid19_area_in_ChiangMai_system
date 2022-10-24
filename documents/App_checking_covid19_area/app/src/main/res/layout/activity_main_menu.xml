@@ -17,7 +17,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="750dp"
+                android:layout_height="820dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/background_card">
 
@@ -53,7 +53,6 @@
                             android:layout_height="50dp"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="15dp"
-                            android:onClick="ClickMenuToLogin"
                             app:srcCompat="@drawable/minnistry_of_public_health"
                             tools:ignore="SpeakableTextPresentCheck"
                             tools:srcCompat="@drawable/minnistry_of_public_health" />
@@ -69,11 +68,30 @@
                             android:textColor="#FFFFFF"
                             android:textSize="18dp" />
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="180dp"
+                            android:layout_marginTop="25dp"
+                            android:background="@drawable/txt_border"
+                            android:backgroundTint="#FFFFFF"
+                            android:onClick="ClickMenuToLogin"
+                            android:orientation="vertical"
+                            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck">
+
+                            <ImageView
+                                android:id="@+id/imageView8"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_margin="5dp"
+                                app:srcCompat="@drawable/ic_baseline_login_24" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
+                        android:layout_height="390dp"
                         android:layout_marginTop="15dp"
                         android:orientation="vertical">
 
@@ -160,7 +178,7 @@
                                                         android:layout_height="wrap_content"
                                                         android:layout_marginLeft="5dp"
                                                         android:fontFamily="@font/prompt_medium"
-                                                        android:text="01/01/2565"
+                                                        android:text="dd/mm/yyyy"
                                                         android:textColor="#FFFFFF" />
                                                 </LinearLayout>
 
@@ -187,58 +205,164 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_marginTop="5dp"
-                                        android:orientation="horizontal">
+                                        android:orientation="vertical">
 
                                         <LinearLayout
-                                            android:layout_width="160dp"
-                                            android:layout_height="150dp"
-                                            android:layout_marginLeft="28dp"
-                                            android:orientation="vertical">
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <LinearLayout
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="match_parent"
+                                                android:orientation="vertical">
+
+                                                <LinearLayout
+                                                    android:layout_width="160dp"
+                                                    android:layout_height="150dp"
+                                                    android:layout_marginLeft="28dp"
+                                                    android:orientation="vertical">
+
+                                                    <LinearLayout
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="match_parent"
+                                                        android:background="@drawable/txt_news_border"
+                                                        android:backgroundTint="#1FFF29"
+                                                        android:orientation="vertical">
+
+                                                        <TextView
+                                                            android:id="@+id/textView_getwell"
+                                                            android:layout_width="match_parent"
+                                                            android:layout_height="wrap_content"
+                                                            android:layout_margin="10dp"
+                                                            android:background="@drawable/border_end_set_shap"
+                                                            android:fontFamily="@font/prompt_medium"
+                                                            android:gravity="center"
+                                                            android:text="รักษาหายวันนี้"
+                                                            android:textSize="20sp"
+                                                            android:textStyle="bold" />
+
+                                                        <LinearLayout
+                                                            android:layout_width="match_parent"
+                                                            android:layout_height="match_parent"
+                                                            android:backgroundTint="#056839"
+                                                            android:orientation="horizontal">
+
+                                                            <TextView
+                                                                android:id="@+id/textView32"
+                                                                android:layout_width="50dp"
+                                                                android:layout_height="match_parent"
+                                                                android:fontFamily="@font/prompt_medium"
+                                                                android:gravity="center"
+                                                                android:text="+"
+                                                                android:textSize="34sp" />
+
+                                                            <TextView
+                                                                android:id="@+id/txt_getwell_patient"
+                                                                android:layout_width="wrap_content"
+                                                                android:layout_height="match_parent"
+                                                                android:fontFamily="@font/prompt_medium"
+                                                                android:gravity="center"
+                                                                android:text="ยอดหาย"
+                                                                android:textSize="48sp"
+                                                                android:textStyle="bold" />
+                                                        </LinearLayout>
+
+                                                    </LinearLayout>
+
+                                                </LinearLayout>
+
+                                            </LinearLayout>
 
                                             <LinearLayout
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
-                                                android:background="@drawable/txt_news_border"
-                                                android:backgroundTint="#1FFF29"
                                                 android:orientation="vertical">
 
-                                                <TextView
-                                                    android:id="@+id/textView39"
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_margin="10dp"
-                                                    android:background="@drawable/border_end_set_shap"
-                                                    android:fontFamily="@font/prompt_medium"
-                                                    android:gravity="center"
-                                                    android:text="รักษาหาย"
-                                                    android:textSize="20sp"
-                                                    android:textStyle="bold" />
-
                                                 <LinearLayout
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="match_parent"
-                                                    android:backgroundTint="#056839"
-                                                    android:orientation="horizontal">
+                                                    android:layout_width="150dp"
+                                                    android:layout_height="80dp"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:background="@drawable/txt_news_border"
+                                                    android:backgroundTint="#FF0000"
+                                                    android:orientation="vertical">
 
                                                     <TextView
-                                                        android:id="@+id/textView32"
-                                                        android:layout_width="50dp"
-                                                        android:layout_height="match_parent"
+                                                        android:id="@+id/textView35"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_margin="5dp"
+                                                        android:background="@drawable/border_end_set_shap"
                                                         android:fontFamily="@font/prompt_medium"
                                                         android:gravity="center"
-                                                        android:text="+"
-                                                        android:textSize="34sp" />
+                                                        android:text="ติดเชื้อเพิ่มวันนี้"
+                                                        android:textSize="16sp"
+                                                        android:textStyle="bold" />
 
-                                                    <TextView
-                                                        android:id="@+id/txt_getwell_patient"
-                                                        android:layout_width="wrap_content"
+                                                    <LinearLayout
+                                                        android:layout_width="match_parent"
                                                         android:layout_height="match_parent"
-                                                        android:fontFamily="@font/prompt_medium"
-                                                        android:gravity="center"
-                                                        android:text="ยอดหาย"
-                                                        android:textSize="24sp" />
+                                                        android:backgroundTint="#FF0500"
+                                                        android:orientation="horizontal">
+
+                                                        <TextView
+                                                            android:id="@+id/txt_pRed"
+                                                            android:layout_width="50dp"
+                                                            android:layout_height="wrap_content"
+                                                            android:fontFamily="@font/prompt_medium"
+                                                            android:gravity="center"
+                                                            android:text="+"
+                                                            android:textSize="34sp" />
+
+                                                        <TextView
+                                                            android:id="@+id/txt_new_patient"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="match_parent"
+                                                            android:fontFamily="@font/prompt_medium"
+                                                            android:gravity="center"
+                                                            android:text="ติดเชื้อเพิ่ม"
+                                                            android:textSize="34sp"
+                                                            android:textStyle="bold" />
+                                                    </LinearLayout>
                                                 </LinearLayout>
 
+                                                <LinearLayout
+                                                    android:layout_width="150dp"
+                                                    android:layout_height="65dp"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="5dp"
+                                                    android:background="@drawable/txt_news_border"
+                                                    android:backgroundTint="#D60400"
+                                                    android:orientation="vertical">
+
+                                                    <TextView
+                                                        android:id="@+id/textView33"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_margin="5dp"
+                                                        android:background="@drawable/border_end_set_shap"
+                                                        android:fontFamily="@font/prompt_medium"
+                                                        android:gravity="center"
+                                                        android:text="ยอดป่วยสะสม"
+                                                        android:textSize="14sp"
+                                                        android:textStyle="bold" />
+
+                                                    <LinearLayout
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:orientation="horizontal">
+
+                                                        <TextView
+                                                            android:id="@+id/txt_All_patient"
+                                                            android:layout_width="match_parent"
+                                                            android:layout_height="match_parent"
+                                                            android:fontFamily="@font/prompt_medium"
+                                                            android:gravity="center|top"
+                                                            android:text="ยอดติดเชื้อรวม"
+                                                            android:textSize="26sp"
+                                                            android:textStyle="bold" />
+                                                    </LinearLayout>
+                                                </LinearLayout>
                                             </LinearLayout>
 
                                         </LinearLayout>
@@ -246,88 +370,103 @@
                                         <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:orientation="vertical">
+                                            android:orientation="horizontal">
+
+                                            <LinearLayout
+                                                android:layout_width="160dp"
+                                                android:layout_height="80dp"
+                                                android:layout_marginLeft="28dp"
+                                                android:layout_marginTop="10dp"
+                                                android:orientation="vertical">
+
+                                                <LinearLayout
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:background="@drawable/txt_news_border"
+                                                    android:backgroundTint="#6FFB75"
+                                                    android:orientation="vertical">
+
+                                                    <TextView
+                                                        android:id="@+id/textView_getwellall"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_margin="10dp"
+                                                        android:background="@drawable/border_end_set_shap"
+                                                        android:fontFamily="@font/prompt_medium"
+                                                        android:gravity="center"
+                                                        android:text="หายป่วยสะสม"
+                                                        android:textSize="16sp"
+                                                        android:textStyle="bold" />
+
+                                                    <LinearLayout
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="match_parent"
+                                                        android:backgroundTint="#056839"
+                                                        android:gravity="center"
+                                                        android:orientation="horizontal">
+
+                                                        <TextView
+                                                            android:id="@+id/txt_Totalgetwell_patient"
+                                                            android:layout_width="match_parent"
+                                                            android:layout_height="match_parent"
+                                                            android:fontFamily="@font/prompt_medium"
+                                                            android:gravity="center"
+                                                            android:text="ยอดหายป่วยสะสม"
+                                                            android:textSize="26sp"
+                                                            android:textStyle="bold" />
+                                                    </LinearLayout>
+
+                                                </LinearLayout>
+
+                                            </LinearLayout>
 
                                             <LinearLayout
                                                 android:layout_width="150dp"
                                                 android:layout_height="80dp"
                                                 android:layout_marginLeft="10dp"
-                                                android:background="@drawable/txt_news_border"
-                                                android:backgroundTint="#FF0000"
+                                                android:layout_marginTop="10dp"
                                                 android:orientation="vertical">
-
-                                                <TextView
-                                                    android:id="@+id/textView35"
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_margin="5dp"
-                                                    android:background="@drawable/border_end_set_shap"
-                                                    android:fontFamily="@font/prompt_medium"
-                                                    android:gravity="center"
-                                                    android:text="ยอดผู้ติดเชื้อเพิ่ม"
-                                                    android:textStyle="bold" />
 
                                                 <LinearLayout
                                                     android:layout_width="match_parent"
                                                     android:layout_height="match_parent"
-                                                    android:backgroundTint="#FF0500"
-                                                    android:orientation="horizontal">
+                                                    android:background="@drawable/txt_news_border"
+                                                    android:backgroundTint="#FFEE58"
+                                                    android:orientation="vertical">
 
                                                     <TextView
-                                                        android:id="@+id/txt_pRed"
-                                                        android:layout_width="50dp"
+                                                        android:id="@+id/textView39"
+                                                        android:layout_width="match_parent"
                                                         android:layout_height="wrap_content"
+                                                        android:layout_margin="10dp"
+                                                        android:background="@drawable/border_end_set_shap"
                                                         android:fontFamily="@font/prompt_medium"
                                                         android:gravity="center"
-                                                        android:text="+"
-                                                        android:textSize="34sp" />
+                                                        android:text="กำลังรักษา"
+                                                        android:textSize="16sp"
+                                                        android:textStyle="bold" />
 
-                                                    <TextView
-                                                        android:id="@+id/txt_new_patient"
-                                                        android:layout_width="wrap_content"
-                                                        android:layout_height="match_parent"
-                                                        android:fontFamily="@font/prompt_medium"
-                                                        android:gravity="center"
-                                                        android:text="ติดเชื้อเพิ่ม"
-                                                        android:textSize="20sp" />
-                                                </LinearLayout>
-                                            </LinearLayout>
-
-                                            <LinearLayout
-                                                android:layout_width="150dp"
-                                                android:layout_height="65dp"
-                                                android:layout_marginLeft="10dp"
-                                                android:layout_marginTop="5dp"
-                                                android:background="@drawable/txt_news_border"
-                                                android:backgroundTint="#EF5350"
-                                                android:orientation="vertical">
-
-                                                <TextView
-                                                    android:id="@+id/textView33"
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_margin="5dp"
-                                                    android:background="@drawable/border_end_set_shap"
-                                                    android:fontFamily="@font/prompt_medium"
-                                                    android:gravity="center"
-                                                    android:text="ยอดผู้ติดเชื้อรวม"
-                                                    android:textStyle="bold" />
-
-                                                <LinearLayout
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="wrap_content"
-                                                    android:orientation="horizontal">
-
-                                                    <TextView
-                                                        android:id="@+id/txt_All_patient"
+                                                    <LinearLayout
                                                         android:layout_width="match_parent"
                                                         android:layout_height="match_parent"
-                                                        android:fontFamily="@font/prompt_medium"
-                                                        android:gravity="center|top"
-                                                        android:text="ยอดติดเชื้อรวม"
-                                                        android:textSize="20sp" />
+                                                        android:backgroundTint="#056839"
+                                                        android:gravity="center"
+                                                        android:orientation="horizontal">
+
+                                                        <TextView
+                                                            android:id="@+id/txt_Totalhealing_patient"
+                                                            android:layout_width="match_parent"
+                                                            android:layout_height="match_parent"
+                                                            android:fontFamily="@font/prompt_medium"
+                                                            android:gravity="center"
+                                                            android:text="ยอดกำลังรักษา"
+                                                            android:textSize="26sp"
+                                                            android:textStyle="bold" />
+                                                    </LinearLayout>
+
                                                 </LinearLayout>
                                             </LinearLayout>
+
                                         </LinearLayout>
 
                                     </LinearLayout>
@@ -345,18 +484,35 @@
                         android:layout_marginTop="20dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/textView28"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginBottom="5dp"
-                            android:fontFamily="@font/prompt_medium"
-                            android:gravity="center|left"
-                            android:text="What's New"
-                            android:textColor="#FFFFFF"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView28"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="5dp"
+                                android:fontFamily="@font/prompt_medium"
+                                android:gravity="center|left"
+                                android:text="What's New"
+                                android:textColor="#FFFFFF"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txt_defDate_news"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:fontFamily="@font/prompt_medium"
+                                android:text="01/01/2565"
+                                android:textColor="#FFFFFF"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
                         <HorizontalScrollView
                             android:id="@+id/Scrollid"

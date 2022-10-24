@@ -81,8 +81,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap,user_location,sarch_location;
     Cluster cluster = new Cluster();
     private Context context;
-    private String[] District= {"เมืองเชียงใหม่","สารภี","เเม่ริม","สันกำเเพง","สันทราย"};
-    //private String[] District= {"เมืองเชียงใหม่","สารภี","เเม่ริม","สันกำเเพง","สันทราย"};
     private String C_District,C_new_patient;
     private int news_patient,sum_CM,sum_SP,sum_MR,sum_SK,sum_SS;
     Circle myCircle1;
@@ -93,6 +91,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     int Totalpatient_CM,Totalpatient_Sarapee,Totalpatient_MaeRim,Totalpatient_SunSai;
     private int STORAGE_PERMISSION_CODE = 1;
     BottomNavigationView bottomNavigationView;
+    String[] District = {"เมืองเชียงใหม่","แม่ริม","สันทราย","สารภี"};
+    String[] SubDistrict = {
+            "ศรีภูมิ","พระสิงห์","หายยา","ช้างม่อย","ช้างคลาน","วัดเกต","ช้างเผือก","สุเทพ","แม่เหียะ","ป่าแดด","หนองหอย","ท่าศาลา","หนองป่าครั่ง","ฟ้าฮ่าม","ป่าตัน","สันผีเสื้อ",
+            "ริมใต้","ริมเหนือ","สันโป่ง","ขี้เหล็ก","สะลวง","ห้วยทราย","แม่แรม","โป่งแยง","แม่สา","ดอนแก้ว","เหมืองแก้ว",
+            "สันทรายหลวง","สันทรายน้อย","สันพระเนตร","สันนาเม็ง","สันป่าเปา","หนองแหย่ง","หนองจ๊อม","หนองหาร","แม่แฝก","แม่แฝกใหม่","เมืองเล็น","ป่าไผ่",
+            "ยางเนิ้ง","สารภี","ชมภู","ไชยสถาน","ขัวมุง","หนองแฝก","หนองผึ้ง","ท่ากว้าง","ดอนแก้ว","ท่าวังตาล","สันทราย","ป่าบง",
+    };
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -118,18 +123,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId())
                 {
-                    case R.id.nav_home:
-                        return true;
-                    case R.id.nav_news:
-                        startActivity(new Intent(getApplicationContext(), NewsActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.nav_mohpromt:
-                        startActivity(new Intent(getApplicationContext(), MohpromtActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.nav_setting:
-                        startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+                    case R.id.nav_back:
+                        startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                 }
@@ -148,77 +143,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
         return false;
-    }
-
-    public void setListClusterByAdmin() {
-        for (int i=0;i < District.length;i++) {
-            System.out.println(District[i]);
-            LinearLayout list_cluster = findViewById(R.id.showlistcluster_admin);
-            list_cluster.removeAllViews();
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-            String district_name = District[i];
-            Query query1 = myRef.orderByKey();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Log.e("Data_cluster", ds.getValue().toString());
-                        View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
-                        String clusterDate = ds.child("clusterDate").getValue().toString();
-                        String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                        String clusterPlace = ds.child("clusterPlace").getValue().toString();
-                        String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
-                        String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
-
-                        TextView txtplace = cluster.findViewById(R.id.txtedit_place);
-                        txtplace.setText(clusterPlace);
-
-                        TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
-                        txtsubdistrict.setText(clusterSubdistrict);
-
-                        TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
-                        txtdistrict.setText(clusterDistrict);
-
-                        TextView txtdate = cluster.findViewById(R.id.txtedit_date);
-                        txtdate.setText(clusterDate);
-
-                        TextView txtnewpatient = cluster.findViewById(R.id.txtedit_newpatient);
-                        txtnewpatient.setText(cluster_news_patient);
-
-                        list_cluster.addView(cluster);
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
-    }
-
-    private void addToAdapter(){
-        for (int i=0;i < District.length;i++) {
-            System.out.println(District[i]);
-            LinearLayout list_cluster = findViewById(R.id.showlistcluster_user);
-            list_cluster.removeAllViews();
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-            Query query1 = myRef.orderByKey();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Log.e("Data_cluster", ds.getValue().toString());
-                        View cluster = getLayoutInflater().inflate(R.layout.layout_cluster, null);
-                        String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                        //TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
-                        //txtdistrict.setText(clusterDistrict);
-                        list_cluster.addView(cluster);
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
     }
 
     private void requestPermission(){
@@ -251,72 +175,48 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void CalRiskArea(){
         for (int i = 0; i < District.length; i++) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-            String Cplace = District[i];
-            Query query1 = myRef.orderByValue();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
-                        new_patient = Integer.parseInt(cluster_news_patient);
-                        if(Cplace.equals("เมืองเชียงใหม่")){
-                            Totalpatient_CM = Totalpatient_CM+new_patient;
-                            Log.e("----------Totalpatient_CM", String.valueOf(Totalpatient_CM));
-                        }else if(Cplace.equals("สารภี")){
-                            Totalpatient_Sarapee = Totalpatient_Sarapee+new_patient;
-                            Log.e("----------Totalpatient_Sarapee", String.valueOf(Totalpatient_Sarapee));
-                        }else if(Cplace.equals("เเม่ริม")){
-                            Totalpatient_MaeRim = Totalpatient_MaeRim+new_patient;
-                            Log.e("----------Totalpatient_MaeRim", String.valueOf(Totalpatient_MaeRim));
-                        }else if(Cplace.equals("สันทราย")){
-                            Totalpatient_SunSai = Totalpatient_SunSai+new_patient;
-                            Log.e("----------Totalpatient_SunSai", String.valueOf(Totalpatient_SunSai));
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+                String Cplace = District[i];
+                Query query1 = myRef.orderByValue();
+                query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            String cluster_news_patient = ds.child("cluster_All_patient").getValue().toString();
+                            new_patient = Integer.parseInt(cluster_news_patient);
+                            if (Cplace.equals("เมืองเชียงใหม่")) {
+                                Totalpatient_CM = Totalpatient_CM + new_patient;
+                                Log.e("----------Totalpatient_CM", String.valueOf(Totalpatient_CM));
+                            } else if (Cplace.equals("สารภี")) {
+                                Totalpatient_Sarapee = Totalpatient_Sarapee + new_patient;
+                                Log.e("----------Totalpatient_Sarapee", String.valueOf(Totalpatient_Sarapee));
+                            } else if (Cplace.equals("เเม่ริม")) {
+                                Totalpatient_MaeRim = Totalpatient_MaeRim + new_patient;
+                                Log.e("----------Totalpatient_MaeRim", String.valueOf(Totalpatient_MaeRim));
+                            } else if (Cplace.equals("สันทราย")) {
+                                Totalpatient_SunSai = Totalpatient_SunSai + new_patient;
+                                Log.e("----------Totalpatient_SunSai", String.valueOf(Totalpatient_SunSai));
+                            }
+                            Allpatient_CM = Totalpatient_CM;
+                            System.out.println("------------------------------------------" + Allpatient_CM);
+                            Allpatient_SP = Totalpatient_Sarapee;
+                            System.out.println("------------------------------------------" + Allpatient_SP);
+                            Allpatient_MR = Totalpatient_MaeRim;
+                            System.out.println("------------------------------------------" + Allpatient_MR);
+                            Allpatient_SS = Totalpatient_SunSai;
+                            System.out.println("------------------------------------------" + Allpatient_SS);
                         }
-                        Allpatient_CM = Totalpatient_CM;
-                        System.out.println("------------------------------------------"+Allpatient_CM);
-                        Allpatient_SP = Totalpatient_Sarapee;
-                        System.out.println("------------------------------------------"+Allpatient_SP);
-                        Allpatient_MR = Totalpatient_MaeRim;
-                        System.out.println("------------------------------------------"+Allpatient_MR);
-                        Allpatient_SS = Totalpatient_SunSai;
-                        System.out.println("------------------------------------------"+Allpatient_SS);
+                        mMap.clear();
+                        PolegonDistrict();
                     }
-                    mMap.clear();
-                    PolegonDistrict();
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
-    }
 
-    public void setListCluster(){
-        for (int i=0;i < District.length;i++) {
-            System.out.println(District[i]);
-            LinearLayout list_cluster = findViewById(R.id.showlistcluster_user);
-            list_cluster.removeAllViews();
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-            Query query1 = myRef.orderByKey();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Log.e("Data_cluster", ds.getValue().toString());
-                        View cluster = getLayoutInflater().inflate(R.layout.layout_cluster, null);
-                        String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                        //TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
-                        //txtdistrict.setText(clusterDistrict);
-                        list_cluster.addView(cluster);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
                     }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
+                });
+            }
     }
 
     @Override
@@ -363,31 +263,33 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         addingCircleView_user(user_location);
         //instance firebase
         for (int i=0;i < District.length;i++) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/cluster/"+District[i]);
-            Query query1 = myRef.orderByValue();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot s : snapshot.getChildren()) {
-                        Cluster cluster = s.getValue(Cluster.class);
-                        LatLng location = new LatLng(Double.parseDouble(cluster.getClusterLat()), Double.parseDouble(cluster.getClusterLng()));
-                        mMap.addMarker(new MarkerOptions().position(location)
-                                .title(cluster.getClusterPlace())
-                                .snippet(cluster.getClusterDate()+
-                                        " \nอ." + cluster.getClusterDistrict()+
-                                        " ต." + cluster.getClusterSubdistrict()+
-                                        " \nยอดผู้ติดเชื้อ: " + cluster.getCluster_news_patient()
-                                )
-                        );
-                        addingCircleView(location);
-                        mMap.setInfoWindowAdapter(new InfoWindowAdapter(MainActivity.this));
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+                Query query1 = myRef.orderByValue();
+                query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot s : snapshot.getChildren()) {
+                            Cluster cluster = s.getValue(Cluster.class);
+                            LatLng location = new LatLng(Double.parseDouble(cluster.getClusterLat()), Double.parseDouble(cluster.getClusterLng()));
+                            mMap.addMarker(new MarkerOptions().position(location)
+                                    .title(cluster.getClusterPlace())
+                                    .snippet(cluster.getClusterDate() +
+                                            " \nอ." + cluster.getClusterDistrict() +
+                                            " ต." + cluster.getClusterSubdistrict() +
+                                            " \nยอดผู้ติดเชื้อ: " + cluster.getCluster_All_patient()
+                                    )
+                            );
+                            addingCircleView(location);
+                            mMap.setInfoWindowAdapter(new InfoWindowAdapter(MainActivity.this));
+                        }
                     }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
     }
 
     private void PolegonDistrict(){
@@ -659,43 +561,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .strokeColor(Color.parseColor("#1AFB2323"))
                 .strokeWidth(1);
         myCircle1 = mMap.addCircle(circleOptions);
-        /*circleOptions = new CircleOptions()
-                .center(mLatLng)   //set center
-                .radius(80)   //set radius in meters
-                .fillColor(Color.parseColor("#40FB2323"))  //default
-                .strokeColor(Color.parseColor("#40FB2323"))
-                .strokeWidth(1);
-        myCircle2 = mMap.addCircle(circleOptions);
-        circleOptions = new CircleOptions()
-                .center(mLatLng)   //set center
-                .radius(60)   //set radius in meters
-                .fillColor(Color.parseColor("#66FB2323"))  //default
-                .strokeColor(Color.parseColor("#66FB2323"))
-                .strokeWidth(1);
-        myCircle3 = mMap.addCircle(circleOptions);
-        circleOptions = new CircleOptions()
-                .center(mLatLng)   //set center
-                .radius(40)   //set radius in meters
-                .fillColor(Color.parseColor("#8CFB2323"))  //default
-                .strokeColor(Color.parseColor("#8CFB2323"))
-                .strokeWidth(1);
-        myCircle4 = mMap.addCircle(circleOptions);
-        circleOptions = new CircleOptions()
-                .center(mLatLng)   //set center
-                .radius(20)   //set radius in meters
-                .fillColor(Color.parseColor("#A6FB2323"))  //default
-                .strokeColor(Color.parseColor("#A6FB2323"))
-                .strokeWidth(1);
-        myCircle5 = mMap.addCircle(circleOptions);
-
-        circleOptions = new CircleOptions()
-                .center(mLatLng)   //set center
-                .radius(10)   //set radius in meters
-                .fillColor(Color.parseColor("#CCFB2323"))  //default
-                .strokeColor(Color.parseColor("#CCFB2323"))
-                .strokeWidth(1);
-        myCircle6 = mMap.addCircle(circleOptions);*/
-
     }
 
     private void addingCircleView_user(LatLng mLatLng) {
@@ -722,47 +587,67 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void ClickSearch(View view) {
         SarchButton = findViewById(R.id.txt_sarch);
         sarchbutton = SarchButton.getText().toString();
-
         for (int i = 0; i < District.length; i++) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/cluster/"+District[i]);
-            Query query1 = myRef.orderByKey();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        //String clusterDate = ds.child("clusterDate").getValue().toString();
-                        //String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                        String clusterplace = ds.child("clusterPlace").getValue().toString();
-                        clusterPlace = clusterplace;
-                        //String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
-                        //String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+                Query query1 = myRef.orderByKey();
+                query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            String clusterplace = ds.child("clusterPlace").getValue().toString();
+                            String clusterdistrict = ds.child("clusterDistrict").getValue().toString();
 
-                        String clusterLat = ds.child("clusterLat").getValue().toString();
-                        String clusterLng = ds.child("clusterLng").getValue().toString();
+                            clusterPlace = clusterplace;
+                            String clusterLat = ds.child("clusterLat").getValue().toString();
+                            String clusterLng = ds.child("clusterLng").getValue().toString();
 
-                        if(sarchbutton.equals(clusterPlace)){
+                            if (sarchbutton.equals(clusterPlace)) {
                                 sarchLat = Double.parseDouble(clusterLat);
                                 sarchLng = Double.parseDouble(clusterLng);
                                 Toast.makeText(MainActivity.this, "พบข้อมูล", Toast.LENGTH_SHORT).show();
-                                LatLng sarch_location = new LatLng(sarchLat,sarchLng);
+                                LatLng sarch_location = new LatLng(sarchLat, sarchLng);
 
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_location));
-                                mMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
-                        }else if(sarchbutton.equals("")){
-                            Toast.makeText(MainActivity.this, "กรุณากรอกชื่อสถานที่", Toast.LENGTH_SHORT).show();
-                        }else if(sarchbutton != clusterPlace){
-                            Toast.makeText(MainActivity.this, "ไม่พบข้อมูล"+sarchbutton, Toast.LENGTH_SHORT).show();
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
+
+                            } else if(sarchbutton.equals("อำเภอเมืองเชียงใหม่")||sarchbutton.equals("เมืองเชียงใหม่")){
+                                LatLng sarch_district_location = new LatLng(18.788315431666554, 98.98526644745863);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(11.5f));
+
+                            } else if(sarchbutton.equals("อำเภอแม่ริม")||sarchbutton.equals("แม่ริม")){
+                                LatLng sarch_district_location = new LatLng(18.930049705282652, 98.89436050125632);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
+
+                            } else if(sarchbutton.equals("อำเภอสันทราย")||sarchbutton.equals("สันทราย")){
+                                LatLng sarch_district_location = new LatLng(18.93283814873816, 99.04031290127963);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
+
+                            } else if(sarchbutton.equals("อำเภอสารภี")||sarchbutton.equals("สารภี")){
+                                LatLng sarch_district_location = new LatLng(18.699573834395185, 99.0193778674712);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(11.5f));
+
+                            }else if (sarchbutton.equals("")) {
+                                Toast.makeText(MainActivity.this, "กรุณากรอกชื่อสถานที่", Toast.LENGTH_SHORT).show();
+                            } else if (sarchbutton != clusterPlace) {
+                                Toast.makeText(MainActivity.this, "ไม่พบข้อมูล" + sarchbutton, Toast.LENGTH_SHORT).show();
+                            }
+
+
+
                         }
                     }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
-        }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
+                    }
+                });
+            }
     }
 
     //เมืองเชียงใหม่

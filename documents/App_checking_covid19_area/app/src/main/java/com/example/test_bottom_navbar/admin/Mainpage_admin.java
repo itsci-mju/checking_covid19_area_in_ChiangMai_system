@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test_bottom_navbar.R;
 import com.example.test_bottom_navbar.ui_bar.MainActivity;
+import com.example.test_bottom_navbar.ui_bar.MainMenuActivity;
 
 public class Mainpage_admin extends AppCompatActivity {
     int Allpatient_District,Totalpatient_CM,Totalpatient_Sarapee,Totalpatient_MaeRim,Totalpatient_SunSai;
@@ -55,7 +56,7 @@ public class Mainpage_admin extends AppCompatActivity {
     }
 
     public void Clicklogout(View view){
-        Intent intent = new Intent(Mainpage_admin.this, MainActivity.class);
+        Intent intent = new Intent(Mainpage_admin.this, MainMenuActivity.class);
         startActivity(intent);
     }
 }

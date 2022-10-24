@@ -373,7 +373,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:fontFamily="@font/prompt_medium"
-                            android:gravity="center|center_horizontal|left|center_vertical"
                             android:text="ยอดผู้ติดเชื้อ"
                             android:textColor="#000000"
                             android:textSize="18dp" />
@@ -384,11 +383,13 @@
                             android:background="@drawable/txt_border"
                             android:orientation="horizontal">
 
-                            <EditText
-                                android:id="@+id/txtedit_newpatient"
+                            <TextView
+                                android:id="@+id/txtAll_patient"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="45dp"
                                 android:layout_margin="5dp"
+                                android:gravity="center|left|center_vertical"
+                                android:textSize="18dp"
                                 android:fontFamily="@font/prompt_medium"
                                 android:hint="ใส่ยอดผู้ติดเชื้อ"
                                 android:inputType="textPersonName" />

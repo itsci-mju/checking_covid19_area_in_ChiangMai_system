@@ -45,7 +45,13 @@ public class ListRiskAreaActivity extends AppCompatActivity {
 
     int patient_number;
     int Allpatient_District,Totalpatient_CM,Totalpatient_Sarapee,Totalpatient_MaeRim,Totalpatient_SunSai;
-    private String[] District= {"เมืองเชียงใหม่","สารภี","เเม่ริม","สันกำเเพง","สันทราย"};
+    String[] District = {"เมืองเชียงใหม่","จอมทอง","เเม่เเจ่ม","เชียงดาว","ดอยสะเก็ด","แม่แตง","แม่ริม","สะเมิง","ฝาง","แม่อาย","พร้าว","สันป่าตอง","สันกำแพง","สันทราย","หางดง","ฮอด","ดอยเต่า","อมก๋อย","สารภี","เวียงแหง","ไชยปราการ","แม่วาง","แม่ออน","ดอยหล่อ"};
+    String[] SubDistrict = {
+            "ศรีภูมิ","พระสิงห์","หายยา","ช้างม่อย","ช้างคลาน","วัดเกต","ช้างเผือก","สุเทพ","แม่เหียะ","ป่าแดด","หนองหอย","ท่าศาลา","หนองป่าครั่ง","ฟ้าฮ่าม","ป่าตัน","สันผีเสื้อ",
+            "ริมใต้","ริมเหนือ","สันโป่ง","ขี้เหล็ก","สะลวง","ห้วยทราย","แม่แรม","โป่งแยง","แม่สา","ดอนแก้ว","เหมืองแก้ว",
+            "สันทรายหลวง","สันทรายน้อย","สันพระเนตร","สันนาเม็ง","สันป่าเปา","หนองแหย่ง","หนองจ๊อม","หนองหาร","แม่แฝก","แม่แฝกใหม่","เมืองเล็น","ป่าไผ่",
+            "ยางเนิ้ง","สารภี","ชมภู","ไชยสถาน","ขัวมุง","หนองแฝก","หนองผึ้ง","ท่ากว้าง","ดอนแก้ว","ท่าวังตาล","สันทราย","ป่าบง",
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +61,9 @@ public class ListRiskAreaActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         Intent intent = getIntent();
         clusterPlace = intent.getStringExtra("clusterPlace");
-
         Intent getpatient = getIntent();
         patient_number = getpatient.getIntExtra("patient_number",patient_number);
-        System.out.println("////////////////////////////////////////////"+Allpatient_District);
+
         this.setListClusterByAdmin();
         this.ListCheckCluster();
     }
@@ -66,239 +71,279 @@ public class ListRiskAreaActivity extends AppCompatActivity {
     @SuppressLint("LongLogTag")
     public void  setListClusterByAdmin() {
         for (int i=0;i < District.length;i++) {
-            System.out.println(District[i]);
             LinearLayout list_cluster = findViewById(R.id.showlistcluster_admin);
             list_cluster.removeAllViews();
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-            String district_name = District[i];
-            Query query1 = myRef.orderByKey();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Log.e("Data_cluster", ds.getValue().toString());
-                        View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
-                        String clusterDate = ds.child("clusterDate").getValue().toString();
-                        String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                        String clusterPlace = ds.child("clusterPlace").getValue().toString();
-                        String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
-                        String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+                String district_name = District[i];
+                //String subdistrict_name = SubDistrict[u];
+                Query query1 = myRef.orderByKey();
+                query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
+                            String clusterDate = ds.child("clusterDate").getValue().toString();
+                            String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
+                            String clusterPlace = ds.child("clusterPlace").getValue().toString();
+                            String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
+                            String cluster_All_patient = ds.child("cluster_All_patient").getValue().toString();
 
-                        TextView txtplace = cluster.findViewById(R.id.txtedit_place);
-                        txtplace.setText(clusterPlace);
+                            TextView txtplace = cluster.findViewById(R.id.txtedit_place);
+                            txtplace.setText(clusterPlace);
 
-                        TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
-                        txtsubdistrict.setText(clusterSubdistrict);
+                            TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
+                            txtsubdistrict.setText(clusterSubdistrict);
 
-                        TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
-                        txtdistrict.setText(clusterDistrict);
+                            TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
+                            txtdistrict.setText(clusterDistrict);
 
-                        TextView txtdate = cluster.findViewById(R.id.txtedit_date);
-                        txtdate.setText(clusterDate);
+                            TextView txtdate = cluster.findViewById(R.id.txtedit_date);
+                            txtdate.setText(clusterDate);
 
-                        Sort_date.add(clusterDate);
+                            TextView txtallpatient = cluster.findViewById(R.id.txtedit_allpatient);
+                            txtallpatient.setText(cluster_All_patient);
 
-                        TextView txtnewpatient = cluster.findViewById(R.id.txtedit_newpatient);
-                        txtnewpatient.setText(cluster_news_patient);
+                            patient_number = Integer.parseInt(txtallpatient.getText().toString());
 
-                        patient_number = Integer.parseInt(txtnewpatient.getText().toString());
-
-                        ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.cluster_clicktoedit);
-                        btn_Edit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
-                                intent.putExtra("clusterPlace", clusterPlace);
-                                intent.putExtra("district_name", district_name);
-                                startActivity(intent);
-                            }
-                        });
-                        list_cluster.addView(cluster);
-                        Collections.sort(Sort_date);
+                            ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.cluster_clicktoedit);
+                            btn_Edit.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
+                                    intent.putExtra("clusterPlace", clusterPlace);
+                                    intent.putExtra("district_name", district_name);
+                                    //intent.putExtra("subdistrict_name",subdistrict_name);
+                                    startActivity(intent);
+                                }
+                            });
+                            list_cluster.addView(cluster);
+                        }
                     }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
     }
 
     public void  setListClusterRedByAdmin() {
         for (int i=0;i < District.length;i++) {
-            System.out.println(District[i]);
             LinearLayout list_cluster = findViewById(R.id.showlistcluster_admin);
             list_cluster.removeAllViews();
-            for (int u = 0; u < ListRed.size(); u++) {
-                System.out.println(ListRed.get(u));
-                FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                DatabaseReference myRef = database.getReference("admin001/cluster/"+District[i]);
-                String district_name = District[i];
-                Query query1 = myRef.orderByKey().equalTo(ListRed.get(u));
-                query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            Log.e("Data_cluster", ds.getValue().toString());
-                            View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
-                            String clusterDate = ds.child("clusterDate").getValue().toString();
-                            String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                            String clusterPlace = ds.child("clusterPlace").getValue().toString();
-                            String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
-                            String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
+                for (int u = 0; u < ListRed.size(); u++) {
+                    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                    DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+                    String district_name = District[i];
+                    //String subdistrict_name = SubDistrict[o];
+                    Query query1 = myRef.orderByKey().equalTo(ListRed.get(u));
+                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                Log.e("Data_cluster", ds.getValue().toString());
+                                View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
+                                String clusterDate = ds.child("clusterDate").getValue().toString();
+                                String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
+                                String clusterPlace = ds.child("clusterPlace").getValue().toString();
+                                String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
+                                String cluster_All_patient = ds.child("cluster_All_patient").getValue().toString();
+                                String cluster_getwell_patient = ds.child("cluster_getwell_patient").getValue().toString();
+                                String cluster_news_patient = ds.child("cluster_All_patient").getValue().toString();
 
-                            TextView txtplace = cluster.findViewById(R.id.txtedit_place);
-                            txtplace.setText(clusterPlace);
+                                TextView txtplace = cluster.findViewById(R.id.txtedit_place);
+                                txtplace.setText(clusterPlace);
 
-                            TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
-                            txtsubdistrict.setText(clusterSubdistrict);
+                                TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
+                                txtsubdistrict.setText(clusterSubdistrict);
 
-                            TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
-                            txtdistrict.setText(clusterDistrict);
+                                TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
+                                txtdistrict.setText(clusterDistrict);
 
-                            TextView txtdate = cluster.findViewById(R.id.txtedit_date);
-                            txtdate.setText(clusterDate);
+                                TextView txtdate = cluster.findViewById(R.id.txtedit_date);
+                                txtdate.setText(clusterDate);
 
-                            TextView txtnewpatient = cluster.findViewById(R.id.txtedit_newpatient);
-                            txtnewpatient.setText(cluster_news_patient);
+                                TextView txtnewpatient = cluster.findViewById(R.id.txtedit_allpatient);
+                                txtnewpatient.setText(cluster_news_patient);
 
-                            patient_number = Integer.parseInt(txtnewpatient.getText().toString());
+                                patient_number = Integer.parseInt(txtnewpatient.getText().toString());
 
-                            ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.cluster_clicktoedit);
-                            btn_Edit.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
-                                    intent.putExtra("clusterPlace", clusterPlace);
-                                    intent.putExtra("district_name", district_name);
-                                    startActivity(intent);
-                                }
-                            });
-                            list_cluster.addView(cluster);
+                                ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.cluster_clicktoedit);
+                                btn_Edit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
+                                        intent.putExtra("clusterPlace", clusterPlace);
+                                        intent.putExtra("district_name", district_name);
+                                        //intent.putExtra("subdistrict_name", subdistrict_name);
+                                        startActivity(intent);
+                                    }
+                                });
+                                list_cluster.addView(cluster);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+                }
             }
-        }
     }
 
     public void  setListClusterOrangeByAdmin() {
         for (int i=0;i < District.length;i++) {
-            System.out.println(District[i]);
             LinearLayout list_cluster = findViewById(R.id.showlistcluster_admin);
             list_cluster.removeAllViews();
-            for (int u = 0; u < ListOrange.size(); u++) {
-                System.out.println(ListOrange.get(u));
-                FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                DatabaseReference myRef = database.getReference("admin001/cluster/"+District[i]);
-                String district_name = District[i];
-                Query query1 = myRef.orderByKey().equalTo(ListOrange.get(u));
-                query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            Log.e("Data_cluster", ds.getValue().toString());
-                            View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
-                            String clusterDate = ds.child("clusterDate").getValue().toString();
-                            String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                            String clusterPlace = ds.child("clusterPlace").getValue().toString();
-                            String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
-                            String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
+                for (int u = 0; u < ListOrange.size(); u++) {
+                    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                    DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+                    String district_name = District[i];
+                    //String subdistrict_name = SubDistrict[o];
+                    Query query1 = myRef.orderByKey().equalTo(ListOrange.get(u));
+                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                Log.e("Data_cluster", ds.getValue().toString());
+                                View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
+                                String clusterDate = ds.child("clusterDate").getValue().toString();
+                                String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
+                                String clusterPlace = ds.child("clusterPlace").getValue().toString();
+                                String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
+                                String cluster_news_patient = ds.child("cluster_All_patient").getValue().toString();
 
-                            TextView txtplace = cluster.findViewById(R.id.txtedit_place);
-                            txtplace.setText(clusterPlace);
+                                TextView txtplace = cluster.findViewById(R.id.txtedit_place);
+                                txtplace.setText(clusterPlace);
 
-                            TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
-                            txtsubdistrict.setText(clusterSubdistrict);
+                                TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
+                                txtsubdistrict.setText(clusterSubdistrict);
 
-                            TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
-                            txtdistrict.setText(clusterDistrict);
+                                TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
+                                txtdistrict.setText(clusterDistrict);
 
-                            TextView txtdate = cluster.findViewById(R.id.txtedit_date);
-                            txtdate.setText(clusterDate);
+                                TextView txtdate = cluster.findViewById(R.id.txtedit_date);
+                                txtdate.setText(clusterDate);
 
-                            TextView txtnewpatient = cluster.findViewById(R.id.txtedit_newpatient);
-                            txtnewpatient.setText(cluster_news_patient);
+                                TextView txtnewpatient = cluster.findViewById(R.id.txtedit_allpatient);
+                                txtnewpatient.setText(cluster_news_patient);
 
-                            patient_number = Integer.parseInt(txtnewpatient.getText().toString());
+                                patient_number = Integer.parseInt(txtnewpatient.getText().toString());
 
-                            ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.cluster_clicktoedit);
-                            btn_Edit.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
-                                    intent.putExtra("clusterPlace", clusterPlace);
-                                    intent.putExtra("district_name", district_name);
-                                    startActivity(intent);
-                                }
-                            });
-                            list_cluster.addView(cluster);
+                                ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.cluster_clicktoedit);
+                                btn_Edit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
+                                        intent.putExtra("clusterPlace", clusterPlace);
+                                        intent.putExtra("district_name", district_name);
+                                       // intent.putExtra("subdistrict_name", subdistrict_name);
+                                        startActivity(intent);
+                                    }
+                                });
+                                list_cluster.addView(cluster);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+                }
             }
-        }
     }
 
     public void  setListClusterYellowByAdmin() {
         for (int i=0;i < District.length;i++) {
-            System.out.println(District[i]);
             LinearLayout list_cluster = findViewById(R.id.showlistcluster_admin);
             list_cluster.removeAllViews();
-            for (int u = 0; u < ListYellow.size(); u++) {
-                System.out.println(ListYellow.get(u));
+                for (int u = 0; u < ListYellow.size(); u++) {
+                    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                    DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+                    String district_name = District[i];
+                    //String subdistrict_name = SubDistrict[o];
+                    Query query1 = myRef.orderByKey().equalTo(ListYellow.get(u));
+                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                Log.e("Data_cluster", ds.getValue().toString());
+                                View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
+                                String clusterDate = ds.child("clusterDate").getValue().toString();
+                                String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
+                                String clusterPlace = ds.child("clusterPlace").getValue().toString();
+                                String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
+                                String cluster_All_patient = ds.child("cluster_All_patient").getValue().toString();
+                                String cluster_getwell_patient = ds.child("cluster_getwell_patient").getValue().toString();
+                                String cluster_news_patient = ds.child("cluster_All_patient").getValue().toString();
+
+                                TextView txtplace = cluster.findViewById(R.id.txtedit_place);
+                                txtplace.setText(clusterPlace);
+
+                                TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
+                                txtsubdistrict.setText(clusterSubdistrict);
+
+                                TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
+                                txtdistrict.setText(clusterDistrict);
+
+                                TextView txtdate = cluster.findViewById(R.id.txtedit_date);
+                                txtdate.setText(clusterDate);
+
+                                TextView txtnewpatient = cluster.findViewById(R.id.txtedit_allpatient);
+                                txtnewpatient.setText(cluster_news_patient);
+
+                                patient_number = Integer.parseInt(txtnewpatient.getText().toString());
+
+                                ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.cluster_clicktoedit);
+                                btn_Edit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
+                                        intent.putExtra("clusterPlace", clusterPlace);
+                                        intent.putExtra("district_name", district_name);
+                                        //intent.putExtra("subdistrict_name", subdistrict_name);
+                                        startActivity(intent);
+                                    }
+                                });
+                                list_cluster.addView(cluster);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+                }
+            }
+    }
+
+    public void ListCheckCluster() {
+        for (int i=0;i < District.length;i++) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                DatabaseReference myRef = database.getReference("admin001/cluster/"+District[i]);
-                String district_name = District[i];
-                Query query1 = myRef.orderByKey().equalTo(ListYellow.get(u));
+                DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+                Query query1 = myRef.orderByKey();
                 query1.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds : snapshot.getChildren()) {
-                            Log.e("Data_cluster", ds.getValue().toString());
-                            View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
                             String clusterDate = ds.child("clusterDate").getValue().toString();
                             String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
                             String clusterPlace = ds.child("clusterPlace").getValue().toString();
                             String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
-                            String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
+                            String cluster_news_patient = ds.child("cluster_All_patient").getValue().toString();
+                            cluster_nametxt = clusterPlace;
+                            cluster_patient = Integer.parseInt(cluster_news_patient);
 
-                            TextView txtplace = cluster.findViewById(R.id.txtedit_place);
-                            txtplace.setText(clusterPlace);
-
-                            TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
-                            txtsubdistrict.setText(clusterSubdistrict);
-
-                            TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
-                            txtdistrict.setText(clusterDistrict);
-
-                            TextView txtdate = cluster.findViewById(R.id.txtedit_date);
-                            txtdate.setText(clusterDate);
-
-                            TextView txtnewpatient = cluster.findViewById(R.id.txtedit_newpatient);
-                            txtnewpatient.setText(cluster_news_patient);
-
-                            patient_number = Integer.parseInt(txtnewpatient.getText().toString());
-
-                            ImageView btn_Edit = (ImageView) cluster.findViewById(R.id.cluster_clicktoedit);
-                            btn_Edit.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(ListRiskAreaActivity.this, EditClusterActivity.class);
-                                    intent.putExtra("clusterPlace", clusterPlace);
-                                    intent.putExtra("district_name", district_name);
-                                    startActivity(intent);
-                                }
-                            });
-                            list_cluster.addView(cluster);
+                            if (cluster_patient < 10) {
+                                ListYellow.add(cluster_nametxt);
+                            }
+                            if (cluster_patient >= 10) {
+                                ListOrange.add(cluster_nametxt);
+                            }
+                            if (cluster_patient > 50) {
+                                ListRed.add(cluster_nametxt);
+                            }
                         }
                     }
 
@@ -307,46 +352,6 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                     }
                 });
             }
-        }
-    }
-
-    public void ListCheckCluster() {
-        for (int i=0;i < District.length;i++) {
-            System.out.println(District[i]);
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-            String district_name = District[i];
-            Query query1 = myRef.orderByKey();
-            query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        String clusterDate = ds.child("clusterDate").getValue().toString();
-                        String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                        String clusterPlace = ds.child("clusterPlace").getValue().toString();
-                        String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
-                        String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
-                        cluster_nametxt = clusterPlace;
-                        cluster_patient = Integer.parseInt(cluster_news_patient);
-
-                        if(cluster_patient <= 10){
-                            ListYellow.add(cluster_nametxt);
-                        }
-                        if(cluster_patient <= 50){
-                            ListOrange.add(cluster_nametxt);
-                        }
-                        if(cluster_patient > 50){
-                            ListRed.add(cluster_nametxt);
-                        }
-                    }
-                    System.out.println("---Y"+ListYellow);
-                    System.out.println("---O"+ListOrange);
-                    System.out.println("---R"+ListRed);
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
     }
 
     public void ClickBTNBackByAdmin(View view){

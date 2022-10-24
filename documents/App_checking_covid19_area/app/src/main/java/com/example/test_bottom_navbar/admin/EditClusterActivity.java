@@ -29,9 +29,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EditClusterActivity extends AppCompatActivity {
-    String clusterPlace, district_name, patientCheck,SetDefault_Date;
-    int patient_number;
-    int patientNum;
+    String clusterPlace, district_name,subdistrict_name,patientCheck,SetDefault_Date;
+    int amount_NewPatient,amount_GetWellPatient,All_Patient,All_PatientDistrict,All_HealingDistrict,
+            All_GetWellDistrict,today_newpatient,todat_gwtwellpatient;
+    String clusterAlldistrict;
+    String clusterAllhealingdistrict;
+    String clusterAllgetwelldistrict;
+    String cluster_GetWell_patient,cluster_News_patient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +43,7 @@ public class EditClusterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_cluster);
         clusterPlace = getIntent().getStringExtra("clusterPlace");
         district_name = getIntent().getStringExtra("district_name");
-        System.out.println("////////////////////////" + clusterPlace);
-
+        subdistrict_name = getIntent().getStringExtra("subdistrict_name");
 
         this.getClusterToEdit();
         DateClusterDefault();
@@ -93,12 +96,24 @@ public class EditClusterActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    //String clusterDate = ds.child("clusterDate").getValue().toString();
                     String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
                     String clusterplace = ds.child("clusterPlace").getValue().toString();
                     clusterPlace = clusterplace;
                     String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
+                    String cluster_All_patient = ds.child("cluster_All_patient").getValue().toString();
+                    String cluster_getwell_patient = ds.child("cluster_getwell_patient").getValue().toString();
                     String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
+                    cluster_GetWell_patient = cluster_getwell_patient;
+                    cluster_News_patient = cluster_news_patient;
+
+                    String cluster_Allgetwell_district = ds.child("cluster_Allgetwell_district").getValue().toString();
+                    String cluster_Allhealing_district = ds.child("cluster_Allhealing_district").getValue().toString();
+                    String cluster_Allpatient_district = ds.child("cluster_Allpatient_district").getValue().toString();
+
+                    clusterAlldistrict = cluster_Allpatient_district;
+                    clusterAllhealingdistrict = cluster_Allhealing_district;
+                    clusterAllgetwelldistrict = cluster_Allgetwell_district;
+
                     String clusterLat = ds.child("clusterLat").getValue().toString();
                     String clusterLng = ds.child("clusterLng").getValue().toString();
 
@@ -111,17 +126,20 @@ public class EditClusterActivity extends AppCompatActivity {
                     TextView txtdistrict = findViewById(R.id.txtedit_district);
                     txtdistrict.setText(clusterDistrict);
 
-                    /*EditText txtdate = findViewById(R.id.txtedit_date);
-                    txtdate.setText(clusterDate);*/
-
-                    EditText txtnewpatient = findViewById(R.id.txtedit_newpatient);
-                    txtnewpatient.setText(cluster_news_patient);
+                    TextView txtnewpatient = findViewById(R.id.txtAll_patient);
+                    txtnewpatient.setText(cluster_All_patient);
 
                     TextView txtlat = findViewById(R.id.txtedit_lat);
                     txtlat.setText(clusterLat);
 
                     TextView txtlng = findViewById(R.id.txtedit_lng);
                     txtlng.setText(clusterLng);
+
+                    EditText txtcluster_getwell_patient = findViewById(R.id.txt_getwellpatient_amount);
+                    txtcluster_getwell_patient.setText("0");
+
+                    EditText txtcluster_news_patient = findViewById(R.id.txt_newpatient_amount);
+                    txtcluster_news_patient.setText("0");
 
                 }
             }
@@ -133,6 +151,7 @@ public class EditClusterActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("LongLogTag")
     public void ClickEditCluster(View view) {
         Cluster clusterToedit = new Cluster();
 
@@ -144,28 +163,69 @@ public class EditClusterActivity extends AppCompatActivity {
         clusterToedit.setClusterSubdistrict(txtsubdistrict.getText().toString());
         TextView txtdistrict = findViewById(R.id.txtedit_district);
         clusterToedit.setClusterDistrict(txtdistrict.getText().toString());
-        EditText txtnewpatient = findViewById(R.id.txtedit_newpatient);
+
+        TextView txtAllpatient = findViewById(R.id.txtAll_patient);
+        clusterToedit.setCluster_All_patient(txtAllpatient.getText().toString());
+
+        EditText txtnewpatient = findViewById(R.id.txt_newpatient_amount);
         clusterToedit.setCluster_news_patient(txtnewpatient.getText().toString());
+
+        EditText txtgetwellpatient = findViewById(R.id.txt_getwellpatient_amount);
+        clusterToedit.setCluster_getwell_patient(txtgetwellpatient.getText().toString());
 
         TextView lat = findViewById(R.id.txtedit_lat);
         clusterToedit.setClusterLat(lat.getText().toString());
         TextView lng = findViewById(R.id.txtedit_lng);
         clusterToedit.setClusterLng(lng.getText().toString());
 
-        String clusterdate = txtdate.getText().toString();
-        String clusterplace = txtplace.getText().toString();
-        String clustersubdistrict = txtsubdistrict.getText().toString();
-        String clusterdistrict = txtdistrict.getText().toString();
-        String clusternewpatient = txtnewpatient.getText().toString();
-
-        patientCheck = clusternewpatient;
-
+        String clusterDate = txtdate.getText().toString();
+        String clusterPlace = txtplace.getText().toString();
+        String clusterSubdistrict = txtsubdistrict.getText().toString();
+        String clusterDistrict = txtdistrict.getText().toString();
         String clusterLat = lat.getText().toString();
         String clusterLng = lng.getText().toString();
 
-        patientNum = Integer.parseInt(clusternewpatient);
+        String clusterAllpatient = txtAllpatient.getText().toString();
+        String clusternewpatient = txtnewpatient.getText().toString();
+        String clustergetwellpatient = txtgetwellpatient.getText().toString();
 
-        if (patientCheck.equals("0")) {
+        String Allpatientdistrict ;
+        String Allgetwelldistrict ;
+        String Allhealingdistrict ;
+
+        /*if(clusternewpatient.equals("0")){
+            clusternewpatient = cluster_News_patient;
+        }else if(clustergetwellpatient.equals("0")){
+            clustergetwellpatient = cluster_GetWell_patient;
+        }*/
+
+        amount_GetWellPatient = Integer.parseInt(clustergetwellpatient);
+        amount_NewPatient = Integer.parseInt(clusternewpatient);
+        All_Patient = Integer.parseInt(clusterAllpatient);
+
+        All_PatientDistrict = Integer.parseInt(clusterAlldistrict);
+        All_GetWellDistrict = Integer.parseInt(clusterAllgetwelldistrict);
+        All_HealingDistrict = Integer.parseInt(clusterAllhealingdistrict);
+
+        All_Patient = All_Patient + amount_NewPatient;
+        All_Patient = All_Patient - amount_GetWellPatient;
+
+        All_PatientDistrict = All_PatientDistrict + amount_NewPatient;
+
+        All_GetWellDistrict = All_GetWellDistrict + amount_GetWellPatient;
+
+        All_HealingDistrict = All_HealingDistrict + amount_NewPatient;
+        All_HealingDistrict = All_HealingDistrict - amount_GetWellPatient;
+
+        clusterAllpatient = String.valueOf(All_Patient);
+        clustergetwellpatient = String.valueOf(amount_GetWellPatient);
+        clusternewpatient = String.valueOf(amount_NewPatient);
+
+        Allpatientdistrict = String.valueOf(All_PatientDistrict);
+        Allhealingdistrict = String.valueOf(All_HealingDistrict);
+        Allgetwelldistrict = String.valueOf(All_GetWellDistrict);
+
+        if (All_Patient <= 0) {
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
             AlertDialog.Builder builder = new AlertDialog.Builder(EditClusterActivity.this);
             builder.setTitle("คำความเตือน");
@@ -183,7 +243,7 @@ public class EditClusterActivity extends AppCompatActivity {
             AlertDialog alert = builder.create();
             alert.show();
         } else {
-            Cluster cluster_edit = new Cluster(clusterdate, clusterplace, clustersubdistrict, clusterdistrict, clusternewpatient, clusterLat, clusterLng);
+            Cluster cluster_edit = new Cluster( clusterDate,  clusterPlace,  clusterSubdistrict,  clusterDistrict,  clustergetwellpatient,  clusternewpatient,  clusterAllpatient,  Allpatientdistrict,  Allhealingdistrict,  Allgetwelldistrict,  clusterLat,  clusterLng);
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
             DatabaseReference myRef_clusterEdit = database.getReference("admin001/cluster/" + district_name + "/" + clusterPlace);
             Query query1 = myRef_clusterEdit.orderByValue();
@@ -195,11 +255,16 @@ public class EditClusterActivity extends AppCompatActivity {
                         myRef_clusterEdit.child("clusterPlace").setValue(cluster_edit.getClusterPlace());
                         myRef_clusterEdit.child("clusterDistrict").setValue(cluster_edit.getClusterDistrict());
                         myRef_clusterEdit.child("clusterSubdistrict").setValue(cluster_edit.getClusterSubdistrict());
+                        myRef_clusterEdit.child("cluster_All_patient").setValue(cluster_edit.getCluster_All_patient());
+                        myRef_clusterEdit.child("cluster_getwell_patient").setValue(cluster_edit.getCluster_getwell_patient());
                         myRef_clusterEdit.child("cluster_news_patient").setValue(cluster_edit.getCluster_news_patient());
+                        myRef_clusterEdit.child("cluster_Allgetwell_district").setValue(cluster_edit.getCluster_Allhealing_district());
+                        myRef_clusterEdit.child("cluster_Allhealing_district").setValue(cluster_edit.getCluster_Allgetwell_district());
+                        myRef_clusterEdit.child("cluster_Allpatient_district").setValue(cluster_edit.getCluster_Allpatient_district());
                         myRef_clusterEdit.child("clusterLat").setValue(cluster_edit.getClusterLat());
                         myRef_clusterEdit.child("clusterLng").setValue(cluster_edit.getClusterLng());
+
                         Intent intent = new Intent(EditClusterActivity.this, ListRiskAreaActivity.class);
-                        intent.putExtra("patient_number", patientNum);
                         startActivity(intent);
                     }
                 }
