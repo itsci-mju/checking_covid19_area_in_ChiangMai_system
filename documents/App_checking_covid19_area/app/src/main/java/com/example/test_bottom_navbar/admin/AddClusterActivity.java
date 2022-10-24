@@ -37,14 +37,14 @@ import java.util.Date;
 public class AddClusterActivity extends AppCompatActivity {
     String Admin,i,district_name,subdistrict_name,C_lat,C_lng,SetDefault_Date,SetDefault_Date_set14;
     String clusterDate,clusterSubdistrict,clusterDistrict,cluster_news_patient,clusterLat,clusterLng;
-    String place_def,subdistrict_def,district_def,news_patient_def,Clat_def,Clng_def;
+    String place_def,news_patient_def,Clat_def,Clng_def;
+    String subdistrict_def,district_def;
     double Cluster_Lat,Cluster_Lng;
-    int patientNum;
+    int patientNum,dt,sdt;
     private Spinner spinner_district,spinner_subdistrict;
     private TextView txtLat,txtLng;
     ArrayAdapter<String> dataAdapter_district;
     ArrayAdapter<String> dataAdapter_subdistrict;
-    String positionOfSelectedDataFromSpinner_district,positionOfSelectedDataFromSpinner_subdistrict;
 
     String[] district = {"เมืองเชียงใหม่","จอมทอง","เเม่เเจ่ม","เชียงดาว","ดอยสะเก็ด","แม่แตง","แม่ริม","สะเมิง","ฝาง","แม่อาย","พร้าว","สันป่าตอง","สันกำแพง","สันทราย","หางดง","ฮอด","ดอยเต่า","อมก๋อย","สารภี","เวียงแหง","ไชยปราการ","แม่วาง","แม่ออน","ดอยหล่อ"};
     String[] sub_CM = {"ศรีภูมิ","พระสิงห์","หายยา","ช้างม่อย","ช้างคลาน","วัดเกต","ช้างเผือก","สุเทพ","แม่เหียะ","ป่าแดด","หนองหอย","ท่าศาลา","หนองป่าครั่ง","ฟ้าฮ่าม","ป่าตัน","สันผีเสื้อ"};
@@ -72,6 +72,7 @@ public class AddClusterActivity extends AppCompatActivity {
     String[] sub_MaeOn = {"ออนเหนือ","ออนกลาง","บ้านสหกรณ์","ห้วยแก้ว","แม่ทา","ทาเหนือ"};
     String[] sub_DoiLo = {"ดอยหล่อ","สองแคว","ยางคราม","สันติสุข"};
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,187 +84,412 @@ public class AddClusterActivity extends AppCompatActivity {
 
         Intent intentget = getIntent();
         place_def = intentget.getStringExtra("place_def");
-        subdistrict_def = intentget.getStringExtra("subdistrict_def");
-        district_def = intentget.getStringExtra("district_def");
+
+        dt = intentget.getIntExtra("dt",dt);
+        Log.e("////////////////////////////////////////A", String.valueOf(dt));
+
+        sdt = intentget.getIntExtra("sdt",sdt);
+        Log.e("////////////////////////////////////////A", String.valueOf(sdt));
+
         news_patient_def = intentget.getStringExtra("news_patient_def");
 
         String String_place_def = place_def;
         EditText place = findViewById(R.id.txtadd_place);
         place.setText(String_place_def);
 
-        //spinner_district.setSelection(positionOfSelectedDataFromSpinner_district);
-        //spinner_subdistrict.setSelection(positionOfSelectedDataFromSpinner_subdistrict);
-
-
         String String_news_patient_def = news_patient_def;
         EditText news_patient = findViewById(R.id.txtadd_newpatient);
         news_patient.setText(String_news_patient_def);
 
+        spinner_district = findViewById(R.id.txtadd_district);
+        spinner_district.setSelection(dt);
+        spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
+        spinner_subdistrict.setSelection(sdt);
+
         if (Cluster_Lat != 0.0 && Cluster_Lng != 0.0) {
                 this.GetLatLngFromMap();
         }
-
 
         Intent intent = getIntent();
         Admin = intent.getStringExtra("Admin");
 
         DateClusterDefault();
 
-        spinner_district = findViewById(R.id.txtadd_district);
         dataAdapter_district = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item,district);
         spinner_district.setAdapter(dataAdapter_district);
-        System.out.println("-------------------------------------------spinnder----"+spinner_district.getSelectedItem().toString());
-        positionOfSelectedDataFromSpinner_district = spinner_district.getSelectedItem().toString();
+        spinner_district.setSelection(dt);
         spinner_district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 district_name = parent.getItemAtPosition(position).toString();
-
+                dt = spinner_district.getSelectedItemPosition();
+                Log.e("dt = ", String.valueOf(dt));
                 if (district_name == "เมืองเชียงใหม่") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_CM);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                     System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
                 }else if (district_name == "จอมทอง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Chomthong);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                     System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
                 }else if (district_name == "เเม่เเจ่ม") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeJam);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                     System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
                 }else if (district_name == "เชียงดาว") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_ChiangDao);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "ดอยสะเก็ด") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_DoiSaket);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "แม่แตง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeTaeng);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "แม่ริม") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeRim);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "สะเมิง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Samoeng);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "ฝาง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Fang);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "แม่อาย") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeEye);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "พร้าว") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Phrao);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "สันป่าตอง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_SanPaTong);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "สันกำแพง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Sankumpang);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "สันทราย") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_SanSai);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "หางดง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_HangDong);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "ฮอด") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Hot);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "ดอยเต่า") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_DoiTao);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "อมก๋อย") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_AumKoi);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "สารภี") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Sarapee);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "เวียงแหง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_WiangHaeg);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "ไชยปราการ") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_Chaiprakarn);
-                    spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    sdt = spinner_subdistrict.getSelectedItemPosition();
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "แม่วาง") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeWang);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "แม่ออน") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_MaeOn);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }else if (district_name == "ดอยหล่อ") {
                     spinner_subdistrict = findViewById(R.id.txtadd_subdistrict);
                     dataAdapter_subdistrict = new ArrayAdapter<String>(AddClusterActivity.this, android.R.layout.simple_spinner_dropdown_item, sub_DoiLo);
                     spinner_subdistrict.setAdapter(dataAdapter_subdistrict);
-                    System.out.println("-------------------------------------------subdistrict----"+spinner_subdistrict.getSelectedItem().toString());
-
+                    spinner_subdistrict.setSelection(sdt);
+                    Log.e("sdt = ", String.valueOf(sdt));
+                    spinner_subdistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            sdt = spinner_subdistrict.getSelectedItemPosition();
+                            Log.e("sdt = ", String.valueOf(sdt));
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) { }
+                    });
                 }
+
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
@@ -434,25 +660,22 @@ public class AddClusterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @SuppressLint("LongLogTag")
     public void ClickGetlatlng (View view){
         EditText place = findViewById(R.id.txtadd_place);
-        Spinner subdistrict = findViewById(R.id.txtadd_subdistrict);
-        Spinner district = findViewById(R.id.txtadd_district);
+
         EditText newspatient = findViewById(R.id.txtadd_newpatient);
         EditText lat = findViewById(R.id.txtLat);
         EditText lng = findViewById(R.id.txtLng);
 
         place_def = place.getText().toString();
-        subdistrict_def = subdistrict.getSelectedItem().toString();
-        district_def = district.getSelectedItem().toString();
-        news_patient_def = newspatient.getText().toString();
         Clat_def = lat.getText().toString();
         Clng_def = lng.getText().toString();
 
         Intent intent = new Intent(AddClusterActivity.this, GetLatLngClusterActivity.class);
         intent.putExtra("place_def",place_def);
-        intent.putExtra("district_def",positionOfSelectedDataFromSpinner_district);
-        intent.putExtra("subdistrict_def",positionOfSelectedDataFromSpinner_subdistrict);
+        intent.putExtra("dt",dt);
+        intent.putExtra("sdt",sdt);
         intent.putExtra("news_patient_def",news_patient_def);
         intent.putExtra("Clat_def",Clat_def);
         intent.putExtra("Clng_def",Clng_def);

@@ -77,7 +77,7 @@
                                 android:layout_height="59dp"
                                 android:fontFamily="@font/prompt_medium"
                                 android:gravity="center"
-                                android:text="แก้ไขคลัสเตอร์"
+                                android:text="Update คลัสเตอร์"
                                 android:textColor="#FFFFFF"
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
@@ -397,6 +397,100 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/update_patient"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="25dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="160dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/getwellpatient_amount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:fontFamily="@font/prompt_medium"
+                                    android:gravity="center"
+                                    android:text="ยอดหายป่วย"
+                                    android:textColor="#000000"
+                                    android:textSize="18dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/txt_border"
+                                    android:backgroundTint="#5EFF65"
+                                    android:orientation="horizontal">
+
+                                    <EditText
+                                        android:id="@+id/txt_getwellpatient_amount"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="5dp"
+                                        android:fontFamily="@font/prompt_medium"
+                                        android:hint="ใส่ยอดผู้หายป่วย"
+                                        android:inputType="textPersonName"
+                                        android:textSize="18dp"
+                                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="170dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/newpatient_amount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:fontFamily="@font/prompt_medium"
+                                    android:gravity="center"
+                                    android:text="ยอดผู้ติดเชื้อเพิ่ม"
+                                    android:textColor="#000000"
+                                    android:textSize="18dp" />
+
+                                <LinearLayout
+                                    android:layout_width="170dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/txt_border"
+                                    android:backgroundTint="#FF3A36"
+                                    android:orientation="horizontal">
+
+                                    <EditText
+                                        android:id="@+id/txt_newpatient_amount"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="5dp"
+                                        android:fontFamily="@font/prompt_medium"
+                                        android:hint="ใส่ยอดผู้ติดเชื้อเพิ่ม"
+                                        android:inputType="textPersonName"
+                                        android:textColor="#000000"
+                                        android:textSize="18dp"
+                                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/save_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -419,7 +513,7 @@
                             android:fontFamily="@font/prompt_medium"
                             android:gravity="center"
                             android:onClick="ClickEditCluster"
-                            android:text="บันทึกการเเก้ไข"
+                            android:text="Update คลัสเตอร์"
                             android:textColor="#FFFFFF"
                             android:textSize="18dp" />
 
@@ -438,7 +532,8 @@
                             android:onClick="ClickBTNEditCancel"
                             android:text="ยกเลิก"
                             android:textColor="#FFFFFF"
-                            android:textSize="18dp" />
+                            android:textSize="18dp"
+                            tools:ignore="TouchTargetSizeCheck" />
 
                     </LinearLayout>
 

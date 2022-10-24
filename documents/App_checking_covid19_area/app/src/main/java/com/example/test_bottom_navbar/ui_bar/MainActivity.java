@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,7 +72,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private ImageView imageView;
     private EditText SarchButton;
     Context ctx;
-    private Button button;
+    private Button button,btn_listDistrict;
     Intent intent = getIntent();
     private Dialog dialog;
     String location,clusterPlace,sarchbutton;
@@ -81,6 +82,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     Cluster cluster = new Cluster();
     private Context context;
     private String[] District= {"เมืองเชียงใหม่","สารภี","เเม่ริม","สันกำเเพง","สันทราย"};
+    //private String[] District= {"เมืองเชียงใหม่","สารภี","เเม่ริม","สันกำเเพง","สันทราย"};
+    private String C_District,C_new_patient;
+    private int news_patient,sum_CM,sum_SP,sum_MR,sum_SK,sum_SS;
     Circle myCircle1;
     String Array_District;
     int Allpatient_CM,Allpatient_SP,Allpatient_MR,Allpatient_SS;
@@ -89,10 +93,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     int Totalpatient_CM,Totalpatient_Sarapee,Totalpatient_MaeRim,Totalpatient_SunSai;
     private int STORAGE_PERMISSION_CODE = 1;
     BottomNavigationView bottomNavigationView;
-    RippleBackground rippleBackground;
-    ImageView imgAni,imgAni2;
-    Button buttonlistcovidArea;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,38 +150,49 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         return false;
     }
 
-    public void ListClusterInDialog(View view){
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
-        builderSingle.setIcon(R.drawable.co_covid19);
-        builderSingle.setTitle("Select One Name:-");
+    public void setListClusterByAdmin() {
+        for (int i=0;i < District.length;i++) {
+            System.out.println(District[i]);
+            LinearLayout list_cluster = findViewById(R.id.showlistcluster_admin);
+            list_cluster.removeAllViews();
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+            String district_name = District[i];
+            Query query1 = myRef.orderByKey();
+            query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Log.e("Data_cluster", ds.getValue().toString());
+                        View cluster = getLayoutInflater().inflate(R.layout.layout_clusterby_admin, null);
+                        String clusterDate = ds.child("clusterDate").getValue().toString();
+                        String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
+                        String clusterPlace = ds.child("clusterPlace").getValue().toString();
+                        String clusterSubdistrict = ds.child("clusterSubdistrict").getValue().toString();
+                        String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.select_dialog_item);
-        arrayAdapter.add("Hardik");
+                        TextView txtplace = cluster.findViewById(R.id.txtedit_place);
+                        txtplace.setText(clusterPlace);
 
-        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String strName = arrayAdapter.getItem(which);
-                AlertDialog.Builder builderInner = new AlertDialog.Builder(MainActivity.this);
-                builderInner.setMessage(strName);
-                builderInner.setTitle("Your Selected Item is");
-                builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog,int which) {
-                        dialog.dismiss();
+                        TextView txtsubdistrict = cluster.findViewById(R.id.txtedit_subdistrict);
+                        txtsubdistrict.setText(clusterSubdistrict);
+
+                        TextView txtdistrict = cluster.findViewById(R.id.txtedit_district);
+                        txtdistrict.setText(clusterDistrict);
+
+                        TextView txtdate = cluster.findViewById(R.id.txtedit_date);
+                        txtdate.setText(clusterDate);
+
+                        TextView txtnewpatient = cluster.findViewById(R.id.txtedit_newpatient);
+                        txtnewpatient.setText(cluster_news_patient);
+
+                        list_cluster.addView(cluster);
                     }
-                });
-                builderInner.show();
-            }
-        });
-        builderSingle.setNegativeButton("กลับ", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builderSingle.show();
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+        }
     }
 
     private void addToAdapter(){
@@ -197,8 +210,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.e("Data_cluster", ds.getValue().toString());
                         View cluster = getLayoutInflater().inflate(R.layout.layout_cluster, null);
                         String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                        TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
-                        txtdistrict.setText(clusterDistrict);
+                        //TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
+                        //txtdistrict.setText(clusterDistrict);
                         list_cluster.addView(cluster);
                     }
                 }
@@ -295,8 +308,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.e("Data_cluster", ds.getValue().toString());
                         View cluster = getLayoutInflater().inflate(R.layout.layout_cluster, null);
                         String clusterDistrict = ds.child("clusterDistrict").getValue().toString();
-                        TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
-                        txtdistrict.setText(clusterDistrict);
+                        //TextView txtdistrict = cluster.findViewById(R.id.txtview_place);
+                        //txtdistrict.setText(clusterDistrict);
                         list_cluster.addView(cluster);
                     }
                 }
@@ -345,8 +358,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions()
                         .position(user_location)
                         .title("คุณอยู่จุดนี้")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-                //.icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.user_64)
+                .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_baseline_person_pin_circle_24))
         );
         addingCircleView_user(user_location);
         //instance firebase
@@ -393,7 +405,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 0, 255, 0));
             Polygon polygonMaungCM = mMap.addPolygon(MaungCM);
             polygonMaungCM.setClickable(true);
-        }else if(Allpatient_CM <= 30) {
+        }else if(Allpatient_CM <= 10) {
             PolygonOptions MaungCM = new PolygonOptions()
                     .add(m1).add(m2).add(m3).add(m4).add(m5).add(m6).add(m7).add(m8).add(m9).add(m10)
                     .add(m11).add(m12).add(m13).add(m14).add(m15).add(m16).add(m17).add(m18).add(m19).add(m20)
@@ -422,7 +434,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 255, 255, 0));
             Polygon polygonMaungCM1 = mMap.addPolygon(MaungCM1);
             polygonMaungCM1.setClickable(true);
-        }else if(Allpatient_CM >= 100) {
+        }else if(Allpatient_CM > 50) {
             PolygonOptions MaungCM = new PolygonOptions()
                     .add(m1).add(m2).add(m3).add(m4).add(m5).add(m6).add(m7).add(m8).add(m9).add(m10)
                     .add(m11).add(m12).add(m13).add(m14).add(m15).add(m16).add(m17).add(m18).add(m19).add(m20)
@@ -448,7 +460,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 0, 255, 0));
             Polygon polygonMaeRim = mMap.addPolygon(MaeRim);
             polygonMaeRim.setClickable(true);
-        }else if(Allpatient_MR <= 30) {
+        }else if(Allpatient_MR <= 10) {
             PolygonOptions MaeRim = new PolygonOptions()
                     .add(ma1).add(ma2).add(ma3).add(ma4).add(ma5).add(ma6)
                     .add(ma7).add(ma8).add(ma9).add(ma10).add(ma11).add(ma12)
@@ -483,7 +495,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 255, 255, 0));
             Polygon polygonMaeRim1 = mMap.addPolygon(MaeRim1);
             polygonMaeRim1.setClickable(true);
-        }else if(Allpatient_MR >= 100){
+        }else if(Allpatient_MR > 50){
             PolygonOptions MaeRim = new PolygonOptions()
                     .add(ma1).add(ma2).add(ma3).add(ma4).add(ma5).add(ma6)
                     .add(ma7).add(ma8).add(ma9).add(ma10).add(ma11).add(ma12)
@@ -511,7 +523,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 0, 255, 0));
             Polygon polygonSarapee = mMap.addPolygon(Sarapee);
             polygonSarapee.setClickable(true);
-        }else if(Allpatient_SP <= 30){
+        }else if(Allpatient_SP <= 10){
             PolygonOptions Sarapee = new PolygonOptions()
                     .add(sarapee1).add(sarapee2).add(sarapee3).add(sarapee4).add(sarapee5).add(sarapee6)
                     .add(sarapee7).add(sarapee8).add(sarapee9).add(sarapee10).add(sarapee11).add(sarapee12)
@@ -547,7 +559,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             Polygon polygonSarapee1 = mMap.addPolygon(Sarapee1);
             polygonSarapee1.setClickable(true);
 
-        }else if(Allpatient_SP >= 100){
+        }else if(Allpatient_SP > 50){
             PolygonOptions Sarapee = new PolygonOptions()
                     .add(sarapee1).add(sarapee2).add(sarapee3).add(sarapee4).add(sarapee5).add(sarapee6)
                     .add(sarapee7).add(sarapee8).add(sarapee9).add(sarapee10).add(sarapee11).add(sarapee12)
@@ -574,7 +586,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 0, 255, 0));
             Polygon polygonSunSai = mMap.addPolygon(Sunsai);
             polygonSunSai.setClickable(true);
-        }else if(Allpatient_SS <= 30) {
+        }else if(Allpatient_SS <= 10) {
             PolygonOptions Sunsai = new PolygonOptions()
                     .add(sunsai1).add(sunsai2).add(sunsai3).add(sunsai4).add(sunsai5).add(sunsai6)
                     .add(sunsai7).add(sunsai8).add(sunsai9).add(sunsai10).add(sunsai11).add(sunsai12)
@@ -606,7 +618,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .fillColor(Color.argb(30, 255, 255, 0));
             Polygon polygonSunSai1 = mMap.addPolygon(Sunsai1);
             polygonSunSai1.setClickable(true);
-        }else if(Allpatient_SS >= 100) {
+        }else if(Allpatient_SS > 50) {
             PolygonOptions Sunsai = new PolygonOptions()
                     .add(sunsai1).add(sunsai2).add(sunsai3).add(sunsai4).add(sunsai5).add(sunsai6)
                     .add(sunsai7).add(sunsai8).add(sunsai9).add(sunsai10).add(sunsai11).add(sunsai12)
@@ -697,8 +709,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void ClickbynBack(View view){
-        Intent intent = new Intent(MainActivity.this,MainActivity.class);
+    public void ClickBackToMenu(View view){
+        Intent intent = new Intent(MainActivity.this,MainMenuActivity.class);
+        startActivity(intent);
+    }
+
+    public void ClickbyListDistrict(View view){
+        Intent intent = new Intent(MainActivity.this,CheckListDisrictActivity.class);
         startActivity(intent);
     }
 

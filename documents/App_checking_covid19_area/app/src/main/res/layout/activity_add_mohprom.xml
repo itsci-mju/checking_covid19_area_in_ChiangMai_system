@@ -429,7 +429,7 @@
                                         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                                     <ImageView
-                                        android:id="@+id/imageView10"
+                                        android:id="@+id/getlatlng"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
@@ -493,6 +493,50 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/textView17"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/prompt_medium"
+                                android:gravity="center"
+                                android:text="ที่อยู่"
+                                android:textColor="#000000"
+                                android:textSize="18dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/txt_border"
+                                android:orientation="vertical">
+
+                                <EditText
+                                    android:id="@+id/mohpromtaddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="5dp"
+                                    android:ems="10"
+                                    android:fontFamily="@font/prompt_medium"
+                                    android:gravity="top"
+                                    android:hint="ใส่ที่อยู่"
+                                    android:inputType="textEmailAddress|textMultiLine"
+                                    android:lines="20"
+                                    android:minHeight="20dp"
+                                    android:minLines="2"
+                                    android:scrollbars="vertical"
+                                    android:scrollHorizontally="false"
+                                    android:textSize="18dp"
+                                    tools:ignore="SpeakableTextPresentCheck" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="20dp"
+                            android:orientation="vertical">
+
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/prompt_medium"
@@ -503,20 +547,19 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="150dp"
+                                android:layout_height="match_parent"
                                 android:background="@drawable/txt_border"
                                 android:orientation="vertical">
 
-                                <EditText
+                                <Spinner
                                     android:id="@+id/mohpromtdetail"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="35dp"
                                     android:layout_margin="5dp"
                                     android:layout_marginLeft="5dp"
                                     android:ems="10"
                                     android:fontFamily="@font/prompt_medium"
                                     android:gravity="top"
-                                    android:hint="ใส่รายละเอียด"
                                     android:inputType="textPersonName"
                                     tools:ignore="SpeakableTextPresentCheck" />
                             </LinearLayout>

@@ -9,15 +9,16 @@
     android:layout_marginRight="20dp"
     android:orientation="horizontal"
     android:padding="25dp"
-    app:cardBackgroundColor="#FFFFFF"
+    app:cardBackgroundColor="#00FFFFFF"
     app:cardCornerRadius="8dp"
     app:cardElevation="0dp">
 
     <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="325dp"
+        android:layout_height="250dp"
         android:layout_margin="10dp"
-        android:background="@drawable/txt_news_border">
+        android:background="@drawable/txt_news_border"
+        android:backgroundTint="#FFFFFF">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,8 +99,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/prompt_medium"
-                        android:text="รายละเอียด"
-                        android:maxLines="2"/>
+                        android:maxLength="20"
+                        android:maxLines="1"
+                        android:text="รายละเอียด" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.test_bottom_navbar.admin;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -34,16 +35,23 @@ public class GetLatLngMapFragment extends Fragment {
     double Cluster_Lat,Cluster_Lng;
     private ImageButton ButtonBack;
     private Button ButtonGetLatLng;
-    String place_def,subdistrict_def,district_def,news_patient_def,Clat_def,Clng_def;
+    String place_def,news_patient_def,Clat_def,Clng_def;
+    String subdistrict_def,district_def;
+    int dt,sdt;
 
+    @SuppressLint("LongLogTag")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_get_lat_lng_map, container, false);
 
         Bundle bundle = getActivity().getIntent().getExtras();
         place_def = bundle.getString("place_def");
-        subdistrict_def = bundle.getString("subdistrict_def");
-        district_def = bundle.getString("district_def");
+
+        dt = bundle.getInt("dt");
+        Log.e("////////////////////////////////////////S", String.valueOf(dt));
+        sdt = bundle.getInt("sdt");
+        Log.e("////////////////////////////////////////S", String.valueOf(sdt));
+
         news_patient_def = bundle.getString("news_patient_def");
         Clat_def = bundle.getString("Clat_def");
         Clng_def = bundle.getString("Clng_def");
@@ -100,8 +108,8 @@ public class GetLatLngMapFragment extends Fragment {
                 intentLatLng.putExtra("Cluster_Lat", Cluster_Lat);
                 intentLatLng.putExtra("Cluster_Lng", Cluster_Lng);
                 intentLatLng.putExtra("place_def", place_def);
-                intentLatLng.putExtra("subdistrict_def", subdistrict_def);
-                intentLatLng.putExtra("district_def", district_def);
+                intentLatLng.putExtra("sdt", sdt);
+                intentLatLng.putExtra("dt", dt);
                 intentLatLng.putExtra("news_patient_def", news_patient_def);
                 startActivity(intentLatLng);
             }

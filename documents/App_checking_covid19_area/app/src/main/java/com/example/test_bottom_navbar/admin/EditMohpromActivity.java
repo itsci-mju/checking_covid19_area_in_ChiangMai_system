@@ -120,6 +120,7 @@ public class EditMohpromActivity extends AppCompatActivity {
                     String mohpromtEndtime = ds.child("mohpromtEndTime").getValue().toString();
                     String mohpromtLat = ds.child("mohpromtLat").getValue().toString();
                     String mohpromtLng = ds.child("mohpromtLng").getValue().toString();
+                    String mohpromtAddress = ds.child("mohpromtAddress").getValue().toString();
                     String mohpromtDetail = ds.child("mohpromtDetail").getValue().toString();
 
                     TextView txtmohpromtplace = findViewById(R.id.txtedit_mohpromtplace);
@@ -146,18 +147,18 @@ public class EditMohpromActivity extends AppCompatActivity {
                     TextView txtmohpromtlng = findViewById(R.id.txtedit_mohpromtLng);
                     txtmohpromtlng.setText(mohpromtLng);
 
+                    EditText txtmohpromtaddress = findViewById(R.id.txtedit_mohpromtaddress);
+                    txtmohpromtaddress.setText(mohpromtAddress);
+
                     TextView txtmohpromtdetail = findViewById(R.id.txtedit_mohpromtdetail);
                     txtmohpromtdetail.setText(mohpromtDetail);
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
     }
 
     public void ClickToEditMohpromt(){
@@ -175,7 +176,9 @@ public class EditMohpromActivity extends AppCompatActivity {
         mohpromtToedit.setMohpromtLat(txteditMohpromLat.getText().toString());
         TextView txteditMohpromLng = findViewById(R.id.txtedit_mohpromtLng);
         mohpromtToedit.setMohpromtLat(txteditMohpromLng.getText().toString());
-        EditText txteditMohpromDetail = findViewById(R.id.txtedit_mohpromtdetail);
+        TextView txteditMohpromAddress = findViewById(R.id.txtedit_mohpromtaddress);
+        mohpromtToedit.setMohpromtLat(txteditMohpromLng.getText().toString());
+        TextView txteditMohpromDetail = findViewById(R.id.txtedit_mohpromtdetail);
         mohpromtToedit.setMohpromtDetail(txteditMohpromDetail.getText().toString());
 
         String mohpromplace = txteditMohpromplace.getText().toString();
@@ -188,9 +191,10 @@ public class EditMohpromActivity extends AppCompatActivity {
         String mohpromendtime = txteditMohpromEndTime.getText().toString();
         String mohpromlat = txteditMohpromLat.getText().toString();
         String mohpormlng = txteditMohpromLng.getText().toString();
+        String mohpromaddress = txteditMohpromAddress.getText().toString();
         String mohpromdetail = txteditMohpromDetail.getText().toString();
 
-        Mohpromt mohpromt_edit = new Mohpromt(mohpromplace,mohpromtype,StringMohpormtStartDate,StringMohpormtEndDate,mohpromstarttime,mohpromendtime,mohpromlat,mohpormlng,mohpromdetail);
+        Mohpromt mohpromt_edit = new Mohpromt(mohpromplace,mohpromtype,StringMohpormtStartDate,StringMohpormtEndDate,mohpromstarttime,mohpromendtime,mohpromlat,mohpormlng,mohpromaddress,mohpromdetail);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef_clusterEdit = database.getReference("admin001/mohpromt/"+mohpromtPlace);
         Query query1 =  myRef_clusterEdit.orderByValue();
@@ -206,6 +210,7 @@ public class EditMohpromActivity extends AppCompatActivity {
                     myRef_clusterEdit.child("mohpromtEndTime").setValue(mohpromt_edit.getMohpromtEndTime());
                     myRef_clusterEdit.child("mohpromtLat").setValue(mohpromt_edit.getMohpromtLat());
                     myRef_clusterEdit.child("mohpromtLng").setValue(mohpromt_edit.getMohpromtLng());
+                    myRef_clusterEdit.child("mohpromtAddress").setValue(mohpromt_edit.getMohpromtAddress());
                     myRef_clusterEdit.child("mohpromtDetail").setValue(mohpromt_edit.getMohpromtDetail());
 
                     Intent intent = new Intent(EditMohpromActivity.this, ListMohpromActivity.class);
@@ -249,6 +254,7 @@ public class EditMohpromActivity extends AppCompatActivity {
             }
         }
     }
+
     private void findRadioButton() {
         CheckBox Mon,tues,wednes,thurs,frid,satur,sun;
         Mon = (CheckBox) findViewById(R.id.checkmon);
@@ -299,7 +305,7 @@ public class EditMohpromActivity extends AppCompatActivity {
                     String f = frid.getText().toString();
                     StartTime_Seclect = StartTime_Seclect+","+f;
                 }else{
-                    String f = thurs.getText().toString();
+                    String f = frid.getText().toString();
                     StartTime_NotSeclect = StartTime_NotSeclect+","+f;
                 }
                 if(satur.isChecked()){

@@ -11,10 +11,11 @@ public class Mohpromt implements Serializable {
     private String mohpromtLat;
     private String mohpromtLng;
     private String mohpromtDetail;
+    private String mohpromtAddress;
 
     public Mohpromt(){ }
 
-    public Mohpromt(String mohpromtPlace, String mohpromtType, String mohpromtStartDate, String mohpromtEndDate, String mohpromtStartTime, String mohpromtEndTime, String mohpromtLat, String mohpromtLng, String mohpromtDetail) {
+    public Mohpromt(String mohpromtPlace, String mohpromtType, String mohpromtStartDate, String mohpromtEndDate, String mohpromtStartTime, String mohpromtEndTime, String mohpromtLat, String mohpromtLng, String mohpromtDetail, String mohpromtAddress) {
         this.mohpromtPlace = mohpromtPlace;
         this.mohpromtType = mohpromtType;
         this.mohpromtStartDate = mohpromtStartDate;
@@ -24,6 +25,7 @@ public class Mohpromt implements Serializable {
         this.mohpromtLat = mohpromtLat;
         this.mohpromtLng = mohpromtLng;
         this.mohpromtDetail = mohpromtDetail;
+        this.mohpromtAddress = mohpromtAddress;
     }
 
     public String getMohpromtPlace() {
@@ -96,5 +98,13 @@ public class Mohpromt implements Serializable {
 
     public void setMohpromtDetail(String mohpromtDetail) {
         this.mohpromtDetail = mohpromtDetail;
+    }
+
+    public String getMohpromtAddress() {
+        return mohpromtAddress;
+    }
+
+    public void setMohpromtAddress(String mohpromtAddress) {
+        this.mohpromtAddress = mohpromtAddress;
     }
 }

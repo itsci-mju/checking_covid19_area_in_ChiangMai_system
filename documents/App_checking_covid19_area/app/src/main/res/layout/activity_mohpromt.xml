@@ -75,6 +75,47 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="57dp">
 
+            <Button
+                android:id="@+id/zoomPerson"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginLeft="358dp"
+                android:layout_marginTop="380dp"
+                android:backgroundTint="@color/white"
+                android:drawableTop="@drawable/ic_baseline_my_location_24"
+                android:fontFamily="@font/prompt_medium"
+                android:gravity="center"
+                android:onClick="ClickZoomInperson"
+                android:textSize="18dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/zoomOut"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/white"
+                android:drawableTop="@drawable/ic_baseline_zoom_out_map_24"
+                android:fontFamily="@font/prompt_medium"
+                android:gravity="center"
+                android:onClick="ClickZoomOut"
+                android:textSize="18dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/button_icon2"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="480dp"
+                android:background="@drawable/txt_border_button_showicon"
+                android:fontFamily="@font/prompt_medium"
+                android:text="เเสดงสัญลักษณ์"
+                android:textSize="12dp"
+                tools:ignore="TouchTargetSizeCheck" />
+
             <fragment
                 android:id="@+id/map_main_not"
                 android:name="com.google.android.gms.maps.SupportMapFragment"

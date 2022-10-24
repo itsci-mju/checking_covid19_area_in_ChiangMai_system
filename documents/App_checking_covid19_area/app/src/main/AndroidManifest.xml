@@ -2,12 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.test_bottom_navbar">
+
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
+
     <permission
         android:name="com.example.googlemapdemo.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -21,6 +24,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_Bottom_navbar">
+        <activity
+            android:name=".ui_bar.CheckListDisrictActivity"
+            android:exported="false" />
         <activity
             android:name=".ui_bar.SettingActivity"
             android:exported="false"
@@ -73,13 +79,14 @@
         <activity android:name=".admin.EditClusterActivity" />
         <activity android:name=".ui_bar.MohpromtActivity" />
         <activity android:name=".ui_bar.NewsDetailActivity" />
+        <activity android:name=".ui_bar.MainActivity" />
         <activity
             android:name=".ui_bar.BottomNav"
             android:exported="false"
             android:label="@string/title_activity_bottom_nav"
             tools:ignore="MissingClass" />
         <activity
-            android:name=".ui_bar.MainActivity"
+            android:name=".ui_bar.MainMenuActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

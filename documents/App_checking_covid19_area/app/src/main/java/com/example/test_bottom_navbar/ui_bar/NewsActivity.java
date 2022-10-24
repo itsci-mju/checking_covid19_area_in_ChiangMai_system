@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -110,6 +111,7 @@ public class NewsActivity extends AppCompatActivity {
         return s;
     }
 
+    @SuppressLint("NewApi")
     public void ClickDateSarchNews(View view) {
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
@@ -144,11 +146,16 @@ public class NewsActivity extends AppCompatActivity {
                     String newsTitle = ds.child("newsTitle").getValue().toString();
                     String newsDate = ds.child("newsDate").getValue().toString();
                     String newsImg = ds.child("newsImg").getValue().toString();
+                    String newsdetail = ds.child("detail").getValue().toString();
+
 
                     TextView txtnewstitle = news.findViewById(R.id.txt_newstitle);
                     txtnewstitle.setText(newsTitle);
                     TextView txtnewsdate = news.findViewById(R.id.txt_newsdate);
                     txtnewsdate.setText(newsDate);
+                    TextView txtnewsdetail = news.findViewById(R.id.txt_newsdetail);
+                    txtnewsdetail.setText(newsdetail);
+
 
                     ImageView img = news.findViewById(R.id.image_news);
                     Picasso.with(NewsActivity.this).load(newsImg).into(img);
@@ -169,7 +176,6 @@ public class NewsActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     public void ClickSearchNews(View view) {

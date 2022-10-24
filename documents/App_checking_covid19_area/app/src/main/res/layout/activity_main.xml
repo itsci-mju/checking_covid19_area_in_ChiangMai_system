@@ -34,13 +34,14 @@
                         android:id="@+id/imageView12"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
+                        android:onClick="ClickBackToMenu"
                         android:src="@drawable/logo_app" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="30dp"
                     android:background="@drawable/txt_border"
@@ -50,16 +51,23 @@
                     <ImageButton
                         android:id="@+id/imageButton"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:backgroundTint="#FFFFFF"
                         android:onClick="ClickSearch"
                         android:src="@drawable/ic_baseline_search_24"
                         tools:ignore="SpeakableTextPresentCheck" />
 
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Button" />
+
                     <EditText
                         android:id="@+id/txt_sarch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
                         android:ems="10"
                         android:fontFamily="@font/prompt_medium"
@@ -77,6 +85,18 @@
             android:layout_marginBottom="57dp">
 
             <Button
+                android:id="@+id/list_district"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/txt_border_button_showicon"
+                android:fontFamily="@font/prompt_medium"
+                android:onClick="ClickbyListDistrict"
+                android:text="ตรวจสอบพื้นที่เสี่ยง"
+                android:textSize="12dp" />
+
+            <Button
                 android:id="@+id/ZoomPerson"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
@@ -88,7 +108,7 @@
                 android:gravity="center"
                 android:onClick="ClickZoomInperson"
                 android:textSize="18dp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <Button
                 android:id="@+id/ZoomOut"

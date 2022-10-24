@@ -1,6 +1,7 @@
 <resources>
     <string name="title_activity_bottom_nav">BottomNav</string>
     <string name="title_home">พื้นที่เสี่ยง</string>
+    <string name="back_home">HOME</string>
     <string name="title_dashboard">ข่าว</string>
     <string name="title_notifications">หมอพร้อมสเตชัน</string>
     <string name="title_setting">ตั้งค่า</string>
@@ -18,7 +19,31 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_setting">SettingActivity</string>
 
-    <array name="dis">
-        <item></item>
+    <array name="district">
+        <item>เมืองเชียงใหม่</item>
+        <item>จอมทอง</item>
+        <item>เเม่เเจ่ม</item>
+        <item>เชียงดาว</item>
+        <item>ดอยสะเก็ด</item>
+        <item>แม่แตง</item>
+        <item>แม่ริม</item>
+        <item>สะเมิง</item>
+        <item>ฝาง</item>
+        <item>แม่อาย</item>
+        <item>พร้าว</item>
+        <item>สันป่าตอง</item>
+        <item>สันกำแพง</item>
+        <item>สันทราย</item>
+        <item>หางดง</item>
+        <item>ฮอด</item>
+        <item>ดอยเต่า</item>
+        <item>อมก๋อย</item>
+        <item>สารภี</item>
+        <item>เวียงแหง</item>
+        <item>ไชยปราการ</item>
+        <item>แม่วาง</item>
+        <item>แม่ออน</item>
+        <item>ดอยหล่อ</item>
     </array>
+
 </resources>

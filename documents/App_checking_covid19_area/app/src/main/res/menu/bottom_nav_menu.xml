@@ -25,13 +25,5 @@
         android:fontFamily="@font/prompt_medium"
         android:title="@string/title_notifications" />
 
-    <item
-        android:id="@+id/nav_setting"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:fontFamily="@font/prompt_medium"
-        android:title="@string/title_setting" />
-
 
 </menu>

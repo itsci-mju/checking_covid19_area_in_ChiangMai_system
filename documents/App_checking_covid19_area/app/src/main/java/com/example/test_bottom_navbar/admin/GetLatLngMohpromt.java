@@ -1,11 +1,13 @@
 package com.example.test_bottom_navbar.admin;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +27,10 @@ public class GetLatLngMohpromt extends Fragment {
     double Mohpromt_Lat,Mohpromt_Lng;
     private ImageButton ButtonBack;
     private Button ButtonGetLatLng;
-    String Mplace_def,Mstarttime_def,Mendtime_def,Mdetail_def,StartTime_Seclect,StartTime_NotSeclect;
+    int tms;
+    String Mplace_def,Mstarttime_def,Mendtime_def,Mdetail_def,Get_StartDate_Seclect;
 
+    @SuppressLint("LongLogTag")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_get_lat_lng_map, container, false);
@@ -36,8 +40,13 @@ public class GetLatLngMohpromt extends Fragment {
         Mstarttime_def = bundle.getString("Mstarttime_def");
         Mendtime_def = bundle.getString("Mendtime_def");
         Mdetail_def = bundle.getString("Mdetail_def");
-        StartTime_Seclect = bundle.getString("StartTime_Seclect");
-        StartTime_NotSeclect = bundle.getString("StartTime_NotSeclect");
+
+        tms = bundle.getInt("tms");
+        Log.e("////////////////////////////////////////M", String.valueOf(tms));
+
+        Get_StartDate_Seclect = bundle.getString("Get_StartDate_Seclect");
+        System.out.println("////////////////////////////////////////AMG_Get:"+Get_StartDate_Seclect);
+
 
         getActivity().getIntent().getExtras().get("Mplace_def");
         getActivity().getIntent().getExtras().get("Mstartdate_def");
@@ -90,12 +99,12 @@ public class GetLatLngMohpromt extends Fragment {
                 Intent intentLatLng = new Intent(getContext(), AddMohpromtActivity.class);
                 intentLatLng.putExtra("Mohpromt_Lat", Mohpromt_Lat);
                 intentLatLng.putExtra("Mohpromt_Lng", Mohpromt_Lng);
-                intentLatLng.putExtra("Mplace_def",Mplace_def);
+                intentLatLng.putExtra("Mohpromt_Lng", Mohpromt_Lng);
+                intentLatLng.putExtra("tms",tms);
                 intentLatLng.putExtra("Mstarttime_def",Mstarttime_def);
                 intentLatLng.putExtra("Mendtime_def",Mendtime_def);
                 intentLatLng.putExtra("Mdetail_def",Mdetail_def);
-                intentLatLng.putExtra("StartTime_Seclect",StartTime_Seclect);
-                intentLatLng.putExtra("StartTime_NotSeclect",StartTime_NotSeclect);
+                intentLatLng.putExtra("Get_StartDate_Seclect",Get_StartDate_Seclect);
                 startActivity(intentLatLng);
             }
         });
@@ -108,8 +117,8 @@ public class GetLatLngMohpromt extends Fragment {
                 intent.putExtra("Mstarttime_def",Mstarttime_def);
                 intent.putExtra("Mendtime_def",Mendtime_def);
                 intent.putExtra("Mdetail_def",Mdetail_def);
-                intent.putExtra("StartTime_Seclect",StartTime_Seclect);
-                intent.putExtra("StartTime_NotSeclect",StartTime_NotSeclect);
+                intent.putExtra("tms",tms);
+                intent.putExtra("Get_StartDate_Seclect",Get_StartDate_Seclect);
                 startActivity(intent);
             }
         });

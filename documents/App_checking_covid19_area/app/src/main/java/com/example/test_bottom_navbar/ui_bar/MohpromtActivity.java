@@ -127,7 +127,8 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                                 .snippet(mohpromt.getMohpromtType() +
                                         " \nเปิด " + mohpromt.getMohpromtStartTime() + " ถึง " + mohpromt.getMohpromtEndTime()
                                         +" \nวันเปิดให้บริการ : "+ mohpromt.getMohpromtStartDate() +" \nวันหยุด : "+ mohpromt.getMohpromtEndDate()
-                                        +" \nรายละเอียด :\n"+ mohpromt.getMohpromtDetail()
+                                        +" \nที่อยู่ : "+ mohpromt.getMohpromtAddress()
+                                        +" \nรายละเอียด : "+ mohpromt.getMohpromtDetail()
                                 )
                                 .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_clinic_location_24))
                         );
@@ -139,7 +140,8 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                                 .snippet(mohpromt.getMohpromtType() +
                                         " \nเปิด " + mohpromt.getMohpromtStartTime() + " ถึง " + mohpromt.getMohpromtEndTime()
                                         +" \nวันเปิดให้บริการ : "+ mohpromt.getMohpromtStartDate() +" \nวันหยุด : "+ mohpromt.getMohpromtEndDate()
-                                        +" \nรายละเอียด :\n"+ mohpromt.getMohpromtDetail()
+                                        +" \nที่อยู่ : "+ mohpromt.getMohpromtAddress()
+                                        +" \nรายละเอียด : "+ mohpromt.getMohpromtDetail()
                                 )
                                 .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_hospital_location_24))
                         );
@@ -151,7 +153,8 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                                 .snippet(mohpromt.getMohpromtType() +
                                         " \nเปิด " + mohpromt.getMohpromtStartTime() + " ถึง " + mohpromt.getMohpromtEndTime()
                                         +" \nวันเปิดให้บริการ : "+ mohpromt.getMohpromtStartDate() +" \nวันหยุด : "+ mohpromt.getMohpromtEndDate()
-                                        +" \nรายละเอียด :\n"+ mohpromt.getMohpromtDetail()
+                                        +" \nที่อยู่ : "+ mohpromt.getMohpromtAddress()
+                                        +" \nรายละเอียด : "+ mohpromt.getMohpromtDetail()
                                 )
                                 .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_dispensing_location_30))
                         );
@@ -161,7 +164,8 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                                 .snippet(mohpromt.getMohpromtType() +
                                         " \nเปิด " + mohpromt.getMohpromtStartTime() + " ถึง " + mohpromt.getMohpromtEndTime()
                                         +" \nวันเปิดให้บริการ : "+ mohpromt.getMohpromtStartDate() +" \nวันหยุด : "+ mohpromt.getMohpromtEndDate()
-                                        +" \nรายละเอียด :\n"+ mohpromt.getMohpromtDetail()
+                                        +" \nที่อยู่ : "+ mohpromt.getMohpromtAddress()
+                                        +" \nรายละเอียด : "+ mohpromt.getMohpromtDetail()
                                 )
                                 .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_pharmacy_location_30))
                         );
@@ -263,5 +267,13 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                 }
             };*/
 
+    public void ClickZoomInperson(View view){
+        LatLng user_location = new LatLng(18.7858623,98.9764537);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(user_location));
+        mMap.animateCamera( CameraUpdateFactory.zoomTo( 15.5f ) );
+    }
 
+    public void ClickZoomOut(View view){
+        mMap.animateCamera( CameraUpdateFactory.zoomTo( 10.5f ) );
+    }
 }

@@ -21,7 +21,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
-            android:background="@drawable/co_alart_covid"
+            android:background="@drawable/icon_danger"
             android:visibility="visible" />
 
         <TextView
@@ -34,6 +34,15 @@
             android:textColor="#000000"
             android:textSize="20sp"
             tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/prompt_medium"
+            android:text="สถานะ"
+            android:textColor="#00FF0500" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +56,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:background="@drawable/locat_icon_black" />
+            android:background="@drawable/placeholder" />
 
         <TextView
             android:id="@+id/snipp"
