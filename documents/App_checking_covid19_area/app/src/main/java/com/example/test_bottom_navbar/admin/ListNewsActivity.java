@@ -40,7 +40,7 @@ public class ListNewsActivity extends AppCompatActivity {
         list_cluster.removeAllViews();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("admin001/news");
-        Query query1 = myRef.orderByKey();
+        Query query1 = myRef.orderByChild("newsDate");
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

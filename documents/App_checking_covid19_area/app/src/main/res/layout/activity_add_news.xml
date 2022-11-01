@@ -143,11 +143,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/txt_border"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/txtadd_newsdate"
-                        android:layout_width="match_parent"
+                        android:layout_width="300dp"
                         android:layout_height="45dp"
                         android:layout_margin="5dp"
                         android:ems="10"
@@ -157,6 +157,14 @@
                         android:inputType="textPersonName"
                         android:onClick="ClickDateNews"
                         android:textSize="18dp"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:onClick="ClickDateNews"
+                        app:srcCompat="@drawable/ic_baseline_calendar_today_24"
                         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test_bottom_navbar.Cluster;
+import com.example.test_bottom_navbar.Cluster_report;
 import com.example.test_bottom_navbar.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,20 +36,27 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class AddClusterActivity extends AppCompatActivity {
-    String Admin,i,district_name,subdistrict_name,C_lat,C_lng,SetDefault_Date,SetDefault_Date_set14;
+    String Admin,i,district_name,subdistrict_name,C_lat,C_lng,SetDefault_Date,SetDefault_DateCount10day;
     String clusterDate,clusterSubdistrict,clusterDistrict,cluster_news_patient,clusterLat,clusterLng;
     String place_def,news_patient_def,Clat_def,Clng_def;
     String subdistrict_def,district_def;
     double Cluster_Lat,Cluster_Lng;
-    int patientNum,dt,sdt;
+    int patientNum,dt,sdt,numAllpatient, numnewpatinet_today,numgetwellpatinet_today,numAllpatient_district,numAllgetwell_district,numAllhealing_district;
     private Spinner spinner_district,spinner_subdistrict;
     private TextView txtLat,txtLng;
     ArrayAdapter<String> dataAdapter_district;
     ArrayAdapter<String> dataAdapter_subdistrict;
+    private static final Pattern Check_special = Pattern.compile("[ก-์]$");
+    private static final Pattern Check_thiafont = Pattern.compile("[ก-์]$");
+    private static final Pattern Check_Engfont = Pattern.compile("[A-Za-z]$");
+    private static final Pattern Check_dot = Pattern.compile("[_.-]$");
+    //private static final Pattern Check_number = Pattern.compile("^[0-9]{1,}$");
 
-    String[] district = {"เมืองเชียงใหม่","จอมทอง","เเม่เเจ่ม","เชียงดาว","ดอยสะเก็ด","แม่แตง","แม่ริม","สะเมิง","ฝาง","แม่อาย","พร้าว","สันป่าตอง","สันกำแพง","สันทราย","หางดง","ฮอด","ดอยเต่า","อมก๋อย","สารภี","เวียงแหง","ไชยปราการ","แม่วาง","แม่ออน","ดอยหล่อ"};
+    String[] district = {"เมืองเชียงใหม่","แม่ริม","สันทราย","สารภี"};
+    //String[] district = {"เมืองเชียงใหม่","จอมทอง","เเม่เเจ่ม","เชียงดาว","ดอยสะเก็ด","แม่แตง","แม่ริม","สะเมิง","ฝาง","แม่อาย","พร้าว","สันป่าตอง","สันกำแพง","สันทราย","หางดง","ฮอด","ดอยเต่า","อมก๋อย","สารภี","เวียงแหง","ไชยปราการ","แม่วาง","แม่ออน","ดอยหล่อ"};
     String[] sub_CM = {"ศรีภูมิ","พระสิงห์","หายยา","ช้างม่อย","ช้างคลาน","วัดเกต","ช้างเผือก","สุเทพ","แม่เหียะ","ป่าแดด","หนองหอย","ท่าศาลา","หนองป่าครั่ง","ฟ้าฮ่าม","ป่าตัน","สันผีเสื้อ"};
     String[] sub_Chomthong = {"ข่วงเปา","สบเตี๊ยะ","บ้านแปะ","ดอยแก้ว","แม่สอย"};
     String[] sub_MaeJam = {"ท่าผา","บ้านทับ","แม่ศึก","แม่นาจร","บ้านจันทร์","ปางหินฝน","กองแขก","แม่แดด","แจ่มหลวง"};
@@ -71,6 +81,8 @@ public class AddClusterActivity extends AppCompatActivity {
     String[] sub_MaeWang = {"บ้านกาด","ทุ่งปี๊","ทุ่งรวงทอง","แม่วิน","ดอนเปา"};
     String[] sub_MaeOn = {"ออนเหนือ","ออนกลาง","บ้านสหกรณ์","ห้วยแก้ว","แม่ทา","ทาเหนือ"};
     String[] sub_DoiLo = {"ดอยหล่อ","สองแคว","ยางคราม","สันติสุข"};
+    String Letter10day;
+
 
     @SuppressLint("LongLogTag")
     @Override
@@ -494,10 +506,6 @@ public class AddClusterActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
-
-        /*final Spinner district = (Spinner) findViewById(R.id.txtadd_district);
-        String clusterDistrict = district.getSelectedItem().toString();*/
-        //for (int i=0;i < district.length;i++) {}
     }
 
     public String checklength(String s) {
@@ -516,7 +524,7 @@ public class AddClusterActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(AddClusterActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMount) {
-                EditText txtdate = findViewById(R.id.txtadd_datecluster);
+                TextView txtdate = findViewById(R.id.txtadd_datecluster);
                 String day = checklength(String.valueOf(dayOfMount));
                 String months = checklength(String.valueOf(month + 1));
                 txtdate.setText(day + "-" + months + "-" + year);
@@ -529,16 +537,15 @@ public class AddClusterActivity extends AppCompatActivity {
     @SuppressLint("LongLogTag")
     public void DateClusterDefault(){
         Calendar calendar = Calendar.getInstance();
-        EditText txtdate = findViewById(R.id.txtadd_datecluster);
+        TextView txtdate = findViewById(R.id.txtadd_datecluster);
+        EditText txtnewpatient = findViewById(R.id.txtadd_newpatient);
         int mYear = calendar.get(Calendar.YEAR);
         int mMonth = calendar.get(Calendar.MONTH);
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
         String day = checklength(String.valueOf(mDay));
         String months = checklength(String.valueOf(mMonth + 1));
         txtdate.setText(day + "-" + months + "-" + mYear);
-        SetDefault_Date = txtdate.getText().toString();
-        txtdate.setText(SetDefault_Date);
-
+        txtnewpatient.setText("0");
 
         Calendar calendar1 = Calendar.getInstance();
         int mYear1 = calendar1.get(Calendar.YEAR);
@@ -552,22 +559,19 @@ public class AddClusterActivity extends AppCompatActivity {
         if(months == "4" || months == "6" || months == "9" || months == "11"){
             days = 30 ;
         }
-
-        int day_payment = mDay+7;
-        int Month_payment = 0 ;
-        int year_payment = mYear;
-
-        if(day_payment > days){
-            day_payment = day_payment - days;
-            Month_payment = mMonth+2;
-            if(Month_payment > 12){
-                year_payment +=  1;
-            }
-        }else {
-            Month_payment = mMonth+1;
+        ////////*Set Date latter 10 day*/////////
+        SimpleDateFormat formattedDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            formattedDate = new SimpleDateFormat("dd-MM-yyyy");
         }
-
-
+        Calendar ca_10 = Calendar.getInstance();
+        ca_10.add(Calendar.DATE,10);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            Letter10day = (String) (formattedDate.format(ca_10.getTime()));
+        }
+        System.out.println("Date Count 10 day leter :----------------------- "+Letter10day);
+        ////////*End Set Date latter 10 day*/////////
+        
         SetDefault_Date = txtdate.getText().toString();
     }
 
@@ -582,7 +586,7 @@ public class AddClusterActivity extends AppCompatActivity {
     }
 
     public void ClickBTNAddCluster(View view) {
-        final EditText date = (EditText) findViewById(R.id.txtadd_datecluster);
+        final TextView date = (TextView) findViewById(R.id.txtadd_datecluster);
         final EditText place = (EditText) findViewById(R.id.txtadd_place);
         final Spinner subdistrict = (Spinner) findViewById(R.id.txtadd_subdistrict);
         final Spinner district = (Spinner) findViewById(R.id.txtadd_district);
@@ -595,20 +599,44 @@ public class AddClusterActivity extends AppCompatActivity {
         String clusterSubdistrict = subdistrict.getSelectedItem().toString();
         String clusterDistrict = district.getSelectedItem().toString();
 
-        String cluster_All_patient= newpatient.getText().toString();
+        String cluster_All_patient = newpatient.getText().toString();
         String cluster_getwell_patient = "0";
-        String cluster_Allpatient_district = cluster_All_patient;
-        String cluster_Allgetwell_district = "0";
-        String cluster_Allhealing_district = cluster_All_patient;
         String cluster_news_patient= cluster_All_patient;
 
-        patientNum = Integer.parseInt(cluster_news_patient);
+        String cluster_newpatinet_today = "0";
+        String cluster_getwellpatinet_today="0";
+        String cluster_Allpatient_district="0";
+        String cluster_Allgetwell_district="0";
+        String cluster_Allhealing_district="0";
+        String clusterDateEnd = Letter10day;
+
+        if(!cluster_news_patient.equals("")){
+            numAllpatient = Integer.parseInt(cluster_news_patient);
+        }else{
+            numAllpatient = 0;
+        }
+        numnewpatinet_today = Integer.parseInt(cluster_newpatinet_today);
+        numgetwellpatinet_today = Integer.parseInt(cluster_getwellpatinet_today);
+        numAllpatient_district = Integer.parseInt(cluster_Allpatient_district);
+        numAllgetwell_district = Integer.parseInt(cluster_Allgetwell_district);
+        numAllhealing_district = Integer.parseInt(cluster_Allhealing_district);
+
+        numnewpatinet_today = numnewpatinet_today+numAllpatient;
+        numAllpatient_district = numAllpatient_district+numAllpatient;
+        numAllhealing_district = numAllhealing_district+numAllpatient;
+
+        cluster_newpatinet_today = String.valueOf(numnewpatinet_today);
+        cluster_Allpatient_district = String.valueOf(numAllpatient_district);
+        cluster_Allhealing_district = String.valueOf(numAllhealing_district);
 
         String clusterLat = lat.getText().toString();
         String clusterLng = lng.getText().toString();
 
-        if (clusterDate.equals("")) {
-            Toast.makeText(AddClusterActivity.this, "กรุณากรอก วันที่", Toast.LENGTH_SHORT).show();
+        /*if(!clusterPlace.matches(String.valueOf(Check_thiafont))) {
+            Toast.makeText(AddClusterActivity.this, "กรุณากรอกข้อมูลให้ถูกต้อง", Toast.LENGTH_SHORT).show();
+
+        }else*/ if (clusterDate.equals("")) {
+            Toast.makeText(AddClusterActivity.this, "กรุณากรอกวันที่", Toast.LENGTH_SHORT).show();
 
         } else if (clusterPlace.equals("")) {
             Toast.makeText(AddClusterActivity.this, "กรุณากรอก สถานที่", Toast.LENGTH_SHORT).show();
@@ -628,6 +656,12 @@ public class AddClusterActivity extends AppCompatActivity {
         } else if(clusterLng.equals("")){
             Toast.makeText(AddClusterActivity.this, "กรุณากรอก ลองจิจูดของสถานที่", Toast.LENGTH_SHORT).show();
 
+        }else if(cluster_All_patient.equals("0")){
+            Toast.makeText(AddClusterActivity.this, "กรุณากรอก ยอดผู้ติดเชื้อ", Toast.LENGTH_SHORT).show();
+        }else if(cluster_All_patient.equals("")){
+            Toast.makeText(AddClusterActivity.this, "กรุณากรอก ยอดผู้ติดเชื้อ", Toast.LENGTH_SHORT).show();
+        /*else if(!Check_number.matcher(cluster_All_patient).matches()){
+            Toast.makeText(AddClusterActivity.this, "กรุณากรอก ยอดผู้ป่วยเป็นตัวเลข", Toast.LENGTH_SHORT).show();*/
         } else {
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
             DatabaseReference myRef = database.getReference("admin001/cluster/"+clusterDistrict);
@@ -640,11 +674,7 @@ public class AddClusterActivity extends AppCompatActivity {
                         Error = "T";
                     }
                     if (Error.equals("F")) {
-                        Cluster CT = new Cluster(clusterDate,clusterPlace,clusterSubdistrict,
-                                clusterDistrict,cluster_getwell_patient,cluster_news_patient,
-                                cluster_All_patient,cluster_Allpatient_district,cluster_Allgetwell_district,
-                                cluster_Allhealing_district,clusterLat,clusterLng);
-
+                        Cluster CT = new Cluster(clusterDate,clusterDateEnd,clusterPlace,clusterSubdistrict,clusterDistrict,cluster_getwell_patient,cluster_news_patient,cluster_All_patient,clusterLat,clusterLng);
                         DatabaseReference stu1 = myRef.child(clusterPlace);
                         stu1.setValue(CT);
                         Intent intent = new Intent(AddClusterActivity.this, ListRiskAreaActivity.class);
@@ -661,6 +691,25 @@ public class AddClusterActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
+
+            DatabaseReference myRef1 = database.getReference("admin001/history_cluster/"+clusterDate);
+            Query query2 = myRef.orderByKey().equalTo(clusterDistrict);
+            String finalCluster_newpatinet_today = cluster_newpatinet_today;
+            String finalCluster_Allpatient_district = cluster_Allpatient_district;
+            String finalCluster_Allhealing_district = cluster_Allhealing_district;
+            query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Cluster_report ctr = new Cluster_report(finalCluster_newpatinet_today,cluster_getwellpatinet_today,
+                            finalCluster_Allpatient_district,cluster_Allgetwell_district, finalCluster_Allhealing_district);
+                    DatabaseReference stu1 = myRef1.child(clusterDistrict);
+                    stu1.setValue(ctr);
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 
@@ -668,6 +717,9 @@ public class AddClusterActivity extends AppCompatActivity {
         Intent intent = new Intent(AddClusterActivity.this, Mainpage_admin.class);
         startActivity(intent);
     }
+
+
+
 
     @SuppressLint("LongLogTag")
     public void ClickGetlatlng (View view){

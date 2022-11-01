@@ -53,7 +53,8 @@
                         android:layout_height="match_parent"
                         android:backgroundTint="#FFFFFF"
                         android:onClick="ClickSearch"
-                        android:src="@drawable/ic_baseline_search_24" />
+                        android:src="@drawable/ic_baseline_search_24"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <EditText
                         android:id="@+id/txt_sarchMohpromt"
@@ -87,7 +88,7 @@
                 android:gravity="center"
                 android:onClick="ClickZoomInperson"
                 android:textSize="18dp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <Button
                 android:id="@+id/zoomOut"
@@ -102,19 +103,6 @@
                 android:onClick="ClickZoomOut"
                 android:textSize="18dp"
                 tools:ignore="SpeakableTextPresentCheck" />
-
-            <Button
-                android:id="@+id/button_icon2"
-                android:layout_width="120dp"
-                android:layout_height="30dp"
-
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="480dp"
-                android:background="@drawable/txt_border_button_showicon"
-                android:fontFamily="@font/prompt_medium"
-                android:text="เเสดงสัญลักษณ์"
-                android:textSize="12dp"
-                tools:ignore="TouchTargetSizeCheck" />
 
             <fragment
                 android:id="@+id/map_main_not"

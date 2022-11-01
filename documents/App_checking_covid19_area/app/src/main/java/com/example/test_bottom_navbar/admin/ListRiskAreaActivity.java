@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.test_bottom_navbar.Cluster;
 import com.example.test_bottom_navbar.R;
 import com.example.test_bottom_navbar.ui_bar.MainActivity;
 import com.example.test_bottom_navbar.ui_bar.NewsActivity;
@@ -28,10 +30,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListRiskAreaActivity extends AppCompatActivity {
@@ -42,7 +48,8 @@ public class ListRiskAreaActivity extends AppCompatActivity {
     List<String> ListYellow = new ArrayList<String>();
     List<String> ListRed = new ArrayList<String>();
     List<String> ListOrange = new ArrayList<String>();
-
+    String date_def;
+    String datetoday;
     int patient_number;
     int Allpatient_District,Totalpatient_CM,Totalpatient_Sarapee,Totalpatient_MaeRim,Totalpatient_SunSai;
     String[] District = {"เมืองเชียงใหม่","จอมทอง","เเม่เเจ่ม","เชียงดาว","ดอยสะเก็ด","แม่แตง","แม่ริม","สะเมิง","ฝาง","แม่อาย","พร้าว","สันป่าตอง","สันกำแพง","สันทราย","หางดง","ฮอด","ดอยเต่า","อมก๋อย","สารภี","เวียงแหง","ไชยปราการ","แม่วาง","แม่ออน","ดอยหล่อ"};
@@ -63,10 +70,36 @@ public class ListRiskAreaActivity extends AppCompatActivity {
         clusterPlace = intent.getStringExtra("clusterPlace");
         Intent getpatient = getIntent();
         patient_number = getpatient.getIntExtra("patient_number",patient_number);
-
+        DateDefault();
+        CheckDateToDelete();
         this.setListClusterByAdmin();
         this.ListCheckCluster();
+
     }
+
+    public String checklength(String s) {
+        if (s.length() < 2) {
+            s = "0" + s;
+        }
+        return s;
+    }
+
+    public void DateDefault(){
+        Calendar calendar = Calendar.getInstance();
+        TextView txtdatecluster = findViewById(R.id.txt_dateCluster_def);
+        int mYear = calendar.get(Calendar.YEAR);
+        int mMonth = calendar.get(Calendar.MONTH);
+        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        String day = checklength(String.valueOf(mDay));
+        String months = checklength(String.valueOf(mMonth + 1));
+        txtdatecluster.setText(day + "-" + months + "-" + mYear);
+        datetoday = txtdatecluster.getText().toString();
+    }
+
+    public void SortDate(){
+
+    }
+
 
     @SuppressLint("LongLogTag")
     public void  setListClusterByAdmin() {
@@ -76,8 +109,7 @@ public class ListRiskAreaActivity extends AppCompatActivity {
                 FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
                 DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
                 String district_name = District[i];
-                //String subdistrict_name = SubDistrict[u];
-                Query query1 = myRef.orderByKey();
+                Query query1 = myRef.orderByChild("clusterDate");
                 query1.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -433,6 +465,51 @@ public class ListRiskAreaActivity extends AppCompatActivity {
 
         ///list cluster
         setListClusterYellowByAdmin();
+    }
+
+
+    public void CheckDateToDelete(){
+        for (int i=0;i < District.length;i++) {
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
+            String disteict_name = District[i];
+            Query query1 = myRef.orderByKey();
+            query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        String clusterPlace = ds.child("clusterPlace").getValue().toString();
+                        String clusterDate = ds.child("clusterDate").getValue().toString();
+                        String clusterDateEnd = ds.child("clusterDateEnd").getValue().toString();
+                        TextView txtdatecluster = findViewById(R.id.txt_dateCluster_def);
+                        date_def = txtdatecluster.getText().toString();
+
+                        if(clusterDateEnd.equals(date_def)){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ListRiskAreaActivity.this);
+                            builder.setTitle("เเจ้งเตือน");
+                            builder.setMessage("คลัสเตอร์ "+clusterPlace+" ครบกำหนด 10 วัน นับตั้งแต่วันที่ตรวจพบเชื้อจึงถือว่าพ้นระยะแพร่เชื้อ ระบบจะทำการลบคลัสเตอร์ออกจากแผนที่");
+                            builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    DatabaseReference myRef= database.getReference("admin001/cluster/"+disteict_name);
+                                    DatabaseReference stu1 = myRef.child(clusterPlace);
+                                    stu1.removeValue();
+                                    Intent intent = new Intent(ListRiskAreaActivity.this, ListRiskAreaActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        }
+
     }
 
 }

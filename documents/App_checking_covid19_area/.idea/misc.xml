@@ -48,6 +48,7 @@
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_edit_news.xml" value="0.25416666666666665" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_get_lat_lng_cluster.xml" value="0.28208092485549136" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_get_lat_lng_mohprmt.xml" value="0.15579710144927536" />
+        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_list_cluster_history.xml" value="0.25416666666666665" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_list_cluster_user.xml" value="0.1480978260869565" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_list_district_cluster.xml" value="0.24320652173913043" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_list_mohprom.xml" value="0.17889492753623187" />
@@ -58,7 +59,7 @@
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_loginbyadmin.xml" value="0.264" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_main.xml" value="0.4" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_main2.xml" value="0.21603260869565216" />
-        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_main_menu.xml" value="0.4" />
+        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_main_menu.xml" value="0.264" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_mainpage_admin.xml" value="0.25" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_maps.xml" value="0.1947463768115942" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/activity_mohpromt.xml" value="0.19655797101449277" />
@@ -70,6 +71,7 @@
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/custom_info.xml" value="0.4" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/custom_mohpromt_info.xml" value="0.23324275362318841" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/custom_spinner_layout.xml" value="0.4" />
+        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/dialog_cluster_districtr.xml" value="0.25052083333333336" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/diaog_background.xml" value="0.2164855072463768" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/diaog_layout.xml" value="0.2164855072463768" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/fragment_dashboard.xml" value="0.264" />
@@ -82,6 +84,7 @@
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/google_maps_api.xml" value="0.16576086956521738" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/layout_cluster.xml" value="0.4" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/layout_cluster_dialog.xml" value="0.25416666666666665" />
+        <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/layout_cluster_districtr.xml" value="0.25052083333333336" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/layout_clusterby_admin.xml" value="0.4" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/layout_dialog.xml" value="0.264" />
         <entry key="..\:/Test_Bottom_navbar/app/src/main/res/layout/layout_districtclusterby_admin.xml" value="0.536" />

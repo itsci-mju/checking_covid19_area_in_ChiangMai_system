@@ -267,7 +267,11 @@ public class AddMohpromtActivity extends AppCompatActivity {
         StringMohpormtStartDate = mohpromt_startdate;
         Log.e("-----------------------------------------------------",StringMohpormtStartDate);
         String mohpromt_enddate = StartTime_NotSeclect;
-        StringMohpormtEndDate = mohpromt_enddate.substring(1);
+        if(!mohpromt_enddate.equals("")){
+            StringMohpormtEndDate = mohpromt_enddate.substring(1);
+        }else {
+            StringMohpormtEndDate = "ไม่มี";
+        }
         Log.e("-----------------------------------------------------",StringMohpormtEndDate);
         String mohpromt_starttime = starttime.getText().toString();
         String mohpromt_endtime = endtime.getText().toString();

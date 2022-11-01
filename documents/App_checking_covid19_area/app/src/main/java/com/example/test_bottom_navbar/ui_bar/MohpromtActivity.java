@@ -1,20 +1,27 @@
 package com.example.test_bottom_navbar.ui_bar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.test_bottom_navbar.Cluster;
@@ -40,8 +47,10 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
 
     private GoogleMap mMap,user_location;
     private EditText SarchButton;
+    private Dialog dialog;
     String sarchbutton,MohpromtPlace;
     Double sarchLat,sarchLng;
+    Button btnicon;
     private String[] District= {"เมืองเชียงใหม่","สารภี","เเม่ริม","สันกำเเพง","สันทราย"};
     BottomNavigationView bottomNavigationView;
 
@@ -57,6 +66,8 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
         bottomNavigationView = findViewById(R.id.bottom_navigator);
         bottomNavigationView.setSelectedItemId(R.id.nav_mohpromt);
 
+        //btnicon=findViewById(R.id.button_icon2);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -70,6 +81,13 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                 return false;
             }
         });
+
+       /* btnicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClickShowIcon();
+            }
+        });*/
     }
     //instance firebase
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -212,27 +230,27 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
                         }else if(sarchbutton.equals("อำเภอเมืองเชียงใหม่")||sarchbutton.equals("เมืองเชียงใหม่")){
                             LatLng sarch_district_location = new LatLng(18.788315431666554, 98.98526644745863);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
-                            mMap.animateCamera(CameraUpdateFactory.zoomTo(11.5f));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
 
                         } else if(sarchbutton.equals("อำเภอแม่ริม")||sarchbutton.equals("แม่ริม")){
                             LatLng sarch_district_location = new LatLng(18.930049705282652, 98.89436050125632);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
-                            mMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
 
                         } else if(sarchbutton.equals("อำเภอสันทราย")||sarchbutton.equals("สันทราย")){
                             LatLng sarch_district_location = new LatLng(18.93283814873816, 99.04031290127963);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
-                            mMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
 
                         } else if(sarchbutton.equals("อำเภอสารภี")||sarchbutton.equals("สารภี")){
                             LatLng sarch_district_location = new LatLng(18.699573834395185, 99.0193778674712);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(sarch_district_location));
-                            mMap.animateCamera(CameraUpdateFactory.zoomTo(11.5f));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
 
                         } else if(sarchbutton.equals("")) {
                             Toast.makeText(MohpromtActivity.this, "กรุณากรอกชื่อสถานที่", Toast.LENGTH_SHORT).show();
-                        }else if (sarchbutton != MohpromtPlace) {
-                            Toast.makeText(MohpromtActivity.this, "ไม่พบข้อมูล" + sarchbutton, Toast.LENGTH_SHORT).show();
+                        }else if (!sarchbutton.equals(MohpromtPlace)) {
+                            //Toast.makeText(MohpromtActivity.this, "ไม่พบข้อมูล" + sarchbutton, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -247,31 +265,6 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
         }
 
     }
-/*    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-
-                    switch (item.getItemId()){
-                        case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
-                            break;
-                        case R.id.nav_favorites:
-                            selectedFragment = new DashboardFragment();
-                            break;
-                        case R.id.nav_search:
-                            selectedFragment = new NotificationsFragment();
-                            break;
-                        case R.id.nav_setting:
-                            selectedFragment = new SettingFragment();
-                            break;
-                    }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
-                    return true;
-                }
-            };*/
 
     public void ClickZoomInperson(View view){
         LatLng user_location = new LatLng(18.7858623,98.9764537);
@@ -282,4 +275,13 @@ public class MohpromtActivity extends FragmentActivity implements OnMapReadyCall
     public void ClickZoomOut(View view){
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 10.5f ) );
     }
+
+    public void ClickShowIcon(){
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.layout_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+
 }

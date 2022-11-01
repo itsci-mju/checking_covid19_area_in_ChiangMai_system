@@ -121,26 +121,18 @@
                             android:background="@drawable/txt_border"
                             android:orientation="horizontal">
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/txtadd_datecluster"
-                                android:layout_width="300dp"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
                                 android:layout_margin="5dp"
                                 android:fontFamily="@font/prompt_medium"
+                                android:gravity="center|left"
                                 android:hint="ว/ด/ป"
                                 android:inputType="textPersonName"
-                                android:onClick="ClickDateCluster"
                                 android:textSize="18dp"
                                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                            <ImageView
-                                android:id="@+id/imageView"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:onClick="ClickDateCluster"
-                                app:srcCompat="@drawable/ic_baseline_calendar_today_24"
-                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -394,7 +386,8 @@
                                 android:layout_margin="5dp"
                                 android:fontFamily="@font/prompt_medium"
                                 android:hint="ใส่ยอดผู้ติดเชื้อ"
-                                android:inputType="textPersonName" />
+                                android:inputType="textPersonName"
+                                android:text="0" />
                         </LinearLayout>
 
                     </LinearLayout>

@@ -3,6 +3,7 @@ import java.io.Serializable;
 
 public class Cluster implements Serializable {
     private String clusterDate;
+    private String clusterDateEnd;
     private String clusterPlace;
     private String clusterSubdistrict;
     private String clusterDistrict;
@@ -11,26 +12,21 @@ public class Cluster implements Serializable {
     private String cluster_news_patient;
     private String cluster_All_patient;
 
-    private String cluster_Allpatient_district;
-    private String cluster_Allgetwell_district;
-    private String cluster_Allhealing_district;
-
     private String clusterLat;
     private String clusterLng;
 
     public Cluster(){ }
 
-    public Cluster(String clusterDate, String clusterPlace, String clusterSubdistrict, String clusterDistrict, String cluster_getwell_patient, String cluster_news_patient, String cluster_All_patient, String cluster_Allpatient_district, String cluster_Allgetwell_district, String cluster_Allhealing_district, String clusterLat, String clusterLng) {
+
+    public Cluster(String clusterDate, String clusterDateEnd, String clusterPlace, String clusterSubdistrict, String clusterDistrict, String cluster_getwell_patient, String cluster_news_patient, String cluster_All_patient, String clusterLat, String clusterLng) {
         this.clusterDate = clusterDate;
+        this.clusterDateEnd = clusterDateEnd;
         this.clusterPlace = clusterPlace;
         this.clusterSubdistrict = clusterSubdistrict;
         this.clusterDistrict = clusterDistrict;
         this.cluster_getwell_patient = cluster_getwell_patient;
         this.cluster_news_patient = cluster_news_patient;
         this.cluster_All_patient = cluster_All_patient;
-        this.cluster_Allpatient_district = cluster_Allpatient_district;
-        this.cluster_Allgetwell_district = cluster_Allgetwell_district;
-        this.cluster_Allhealing_district = cluster_Allhealing_district;
         this.clusterLat = clusterLat;
         this.clusterLng = clusterLng;
     }
@@ -41,6 +37,14 @@ public class Cluster implements Serializable {
 
     public void setClusterDate(String clusterDate) {
         this.clusterDate = clusterDate;
+    }
+
+    public String getClusterDateEnd() {
+        return clusterDateEnd;
+    }
+
+    public void setClusterDateEnd(String clusterDateEnd) {
+        this.clusterDateEnd = clusterDateEnd;
     }
 
     public String getClusterPlace() {
@@ -67,22 +71,6 @@ public class Cluster implements Serializable {
         this.clusterDistrict = clusterDistrict;
     }
 
-    public String getClusterLat() {
-        return clusterLat;
-    }
-
-    public void setClusterLat(String clusterLat) {
-        this.clusterLat = clusterLat;
-    }
-
-    public String getClusterLng() {
-        return clusterLng;
-    }
-
-    public void setClusterLng(String clusterLng) {
-        this.clusterLng = clusterLng;
-    }
-
     public String getCluster_getwell_patient() {
         return cluster_getwell_patient;
     }
@@ -107,27 +95,19 @@ public class Cluster implements Serializable {
         this.cluster_All_patient = cluster_All_patient;
     }
 
-    public String getCluster_Allpatient_district() {
-        return cluster_Allpatient_district;
+    public String getClusterLat() {
+        return clusterLat;
     }
 
-    public void setCluster_Allpatient_district(String cluster_Allpatient_district) {
-        this.cluster_Allpatient_district = cluster_Allpatient_district;
+    public void setClusterLat(String clusterLat) {
+        this.clusterLat = clusterLat;
     }
 
-    public String getCluster_Allgetwell_district() {
-        return cluster_Allgetwell_district;
+    public String getClusterLng() {
+        return clusterLng;
     }
 
-    public void setCluster_Allgetwell_district(String cluster_Allgetwell_district) {
-        this.cluster_Allgetwell_district = cluster_Allgetwell_district;
-    }
-
-    public String getCluster_Allhealing_district() {
-        return cluster_Allhealing_district;
-    }
-
-    public void setCluster_Allhealing_district(String cluster_Allhealing_district) {
-        this.cluster_Allhealing_district = cluster_Allhealing_district;
+    public void setClusterLng(String clusterLng) {
+        this.clusterLng = clusterLng;
     }
 }

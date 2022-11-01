@@ -4,18 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test_bottom_navbar.Cluster;
+import com.example.test_bottom_navbar.Cluster_report;
 import com.example.test_bottom_navbar.R;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -31,11 +34,9 @@ import java.util.Calendar;
 public class EditClusterActivity extends AppCompatActivity {
     String clusterPlace, district_name,subdistrict_name,patientCheck,SetDefault_Date;
     int amount_NewPatient,amount_GetWellPatient,All_Patient,All_PatientDistrict,All_HealingDistrict,
-            All_GetWellDistrict,today_newpatient,todat_gwtwellpatient;
-    String clusterAlldistrict;
-    String clusterAllhealingdistrict;
-    String clusterAllgetwelldistrict;
+            All_GetWellDistrict,today_newpatient,today_gwtwellpatient;
     String cluster_GetWell_patient,cluster_News_patient;
+    String Letter10day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,10 @@ public class EditClusterActivity extends AppCompatActivity {
 
         this.getClusterToEdit();
         DateClusterDefault();
+        getClusterHistoryToEdit();
+
+        System.out.println("SetDefault_Date="+SetDefault_Date);
+        System.out.println("district_name="+district_name);
     }
 
     public String checklength(String s) {
@@ -65,10 +70,21 @@ public class EditClusterActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(EditClusterActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMount) {
-                EditText txtdate = findViewById(R.id.txtedit_date);
+                TextView txtdate = findViewById(R.id.txtedit_date);
                 String day = checklength(String.valueOf(dayOfMount));
                 String months = checklength(String.valueOf(month + 1));
                 txtdate.setText(day + "-" + months + "-" + year);
+                ////////*Set Date latter 10 day*/////////
+                SimpleDateFormat formattedDate = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    formattedDate = new SimpleDateFormat("dd-MM-yyyy");
+                }
+                Calendar ca_10 = Calendar.getInstance();
+                ca_10.add(Calendar.DATE,10);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    Letter10day = (String) (formattedDate.format(ca_10.getTime()));
+                }
+                ////////*End Set Date latter 10 day*/////////
             }
         }, mYear, mMonth, mDay);
         datePickerDialog.getDatePicker().setMaxDate(c.getTimeInMillis());
@@ -77,7 +93,7 @@ public class EditClusterActivity extends AppCompatActivity {
 
     public void DateClusterDefault(){
         Calendar calendar = Calendar.getInstance();
-        EditText txtdate = findViewById(R.id.txtedit_date);
+        TextView txtdate = findViewById(R.id.txtedit_date);
         int mYear = calendar.get(Calendar.YEAR);
         int mMonth = calendar.get(Calendar.MONTH);
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -86,7 +102,49 @@ public class EditClusterActivity extends AppCompatActivity {
         txtdate.setText(day + "-" + months + "-" + mYear);
         SetDefault_Date = txtdate.getText().toString();
         txtdate.setText(SetDefault_Date);
+        ////////*Set Date latter 10 day*/////////
+        SimpleDateFormat formattedDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            formattedDate = new SimpleDateFormat("dd-MM-yyyy");
+        }
+        Calendar ca_10 = Calendar.getInstance();
+        ca_10.add(Calendar.DATE,10);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            Letter10day = (String) (formattedDate.format(ca_10.getTime()));
+        }
+        ////////*End Set Date latter 10 day*/////////
     }
+
+    public void getClusterHistoryToEdit() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference myRef = database.getReference("admin001/history_cluster/"+SetDefault_Date);
+        Query query = myRef.orderByKey().equalTo(district_name);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    String cluster_Allpatient_district = ds.child("cluster_Allpatient_district").getValue().toString();
+                    String cluster_Allgetwell_district = ds.child("cluster_Allgetwell_district").getValue().toString();
+                    String cluster_Allhealing_district = ds.child("cluster_Allhealing_district").getValue().toString();
+                    String cluster_getwellpatinet_today = ds.child("cluster_getwellpatinet_today").getValue().toString();
+                    String cluster_newpatinet_today = ds.child("cluster_newpatinet_today").getValue().toString();
+
+                    All_PatientDistrict=Integer.parseInt(cluster_Allpatient_district);
+                    All_HealingDistrict=Integer.parseInt(cluster_Allhealing_district);
+                    All_GetWellDistrict=Integer.parseInt(cluster_Allgetwell_district);
+                    today_gwtwellpatient=Integer.parseInt(cluster_getwellpatinet_today);
+                    today_newpatient=Integer.parseInt(cluster_newpatinet_today);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     public void getClusterToEdit() {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -105,14 +163,6 @@ public class EditClusterActivity extends AppCompatActivity {
                     String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
                     cluster_GetWell_patient = cluster_getwell_patient;
                     cluster_News_patient = cluster_news_patient;
-
-                    String cluster_Allgetwell_district = ds.child("cluster_Allgetwell_district").getValue().toString();
-                    String cluster_Allhealing_district = ds.child("cluster_Allhealing_district").getValue().toString();
-                    String cluster_Allpatient_district = ds.child("cluster_Allpatient_district").getValue().toString();
-
-                    clusterAlldistrict = cluster_Allpatient_district;
-                    clusterAllhealingdistrict = cluster_Allhealing_district;
-                    clusterAllgetwelldistrict = cluster_Allgetwell_district;
 
                     String clusterLat = ds.child("clusterLat").getValue().toString();
                     String clusterLng = ds.child("clusterLng").getValue().toString();
@@ -154,8 +204,7 @@ public class EditClusterActivity extends AppCompatActivity {
     @SuppressLint("LongLogTag")
     public void ClickEditCluster(View view) {
         Cluster clusterToedit = new Cluster();
-
-        EditText txtdate = findViewById(R.id.txtedit_date);
+        TextView txtdate = findViewById(R.id.txtedit_date);
         clusterToedit.setClusterDate(txtdate.getText().toString());
         TextView txtplace = findViewById(R.id.txtedit_place);
         clusterToedit.setClusterPlace(txtplace.getText().toString());
@@ -188,44 +237,53 @@ public class EditClusterActivity extends AppCompatActivity {
         String clusterAllpatient = txtAllpatient.getText().toString();
         String clusternewpatient = txtnewpatient.getText().toString();
         String clustergetwellpatient = txtgetwellpatient.getText().toString();
-
-        String Allpatientdistrict ;
-        String Allgetwelldistrict ;
-        String Allhealingdistrict ;
-
-        /*if(clusternewpatient.equals("0")){
-            clusternewpatient = cluster_News_patient;
-        }else if(clustergetwellpatient.equals("0")){
-            clustergetwellpatient = cluster_GetWell_patient;
-        }*/
+        String clusterDateEnd = Letter10day;
 
         amount_GetWellPatient = Integer.parseInt(clustergetwellpatient);
         amount_NewPatient = Integer.parseInt(clusternewpatient);
         All_Patient = Integer.parseInt(clusterAllpatient);
 
-        All_PatientDistrict = Integer.parseInt(clusterAlldistrict);
-        All_GetWellDistrict = Integer.parseInt(clusterAllgetwelldistrict);
-        All_HealingDistrict = Integer.parseInt(clusterAllhealingdistrict);
-
         All_Patient = All_Patient + amount_NewPatient;
         All_Patient = All_Patient - amount_GetWellPatient;
 
         All_PatientDistrict = All_PatientDistrict + amount_NewPatient;
-
         All_GetWellDistrict = All_GetWellDistrict + amount_GetWellPatient;
 
         All_HealingDistrict = All_HealingDistrict + amount_NewPatient;
         All_HealingDistrict = All_HealingDistrict - amount_GetWellPatient;
 
+        today_gwtwellpatient = today_gwtwellpatient + amount_GetWellPatient;
+        today_newpatient = today_newpatient + amount_NewPatient;
+
+        //***********************************************************//
+
         clusterAllpatient = String.valueOf(All_Patient);
         clustergetwellpatient = String.valueOf(amount_GetWellPatient);
         clusternewpatient = String.valueOf(amount_NewPatient);
 
-        Allpatientdistrict = String.valueOf(All_PatientDistrict);
-        Allhealingdistrict = String.valueOf(All_HealingDistrict);
-        Allgetwelldistrict = String.valueOf(All_GetWellDistrict);
+        String cluster_Allpatient_district = String.valueOf(All_PatientDistrict);
+        String cluster_Allhealing_district = String.valueOf(All_HealingDistrict);
+        String cluster_Allgetwell_district = String.valueOf(All_GetWellDistrict);
+        String cluster_getwellpatinet_today = String.valueOf(today_gwtwellpatient);
+        String cluster_newpatinet_today = String.valueOf(today_newpatient);
 
-        if (All_Patient <= 0) {
+        if(amount_GetWellPatient > All_Patient) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(EditClusterActivity.this);
+            builder.setTitle("คำความเตือน");
+            builder.setMessage("ไม่สามารถกรอกยอดผู้หายป่วยมากว่ายอดผู้ป่วยเดิมได้");
+            builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }else if(clustergetwellpatient.equals("0")){
+        Toast.makeText(EditClusterActivity.this, "กรุณากรอก ยอดหายป่วย", Toast.LENGTH_SHORT).show();
+        }else if(clusternewpatient.equals("0")) {
+            Toast.makeText(EditClusterActivity.this, "กรุณากรอก ยอดผู้ติดเชื้อ", Toast.LENGTH_SHORT).show();
+        }
+        else if (All_Patient <= 0) {
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
             AlertDialog.Builder builder = new AlertDialog.Builder(EditClusterActivity.this);
             builder.setTitle("คำความเตือน");
@@ -233,7 +291,7 @@ public class EditClusterActivity extends AppCompatActivity {
             builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    DatabaseReference myRef = database.getReference("admin001/cluster/" + district_name);
+                    DatabaseReference myRef = database.getReference("admin001/cluster/" + district_name );
                     DatabaseReference stu1 = myRef.child(clusterPlace);
                     stu1.removeValue();
                     Intent intent = new Intent(EditClusterActivity.this, ListRiskAreaActivity.class);
@@ -242,8 +300,8 @@ public class EditClusterActivity extends AppCompatActivity {
             });
             AlertDialog alert = builder.create();
             alert.show();
-        } else {
-            Cluster cluster_edit = new Cluster( clusterDate,  clusterPlace,  clusterSubdistrict,  clusterDistrict,  clustergetwellpatient,  clusternewpatient,  clusterAllpatient,  Allpatientdistrict,  Allhealingdistrict,  Allgetwelldistrict,  clusterLat,  clusterLng);
+        }else{
+            Cluster cluster_edit = new Cluster(clusterDate,clusterDateEnd,clusterPlace,clusterSubdistrict,clusterDistrict,clustergetwellpatient,clusternewpatient,clusterAllpatient,clusterLat,clusterLng);
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
             DatabaseReference myRef_clusterEdit = database.getReference("admin001/cluster/" + district_name + "/" + clusterPlace);
             Query query1 = myRef_clusterEdit.orderByValue();
@@ -258,9 +316,6 @@ public class EditClusterActivity extends AppCompatActivity {
                         myRef_clusterEdit.child("cluster_All_patient").setValue(cluster_edit.getCluster_All_patient());
                         myRef_clusterEdit.child("cluster_getwell_patient").setValue(cluster_edit.getCluster_getwell_patient());
                         myRef_clusterEdit.child("cluster_news_patient").setValue(cluster_edit.getCluster_news_patient());
-                        myRef_clusterEdit.child("cluster_Allgetwell_district").setValue(cluster_edit.getCluster_Allhealing_district());
-                        myRef_clusterEdit.child("cluster_Allhealing_district").setValue(cluster_edit.getCluster_Allgetwell_district());
-                        myRef_clusterEdit.child("cluster_Allpatient_district").setValue(cluster_edit.getCluster_Allpatient_district());
                         myRef_clusterEdit.child("clusterLat").setValue(cluster_edit.getClusterLat());
                         myRef_clusterEdit.child("clusterLng").setValue(cluster_edit.getClusterLng());
 
@@ -268,13 +323,27 @@ public class EditClusterActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+            Cluster_report cluster_report = new Cluster_report(cluster_newpatinet_today,cluster_getwellpatinet_today,cluster_Allpatient_district,cluster_Allgetwell_district,cluster_Allhealing_district);
+            DatabaseReference myRef_clusterHistory = database.getReference("admin001/history_cluster/"+clusterDate+"/"+clusterDistrict);
+            Query query2 = myRef_clusterHistory.orderByValue();
+            query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    myRef_clusterHistory.child("cluster_Allgetwell_district").setValue(cluster_report.getCluster_Allgetwell_district());
+                    myRef_clusterHistory.child("cluster_Allhealing_district").setValue(cluster_report.getCluster_Allhealing_district());
+                    myRef_clusterHistory.child("cluster_Allpatient_district").setValue(cluster_report.getCluster_Allpatient_district());
+                    myRef_clusterHistory.child("cluster_getwellpatinet_today").setValue(cluster_report.getCluster_getwellpatinet_today());
+                    myRef_clusterHistory.child("cluster_newpatinet_today").setValue(cluster_report.getCluster_newpatinet_today());
+                }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
             });
-
         }
     }
 

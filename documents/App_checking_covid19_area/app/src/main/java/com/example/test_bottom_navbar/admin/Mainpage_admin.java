@@ -29,11 +29,6 @@ public class Mainpage_admin extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void ClickListDistrict(View view){
-        Intent intent = new Intent(Mainpage_admin.this, ListDistrictClusterActivity.class);
-        startActivity(intent);
-    }
-
     public void ClickAddMohprom(View view){
         Intent intent = new Intent(Mainpage_admin.this, AddMohpromtActivity.class);
         startActivity(intent);

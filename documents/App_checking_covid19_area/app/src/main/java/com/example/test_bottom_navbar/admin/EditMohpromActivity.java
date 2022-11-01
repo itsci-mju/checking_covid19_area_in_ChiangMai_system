@@ -186,7 +186,12 @@ public class EditMohpromActivity extends AppCompatActivity {
         String mohpromt_startdate = StartTime_Seclect;
         StringMohpormtStartDate = mohpromt_startdate;
         String mohpromt_enddate = StartTime_NotSeclect;
-        StringMohpormtEndDate = mohpromt_enddate.substring(1);
+
+        if(!mohpromt_enddate.equals("")){
+            StringMohpormtEndDate = mohpromt_enddate.substring(1);
+        }else {
+            StringMohpormtEndDate = "ไม่มี";
+        }
         String mohpromstarttime = txteditMohpromStartTime.getText().toString();
         String mohpromendtime = txteditMohpromEndTime.getText().toString();
         String mohpromlat = txteditMohpromLat.getText().toString();

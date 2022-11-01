@@ -138,7 +138,6 @@ public class NewsActivity extends AppCompatActivity {
                     String newsImg = ds.child("newsImg").getValue().toString();
                     String newsdetail = ds.child("detail").getValue().toString();
 
-
                     TextView txtnewstitle = news.findViewById(R.id.txt_newstitle);
                     txtnewstitle.setText(newsTitle);
                     TextView txtnewsdate = news.findViewById(R.id.txt_newsdate);
@@ -173,7 +172,7 @@ public class NewsActivity extends AppCompatActivity {
         sarchbutton = SarchButton.getText().toString();
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
             DatabaseReference myRef = database.getReference("admin001/news");
-            Query query1 = myRef.orderByKey();
+            Query query1 = myRef.orderByChild("newsDate").startAt(1);
             query1.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

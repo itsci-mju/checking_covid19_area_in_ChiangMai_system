@@ -25,6 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_Bottom_navbar">
         <activity
+            android:name=".ui_bar.ListClusterHistory"
+            android:exported="false" />
+        <activity
             android:name=".ui_bar.CheckListDisrictActivity"
             android:exported="false" />
         <activity
@@ -39,9 +42,6 @@
             android:theme="@style/Theme.Test_Bottom_navbar.NoActionBar" />
         <activity
             android:name=".ui_bar.CheckLocatUserActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.ListDistrictClusterActivity"
             android:exported="false" />
         <activity
             android:name=".ui_bar.NewsActivity"

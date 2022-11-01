@@ -77,7 +77,8 @@
                                     android:layout_marginRight="5dp"
                                     android:ems="10"
                                     android:fontFamily="@font/prompt_medium"
-                                    android:hint="01-02-2565"
+                                    android:hint="วัน-เดือน-ปี
+"
                                     android:inputType="textPersonName"
                                     android:onClick="ClickDateSarchNews" />
 

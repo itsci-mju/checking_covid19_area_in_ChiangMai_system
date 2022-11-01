@@ -3,20 +3,26 @@ package com.example.test_bottom_navbar.ui_bar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.test_bottom_navbar.R;
@@ -34,15 +40,23 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 public class
 MainMenuActivity extends AppCompatActivity {
-    int Newpatient,GetWellpatient,Allpatient,AllHealingpatient,AllGetWellpatient,Allpatienttody;
-    int num_newp,num_getwellp,num_allp,num_allhr,num_allgw,num_new;
-    int intcluster_All_patient,intcluster_getwell_patient,intcluster_news_patient;
-    String txtdate_defcluster_amount,date_def_news;
+    int Allpatient,AllHealing,AllGetWell,TodayNew,TodayGetWell;
+    int num_allp,num_allhr,num_allgw;
+    int All_PatientDistrict,All_HealingDistrict,All_GetWellDistrict,today_newpatient,today_gwtwellpatient;
+    int getAll_Allpatient_district,getAll_Allgetwell_district,getAll_Allhealing_district;
+    String txtdate_defcluster_amount,date_def_news, date_def_cluster;
+    String dateKey;
+    private int STORAGE_PERMISSION_CODE = 1;
+    List<String> date_historyArray = new ArrayList<String>();
     String[] District = {"เมืองเชียงใหม่","แม่ริม","สันทราย","สารภี"};
     String[] SubDistrict = {
             "ศรีภูมิ","พระสิงห์","หายยา","ช้างม่อย","ช้างคลาน","วัดเกต","ช้างเผือก","สุเทพ","แม่เหียะ","ป่าแดด","หนองหอย","ท่าศาลา","หนองป่าครั่ง","ฟ้าฮ่าม","ป่าตัน","สันผีเสื้อ",
@@ -57,8 +71,16 @@ MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         this.setListNewsByAdmin();
         DateDefault();
-        setListClusterToday();
-        setListAllCluster();
+        listClusterHistory();
+        //listAllClusterHistory();
+        ListToAddArray();
+        listDistrict();
+
+        if(ContextCompat.checkSelfPermission(MainMenuActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(MainMenuActivity.this, "ระบบได้เข้าถึงตำเเหน่งบนอุปกรณ์ของคุณแล้ว",Toast.LENGTH_SHORT).show();
+        }else{
+            requestPermission();
+        }
 
         HorizontalScrollView s_auto = (HorizontalScrollView)findViewById(R.id.Scrollid);
         s_auto.postDelayed(new Runnable() {
@@ -66,6 +88,34 @@ MainMenuActivity extends AppCompatActivity {
                 s_auto.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
             }
         }, 100L);
+    }
+
+    private void requestPermission(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("ระบบ")
+                    .setMessage("อนุญาตให้ระบบเข้าถึงตำเเหน่งที่ตั้งในอุปกรณ์ของคุณหรือไม่")
+                    .setPositiveButton("อนุญาต", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(MainMenuActivity.this,
+                                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("ปฎิเสธ", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    })
+                    .create().show();
+        }else {
+            System.out.println("........................................................else permission");
+            ActivityCompat.requestPermissions(this,
+                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        }
     }
 
     public String checklength(String s) {
@@ -83,10 +133,13 @@ MainMenuActivity extends AppCompatActivity {
         String day = checklength(String.valueOf(mDay));
         String months = checklength(String.valueOf(mMonth + 1));
         TextView txtdate_def = findViewById(R.id.txt_defDate);
+        TextView txtdate_def_district = findViewById(R.id.txt_defDate_district);
         TextView txtdate_def_news = findViewById(R.id.txt_defDate_news);
         txtdate_def.setText(day + "/" + months + "/" + mYear);
         txtdate_def_news.setText(day + "/" + months + "/" + mYear);
+        txtdate_def_district.setText(day + "/" + months + "/" + mYear);
         txtdate_defcluster_amount = day+ "-" + months + "-" + mYear;
+        date_def_cluster = txtdate_defcluster_amount;
         date_def_news = day+ "-" + months + "-" + mYear;
     }
 
@@ -135,89 +188,140 @@ MainMenuActivity extends AppCompatActivity {
         });
     }
 
-    public void  setListClusterToday() {
-        for (int i=0;i < District.length;i++) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-                Query query1 = myRef.orderByKey();
-                query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            String clusterDate = ds.child("clusterDate").getValue().toString();
-                            String cluster_news_patient = ds.child("cluster_news_patient").getValue().toString();
-                            String cluster_getwell_patient = ds.child("cluster_getwell_patient").getValue().toString();
-
-                            num_getwellp = Integer.parseInt(cluster_getwell_patient);
-                            num_newp = Integer.parseInt(cluster_news_patient);
-
-                            String nnp = String.valueOf(num_newp);
-                            String ngw = String.valueOf(num_getwellp);
-
-                            Log.e("================================new patient",nnp);
-                            Log.e("================================getwell patient",ngw);
-
-                            if (clusterDate.equals(txtdate_defcluster_amount)) {
-                                Newpatient = Newpatient + num_newp;
-                                GetWellpatient = GetWellpatient + num_getwellp;
-                                Allpatienttody = Allpatienttody+num_new;
-                            }
-
-                            TextView txtNewpatient = findViewById(R.id.txt_new_patient);
-                            txtNewpatient.setText(String.valueOf(Newpatient));
-
-                            TextView txtGetWellpatient = findViewById(R.id.txt_getwell_patient);
-                            txtGetWellpatient.setText(String.valueOf(GetWellpatient));
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+    public void ListToAddArray(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference myRef = database.getReference("admin001/history_cluster");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                     dateKey= ds.getKey();
+                    date_historyArray.add(dateKey);
+                }
+                listAllClusterHistory();
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
-    public void  setListAllCluster() {
-        for (int i=0;i < District.length;i++) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                DatabaseReference myRef = database.getReference("admin001/cluster/" + District[i]);
-                Query query1 = myRef.orderByKey();
-                query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            String cluster_Allpatient_district = ds.child("cluster_Allpatient_district").getValue().toString();
-                            String cluster_Allgetwell_district = ds.child("cluster_Allgetwell_district").getValue().toString();
-                            String cluster_Allhealing_district = ds.child("cluster_Allhealing_district").getValue().toString();
 
-                            num_allgw = Integer.parseInt(cluster_Allgetwell_district);
-                            num_allhr = Integer.parseInt(cluster_Allhealing_district);
-                            num_allp = Integer.parseInt(cluster_Allpatient_district);
+    public void listAllClusterHistory() {
+        for (int i=0;i < date_historyArray.size();i++) {
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef = database.getReference("admin001/history_cluster/" + date_historyArray.get(i));
+            Query query = myRef.orderByValue();
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        String cluster_Allpatient_district = ds.child("cluster_Allpatient_district").getValue().toString();
+                        String cluster_Allgetwell_district = ds.child("cluster_Allgetwell_district").getValue().toString();
+                        String cluster_Allhealing_district = ds.child("cluster_Allhealing_district").getValue().toString();
 
-                            Allpatient = Allpatient + num_allp;
-                            AllGetWellpatient = AllGetWellpatient + num_allgw;
-                            AllHealingpatient = AllHealingpatient + num_allhr;
+                        All_PatientDistrict = Integer.parseInt(cluster_Allpatient_district);
+                        All_HealingDistrict = Integer.parseInt(cluster_Allhealing_district);
+                        All_GetWellDistrict = Integer.parseInt(cluster_Allgetwell_district);
 
-                            TextView txtNewpatient = findViewById(R.id.txt_All_patient);
-                            txtNewpatient.setText(String.valueOf(Allpatient));
+                        All_PatientDistrict = All_PatientDistrict + getAll_Allpatient_district;
+                        All_GetWellDistrict = All_GetWellDistrict + getAll_Allgetwell_district;
+                        All_HealingDistrict = All_HealingDistrict + getAll_Allhealing_district;
 
-                            TextView txtGetWellpatient = findViewById(R.id.txt_Totalgetwell_patient);
-                            txtGetWellpatient.setText(String.valueOf(AllGetWellpatient));
+                        Allpatient = Allpatient + All_PatientDistrict;
+                        AllGetWell = AllGetWell + All_GetWellDistrict;
+                        AllHealing = AllHealing + All_HealingDistrict;
 
-                            TextView txtAllhealingpatient = findViewById(R.id.txt_Totalhealing_patient);
-                            txtAllhealingpatient.setText(String.valueOf(AllHealingpatient));
+                        TextView txtAllpatient = findViewById(R.id.txt_All_patient);
+                        txtAllpatient.setText(String.valueOf(Allpatient));
 
-                        }
+                        TextView txtAllGetWellpatient = findViewById(R.id.txt_Totalgetwell_patient);
+                        txtAllGetWellpatient.setText(String.valueOf(AllGetWell));
+
+                        TextView txtAllHealingpatient = findViewById(R.id.txt_Totalhealing_patient);
+                        txtAllHealingpatient.setText(String.valueOf(AllHealing));
+
                     }
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+    public void listDistrict() {
+        for (int i = 0; i < District.length; i++) {
+            LinearLayout list_alldistrict = findViewById(R.id.Show_newpatine_district);
+            list_alldistrict.removeAllViews();
+            String district_name = District[i];
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef = database.getReference("admin001/history_cluster/" + date_def_cluster);
+            Query query = myRef.orderByKey().equalTo(district_name);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        View dialog_district = getLayoutInflater().inflate(R.layout.dialog_cluster_districtr, null);
+                        String cluster_newpatinet_today = ds.child("cluster_newpatinet_today").getValue().toString();
+                        today_newpatient = Integer.parseInt(cluster_newpatinet_today);
+
+                        TextView txtDistrict_name = dialog_district.findViewById(R.id.district_name);
+                        txtDistrict_name.setText(district_name);
+
+                        TextView txtNew_patient = dialog_district.findViewById(R.id.new_patient);
+                        txtNew_patient.setText(cluster_newpatinet_today);
+
+                        list_alldistrict.addView(dialog_district);
                     }
-                });
-            }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+
+        public void listClusterHistory() {
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://ti411app-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef = database.getReference("admin001/history_cluster/" + date_def_cluster);
+            Query query = myRef.orderByValue();
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        String cluster_Allpatient_district = ds.child("cluster_Allpatient_district").getValue().toString();
+                        String cluster_Allgetwell_district = ds.child("cluster_Allgetwell_district").getValue().toString();
+                        String cluster_Allhealing_district = ds.child("cluster_Allhealing_district").getValue().toString();
+                        String cluster_getwellpatinet_today = ds.child("cluster_getwellpatinet_today").getValue().toString();
+                        String cluster_newpatinet_today = ds.child("cluster_newpatinet_today").getValue().toString();
+
+                        today_gwtwellpatient = Integer.parseInt(cluster_getwellpatinet_today);
+                        today_newpatient = Integer.parseInt(cluster_newpatinet_today);
+
+                        TodayNew = TodayNew + today_newpatient;
+                        TodayGetWell = TodayGetWell + today_gwtwellpatient;
+
+                        TextView txtNewpatient_today = findViewById(R.id.txt_new_patient);
+                        txtNewpatient_today.setText(String.valueOf(TodayNew));
+
+                        TextView txtGetWellpatient_today = findViewById(R.id.txt_getwell_patient);
+                        txtGetWellpatient_today.setText(String.valueOf(TodayGetWell));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
     }
 
     public void ClickToClusterMap(View view){
@@ -237,6 +341,11 @@ MainMenuActivity extends AppCompatActivity {
 
     public void ClickMenuToLogin(View view){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void ClickListclusterhistory(View view){
+        Intent intent = new Intent(getApplicationContext(), ListClusterHistory.class);
         startActivity(intent);
     }
 

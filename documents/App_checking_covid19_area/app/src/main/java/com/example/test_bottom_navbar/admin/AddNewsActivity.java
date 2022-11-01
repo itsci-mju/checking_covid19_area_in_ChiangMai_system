@@ -1,12 +1,14 @@
 package com.example.test_bottom_navbar.admin;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -198,6 +200,7 @@ public class AddNewsActivity extends AppCompatActivity {
         return s;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public void ClickDateNews(View view) {
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);

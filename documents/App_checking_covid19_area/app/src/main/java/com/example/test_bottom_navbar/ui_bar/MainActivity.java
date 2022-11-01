@@ -92,12 +92,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private int STORAGE_PERMISSION_CODE = 1;
     BottomNavigationView bottomNavigationView;
     String[] District = {"เมืองเชียงใหม่","แม่ริม","สันทราย","สารภี"};
-    String[] SubDistrict = {
-            "ศรีภูมิ","พระสิงห์","หายยา","ช้างม่อย","ช้างคลาน","วัดเกต","ช้างเผือก","สุเทพ","แม่เหียะ","ป่าแดด","หนองหอย","ท่าศาลา","หนองป่าครั่ง","ฟ้าฮ่าม","ป่าตัน","สันผีเสื้อ",
-            "ริมใต้","ริมเหนือ","สันโป่ง","ขี้เหล็ก","สะลวง","ห้วยทราย","แม่แรม","โป่งแยง","แม่สา","ดอนแก้ว","เหมืองแก้ว",
-            "สันทรายหลวง","สันทรายน้อย","สันพระเนตร","สันนาเม็ง","สันป่าเปา","หนองแหย่ง","หนองจ๊อม","หนองหาร","แม่แฝก","แม่แฝกใหม่","เมืองเล็น","ป่าไผ่",
-            "ยางเนิ้ง","สารภี","ชมภู","ไชยสถาน","ขัวมุง","หนองแฝก","หนองผึ้ง","ท่ากว้าง","ดอนแก้ว","ท่าวังตาล","สันทราย","ป่าบง",
-    };
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -192,7 +186,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             } else if (Cplace.equals("สารภี")) {
                                 Totalpatient_Sarapee = Totalpatient_Sarapee + new_patient;
                                 Log.e("----------Totalpatient_Sarapee", String.valueOf(Totalpatient_Sarapee));
-                            } else if (Cplace.equals("เเม่ริม")) {
+                            } else if (Cplace.equals("แม่ริม")) {
                                 Totalpatient_MaeRim = Totalpatient_MaeRim + new_patient;
                                 Log.e("----------Totalpatient_MaeRim", String.valueOf(Totalpatient_MaeRim));
                             } else if (Cplace.equals("สันทราย")) {
@@ -533,7 +527,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             polygonSunSai.setClickable(true);
         }
         ////////////////////End สันทราย////////////////////
-
     }
 
     private void createDialog2() {
@@ -576,11 +569,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void ClickBackToMenu(View view){
         Intent intent = new Intent(MainActivity.this,MainMenuActivity.class);
-        startActivity(intent);
-    }
-
-    public void ClickbyListDistrict(View view){
-        Intent intent = new Intent(MainActivity.this,CheckListDisrictActivity.class);
         startActivity(intent);
     }
 
@@ -634,11 +622,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             }else if (sarchbutton.equals("")) {
                                 Toast.makeText(MainActivity.this, "กรุณากรอกชื่อสถานที่", Toast.LENGTH_SHORT).show();
                             } else if (sarchbutton != clusterPlace) {
-                                Toast.makeText(MainActivity.this, "ไม่พบข้อมูล" + sarchbutton, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "ไม่พบข้อมูล " + sarchbutton, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "ค้นหาข้อมูลโดยกรอกชื่อ คลัสเตอร์ หรือ อำเภอที่ ต้องการค้นหา", Toast.LENGTH_LONG).show();
                             }
-
-
-
                         }
                     }
 
